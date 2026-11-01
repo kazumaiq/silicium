@@ -1,0 +1,238 @@
+/* SILICIUM — App Layout */
+
+.app {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--black);
+  overflow-x: hidden;
+}
+
+/* Persistent 3D scene background — always behind everything */
+.sceneContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-scene);
+  pointer-events: none;
+}
+
+.sceneContainer canvas {
+  display: block;
+}
+
+/* Content layer — scrolls over the 3D scene */
+.contentLayer {
+  position: relative;
+  z-index: var(--z-content);
+  min-height: 100vh;
+  padding-bottom: var(--player-height);
+}
+
+/* Route transition wrapper */
+.pageWrapper {
+  position: relative;
+  min-height: calc(100vh - var(--header-height));
+  padding-top: var(--header-height);
+}
+
+/* Loading / intro screen — highest z-index */
+.loadingScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-loading);
+  background: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--space-lg);
+  transition: opacity var(--duration-cinematic) var(--ease-dramatic),
+              visibility var(--duration-cinematic) var(--ease-dramatic);
+}
+
+.loadingScreen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Loading visuals */
+.loadingLogo {
+  font-family: var(--font-mono);
+  font-size: var(--text-3xl);
+  letter-spacing: 0.5em;
+  color: var(--white);
+  text-transform: uppercase;
+  animation: loadingPulse 2s ease-in-out infinite;
+}
+
+.loadingBarOuter {
+  width: 200px;
+  height: 2px;
+  background: var(--black-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.loadingBarInner {
+  height: 100%;
+  background: var(--red-crimson);
+  transition: width 300ms var(--ease-out);
+  box-shadow: 0 0 10px var(--red-glow);
+}
+
+.loadingSubtext {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+/* Suspense fallback */
+.suspenseFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-height));
+  background: transparent;
+}
+
+.suspenseSpinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--black-border);
+  border-top-color: var(--red-crimson);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Custom cursor — desktop only */
+.cursorDot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--red-crimson);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  transform: translate(-50%, -50%);
+  transition: width 200ms var(--ease-out),
+              height 200ms var(--ease-out),
+              background 200ms var(--ease-out);
+  mix-blend-mode: difference;
+}
+
+.cursorRing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--silver-dark);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  transform: translate(-50%, -50%);
+  transition: width 300ms var(--ease-out),
+              height 300ms var(--ease-out),
+              border-color 300ms var(--ease-out),
+              opacity 300ms var(--ease-out);
+}
+
+.cursorDot.hover {
+  width: 12px;
+  height: 12px;
+  background: var(--red-energy);
+}
+
+.cursorRing.hover {
+  width: 48px;
+  height: 48px;
+  border-color: var(--red-crimson);
+}
+
+/* Player container — fixed bottom */
+.playerContainer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: var(--z-player);
+}
+
+/* Header container */
+.headerContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: var(--z-header);
+}
+
+/* WebGL fallback */
+.webglFallback {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-scene);
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    var(--black-surface) 0%,
+    var(--black) 70%
+  );
+}
+
+/* Noise texture overlay on fallback */
+.webglFallback::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  pointer-events: none;
+}
+
+@keyframes loadingPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hide cursor on touch devices */
+@media (pointer: coarse) {
+  .cursorDot,
+  .cursorRing {
+    display: none;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .loadingLogo {
+    font-size: var(--text-2xl);
+    letter-spacing: 0.3em;
+  }
+
+  .loadingBarOuter {
+    width: 150px;
+  }
+
+  .contentLayer {
+    padding-bottom: calc(var(--player-height) + var(--safe-area-bottom));
+  }
+}

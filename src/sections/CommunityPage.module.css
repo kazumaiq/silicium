@@ -1,0 +1,280 @@
+.communityContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: calc(var(--header-height) + var(--space-3xl)) var(--space-xl) var(--space-4xl);
+  min-height: 100vh;
+}
+
+.headerArea {
+  margin-bottom: var(--space-3xl);
+}
+
+.metaLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--red-crimson);
+  letter-spacing: 0.2em;
+}
+
+.pageTitle {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--white);
+  margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+  color: var(--silver-dark);
+  font-size: var(--text-sm);
+  letter-spacing: 0.1em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: var(--space-2xl);
+}
+
+/* Telegram Card */
+.telegramCard {
+  grid-column: 1 / -1;
+  background: rgba(12, 12, 12, 0.85);
+  border: 1px solid var(--gray-800);
+  padding: var(--space-3xl);
+  backdrop-filter: blur(12px);
+  position: relative;
+  transition: border-color var(--duration-normal);
+}
+
+.telegramCard:hover {
+  border-color: var(--red-blood);
+}
+
+.telegramBadge {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--red-crimson);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--space-sm);
+}
+
+.telegramTitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  margin-bottom: var(--space-md);
+}
+
+.telegramDesc {
+  color: var(--silver);
+  font-size: var(--text-base);
+  max-width: 700px;
+  line-height: 1.7;
+  margin-bottom: var(--space-2xl);
+}
+
+.telegramBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-md);
+  background: var(--red-blood);
+  color: var(--white);
+  padding: var(--space-md) var(--space-2xl);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.2em;
+  border: 1px solid var(--red-crimson);
+  transition: all var(--duration-fast);
+  margin-bottom: var(--space-2xl);
+}
+
+.telegramBtn:hover {
+  background: var(--red-crimson);
+  box-shadow: 0 0 25px rgba(220, 20, 60, 0.5);
+}
+
+.btnArrow {
+  font-size: var(--text-sm);
+}
+
+.terminalOutput {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--gray-900);
+  padding: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--silver-dark);
+}
+
+/* Dispatch Box */
+.dispatchBox, .newsletterBox {
+  background: rgba(10, 10, 10, 0.75);
+  border: 1px solid var(--gray-900);
+  padding: var(--space-2xl);
+  backdrop-filter: blur(10px);
+}
+
+.boxHeader {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--gray-900);
+}
+
+.freqTag {
+  color: var(--red-crimson);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  letter-spacing: 0.15em;
+}
+
+.input, .textarea {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--gray-800);
+  color: var(--white);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  outline: none;
+  transition: border-color var(--duration-fast);
+}
+
+.input:focus, .textarea:focus {
+  border-color: var(--red-crimson);
+}
+
+.submitBtn {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--red-blood);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.submitBtn:hover {
+  background: var(--red-blood);
+  border-color: var(--red-crimson);
+}
+
+.successBox {
+  text-align: center;
+  padding: var(--space-xl);
+}
+
+.successIcon {
+  font-size: var(--text-2xl);
+  color: var(--red-crimson);
+  margin-bottom: var(--space-sm);
+}
+
+.successBox h3 {
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  margin-bottom: var(--space-xs);
+}
+
+.successBox p {
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  margin-bottom: var(--space-lg);
+}
+
+.resetBtn {
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--gray-800);
+  color: var(--silver);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+
+/* Newsletter */
+.newsletterDesc {
+  font-size: var(--text-sm);
+  color: var(--silver-dark);
+  line-height: 1.6;
+  margin-bottom: var(--space-xl);
+}
+
+.subscribeForm {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.emailInput {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--gray-800);
+  color: var(--white);
+  padding: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  outline: none;
+}
+
+.emailInput:focus {
+  border-color: var(--red-crimson);
+}
+
+.subBtn {
+  background: var(--red-blood);
+  border: 1px solid var(--red-crimson);
+  color: var(--white);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.15em;
+  cursor: pointer;
+}
+
+.subBtn:hover {
+  background: var(--red-crimson);
+}
+
+.subscribedMsg {
+  background: rgba(139, 0, 0, 0.15);
+  border: 1px solid var(--red-crimson);
+  padding: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--white);
+  text-align: center;
+}
+
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

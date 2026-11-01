@@ -1,0 +1,234 @@
+.archiveContainer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+.canvasWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Overlays */
+.topOverlay {
+  position: absolute;
+  top: calc(var(--header-height) + var(--space-md));
+  left: var(--space-xl);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.metaLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--red-crimson);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--space-xs);
+}
+
+.pageTitle {
+  font-family: var(--font-mono);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--white);
+  margin-bottom: var(--space-xs);
+}
+
+.instructions {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  letter-spacing: 0.15em;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 4px 8px;
+  display: inline-block;
+  border: 1px solid var(--gray-900);
+}
+
+/* Side Info Panel */
+.infoPanel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 380px;
+  max-width: 90vw;
+  background: rgba(8, 8, 8, 0.92);
+  border-left: 1px solid var(--gray-800);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 20;
+  transform: translateX(100%);
+  transition: transform var(--duration-normal) var(--ease-out);
+  padding: calc(var(--header-height) + var(--space-md)) var(--space-xl) var(--space-xl);
+  overflow-y: auto;
+}
+
+.panelOpen {
+  transform: translateX(0);
+}
+
+.panelInner {
+  display: flex;
+  flex-direction: column;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--gray-900);
+}
+
+.panelTag {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--red-crimson);
+  letter-spacing: 0.2em;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: var(--silver);
+  font-size: var(--text-md);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.closeBtn:hover {
+  color: var(--red-crimson);
+}
+
+.panelCoverBox {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid var(--gray-800);
+  background: #000;
+  overflow: hidden;
+  margin-bottom: var(--space-lg);
+}
+
+.panelCover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.panelMeta {
+  margin-bottom: var(--space-md);
+}
+
+.panelYear {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  letter-spacing: 0.15em;
+  margin-bottom: 2px;
+}
+
+.panelTitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.panelGenre {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--red-crimson);
+  letter-spacing: 0.15em;
+}
+
+.panelDesc {
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  line-height: 1.6;
+  margin-bottom: var(--space-xl);
+}
+
+.panelPlayArea {
+  margin-bottom: var(--space-lg);
+}
+
+.playNowBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  background: var(--red-blood);
+  color: var(--white);
+  border: 1px solid var(--red-crimson);
+  padding: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.playNowBtn:hover {
+  background: var(--red-crimson);
+  box-shadow: 0 0 15px rgba(220, 20, 60, 0.4);
+}
+
+.playSymbol {
+  font-size: var(--text-sm);
+}
+
+.panelActions {
+  display: flex;
+}
+
+.fullSpecsBtn {
+  width: 100%;
+  text-align: center;
+  padding: var(--space-sm);
+  border: 1px solid var(--gray-800);
+  color: var(--silver);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.15em;
+  transition: all var(--duration-fast);
+}
+
+.fullSpecsBtn:hover {
+  color: var(--white);
+  border-color: var(--silver);
+}
+
+.bottomCoords {
+  position: absolute;
+  bottom: var(--space-lg);
+  left: var(--space-xl);
+  right: var(--space-xl);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  letter-spacing: 0.2em;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .topOverlay {
+    left: var(--space-md);
+    right: var(--space-md);
+  }
+
+  .bottomCoords {
+    display: none;
+  }
+}

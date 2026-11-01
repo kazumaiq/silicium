@@ -1,0 +1,151 @@
+.platformsContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: calc(var(--header-height) + var(--space-3xl)) var(--space-xl) var(--space-4xl);
+  min-height: 100vh;
+}
+
+.headerArea {
+  margin-bottom: var(--space-3xl);
+}
+
+.metaLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--red-crimson);
+  letter-spacing: 0.2em;
+}
+
+.pageTitle {
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--white);
+  margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+  color: var(--silver-dark);
+  font-size: var(--text-sm);
+  letter-spacing: 0.1em;
+}
+
+.platformsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-lg);
+  margin-bottom: var(--space-3xl);
+}
+
+.platformCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  background: rgba(10, 10, 10, 0.75);
+  border: 1px solid var(--gray-800);
+  padding: var(--space-xl);
+  backdrop-filter: blur(10px);
+  transition: all var(--duration-normal) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.platformCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--red-crimson);
+  opacity: 0;
+  transition: opacity var(--duration-fast);
+}
+
+.platformCard:hover {
+  border-color: var(--red-blood);
+  transform: translateY(-4px);
+  background: rgba(20, 10, 10, 0.8);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(139, 0, 0, 0.2);
+}
+
+.platformCard:hover::before {
+  opacity: 1;
+}
+
+.iconCircle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid var(--gray-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-lg);
+  color: var(--white);
+  transition: border-color var(--duration-fast);
+}
+
+.platformCard:hover .iconCircle {
+  border-color: var(--red-crimson);
+  color: var(--red-crimson);
+}
+
+.cardInfo {
+  flex: 1;
+}
+
+.platformName {
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+
+.channelCode {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  letter-spacing: 0.15em;
+}
+
+.arrowBox {
+  font-size: var(--text-md);
+  color: var(--silver-dark);
+  transition: all var(--duration-fast);
+}
+
+.platformCard:hover .arrowBox {
+  color: var(--red-crimson);
+  transform: translate(2px, -2px);
+}
+
+.notesBox {
+  background: rgba(8, 8, 8, 0.6);
+  border: 1px dashed var(--gray-900);
+  padding: var(--space-lg);
+}
+
+.notesHeader {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--red-crimson);
+  letter-spacing: 0.15em;
+  margin-bottom: var(--space-xs);
+}
+
+.notesBox p {
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  line-height: 1.6;
+}
+
+.notesBox code {
+  color: var(--silver);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 4px;
+}

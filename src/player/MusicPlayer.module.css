@@ -1,0 +1,253 @@
+.player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-player);
+  background: rgba(5, 5, 5, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--gray-900);
+  padding: var(--space-sm) var(--space-xl);
+  padding-bottom: calc(var(--space-sm) + var(--safe-area-bottom));
+  transition: all var(--duration-slow) var(--ease-out);
+}
+
+.mini {
+  padding: var(--space-xs) var(--space-md);
+  padding-bottom: calc(var(--space-xs) + var(--safe-area-bottom));
+}
+
+.visualizer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  overflow: hidden;
+  transform: translateY(-100%);
+}
+
+.vizBar {
+  flex: 1;
+  background: var(--red-crimson);
+  min-height: 2px;
+  transition: height 0.15s ease;
+  opacity: 0.8;
+}
+
+.playerInner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cover {
+  width: 48px;
+  height: 48px;
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid var(--gray-800);
+}
+
+.mini .cover {
+  width: 36px;
+  height: 36px;
+}
+
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.coverPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--black-elevated);
+  color: var(--red-crimson);
+  font-size: var(--text-lg);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  max-width: 200px;
+}
+
+.trackTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trackArtist {
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  letter-spacing: 0.15em;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.controlBtn {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--silver);
+  transition: color var(--duration-fast);
+  letter-spacing: 0;
+}
+
+.controlBtn:hover {
+  color: var(--white);
+}
+
+.playBtn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--silver-dark);
+  border-radius: 50%;
+  font-size: var(--text-sm);
+  color: var(--white);
+  transition: all var(--duration-fast);
+  letter-spacing: 0;
+}
+
+.playBtn:hover {
+  border-color: var(--red-crimson);
+  background: rgba(220, 20, 60, 0.1);
+}
+
+.progressSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.time {
+  font-size: var(--text-xs);
+  color: var(--silver-dark);
+  font-variant-numeric: tabular-nums;
+  min-width: 35px;
+  text-align: center;
+}
+
+.progressBar {
+  flex: 1;
+  height: 4px;
+  background: var(--gray-800);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  transition: height var(--duration-fast);
+}
+
+.progressBar:hover {
+  height: 6px;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--red-crimson);
+  border-radius: 2px;
+  position: relative;
+  transition: none;
+}
+
+.progressHandle {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background: var(--white);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity var(--duration-fast);
+  box-shadow: 0 0 6px var(--red-glow);
+}
+
+.progressBar:hover .progressHandle {
+  opacity: 1;
+}
+
+.volumeSection {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  position: relative;
+}
+
+.volumeSlider {
+  width: 80px;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--gray-800);
+  border-radius: 2px;
+  outline: none;
+}
+
+.volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--red-crimson);
+  cursor: pointer;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .player {
+    padding: var(--space-xs) var(--space-md);
+    padding-bottom: calc(var(--space-xs) + var(--safe-area-bottom));
+  }
+
+  .playerInner {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .progressSection {
+    order: -1;
+    width: 100%;
+    margin-bottom: -var(--space-xs);
+  }
+
+  .volumeSection {
+    display: none;
+  }
+
+  .info {
+    min-width: 80px;
+    flex: 1;
+  }
+
+  .cover {
+    width: 40px;
+    height: 40px;
+  }
+}
