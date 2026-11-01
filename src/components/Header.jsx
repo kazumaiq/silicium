@@ -68,6 +68,19 @@ export default function Header() {
           <span className={styles.logoSub}>DIGITAL ARCHIVE</span>
         </Link>
 
+        {/* Desktop Quick Nav Bar */}
+        <nav className={styles.desktopNav}>
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.id}
+              to={item.path}
+              className={`${styles.desktopNavLink} ${location.pathname === item.path ? styles.desktopNavActive : ''}`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
         <div className={styles.headerRight}>
           <div className={styles.status}>
             <span className={styles.statusDot} />

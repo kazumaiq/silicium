@@ -1,0 +1,271 @@
+.playerWrapper {
+  background: rgba(10, 10, 10, 0.88);
+  border: 1px solid var(--gray-800);
+  padding: var(--space-lg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(139, 0, 0, 0.15);
+  transition: border-color var(--duration-normal);
+}
+
+.playerWrapper:hover {
+  border-color: var(--red-blood);
+}
+
+.playerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--silver-dark);
+  border-bottom: 1px solid var(--gray-900);
+  padding-bottom: var(--space-xs);
+}
+
+.terminalSignal {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.signalLed {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--silver-muted);
+}
+
+.ledActive {
+  background: var(--red-energy);
+  box-shadow: 0 0 8px var(--red-energy);
+}
+
+.sourceTag {
+  color: var(--red-crimson);
+}
+
+/* Track Card */
+.trackCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.coverWrapper {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border: 1px solid var(--gray-800);
+  background: #000;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.coverImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cornerAccent {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 6px;
+  border-top: 2px solid var(--red-crimson);
+  border-right: 2px solid var(--red-crimson);
+}
+
+.trackDetails {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.trackNumber {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--red-crimson);
+  letter-spacing: 0.2em;
+}
+
+.trackTitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.releaseMeta {
+  font-size: 10px;
+  color: var(--silver-dark);
+  letter-spacing: 0.1em;
+}
+
+/* Waveform Bars */
+.waveformContainer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 28px;
+  gap: 2px;
+  padding: 2px 0;
+}
+
+.waveBar {
+  flex: 1;
+  background: var(--red-crimson);
+  border-radius: 1px;
+  transition: height 0.15s ease, opacity 0.2s ease;
+}
+
+/* Timeline */
+.timelineArea {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.timeLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--silver-dark);
+  min-width: 28px;
+}
+
+.progressBar {
+  flex: 1;
+  height: 4px;
+  background: var(--gray-900);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.progressFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: var(--red-crimson);
+  box-shadow: 0 0 6px rgba(255, 0, 34, 0.6);
+}
+
+/* Controls */
+.controlRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+}
+
+.stepBtn {
+  background: none;
+  border: 1px solid var(--gray-800);
+  color: var(--silver);
+  padding: 6px 14px;
+  font-size: var(--text-xs);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.stepBtn:hover {
+  border-color: var(--red-crimson);
+  color: var(--white);
+}
+
+.playMainBtn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--red-blood);
+  border: 1px solid var(--red-crimson);
+  color: var(--white);
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+  box-shadow: 0 0 15px rgba(220, 20, 60, 0.3);
+}
+
+.playMainBtn:hover {
+  background: var(--red-crimson);
+  transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(220, 20, 60, 0.6);
+}
+
+.playActive {
+  background: var(--red-crimson);
+}
+
+/* SoundCloud Toggle */
+.soundcloudIntegration {
+  margin-top: var(--space-xs);
+}
+
+.soundcloudToggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--gray-800);
+  color: var(--silver);
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.soundcloudToggle:hover {
+  border-color: var(--red-crimson);
+  color: var(--white);
+}
+
+.embedContainer {
+  margin-top: var(--space-xs);
+  border: 1px solid var(--gray-800);
+  background: #000;
+  overflow: hidden;
+}
+
+.playerFooter {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--gray-900);
+  padding-top: var(--space-xs);
+}
+
+.externalLink {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--silver-dark);
+  letter-spacing: 0.15em;
+  transition: color var(--duration-fast);
+}
+
+.externalLink:hover {
+  color: var(--red-crimson);
+}
+
+@media (max-width: 768px) {
+  .playerWrapper {
+    padding: var(--space-md);
+  }
+}

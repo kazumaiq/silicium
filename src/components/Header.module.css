@@ -41,6 +41,47 @@
   color: var(--silver-dark);
 }
 
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+.desktopNavLink {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--silver-dark);
+  letter-spacing: 0.15em;
+  transition: all var(--duration-fast);
+  position: relative;
+  padding: 4px 0;
+}
+
+.desktopNavLink:hover {
+  color: var(--white);
+}
+
+.desktopNavActive {
+  color: var(--red-crimson);
+}
+
+.desktopNavActive::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--red-crimson);
+  box-shadow: 0 0 6px var(--red-glow);
+}
+
+@media (max-width: 980px) {
+  .desktopNav {
+    display: none;
+  }
+}
+
 .headerRight {
   display: flex;
   align-items: center;

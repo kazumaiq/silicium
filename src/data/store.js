@@ -1,5 +1,9 @@
 // SILICIUM — Global State Management (Zustand)
 import { create } from 'zustand'
+import { RELEASES } from './config'
+
+const initialRelease = RELEASES[0] || null
+const initialTrack = initialRelease?.tracks?.[0] || null
 
 export const useStore = create((set, get) => ({
   // Loading state
@@ -19,8 +23,8 @@ export const useStore = create((set, get) => ({
 
   // Player
   isPlaying: false,
-  currentTrack: null,
-  currentRelease: null,
+  currentTrack: initialTrack,
+  currentRelease: initialRelease,
   volume: 0.8,
   progress: 0,
   duration: 0,

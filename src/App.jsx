@@ -173,11 +173,28 @@ function AppRoutes() {
 }
 
 // ——————————————————————————————————————
+// Bottom Global Player Wrapper (active on secondary pages or mobile)
+// ——————————————————————————————————————
+function GlobalPlayer() {
+  const currentTrack = useStore((s) => s.currentTrack)
+  const location = useLocation()
+
+  // On home page, player is integrated into right column; on other pages, it is fixed at bottom
+  if (!currentTrack || location.pathname === '/') return null
+
+  return (
+    <div className={styles.playerContainer}>
+      <Suspense fallback={null}>
+        <MusicPlayer />
+      </Suspense>
+    </div>
+  )
+}
+
+// ——————————————————————————————————————
 // Main App
 // ——————————————————————————————————————
 export default function App() {
-  const currentTrack = useStore((s) => s.currentTrack)
-
   return (
     <BrowserRouter>
       <div className={styles.app}>
@@ -208,14 +225,8 @@ export default function App() {
           <AppRoutes />
         </div>
 
-        {/* Music player — fixed at bottom, z-index: 150 */}
-        {currentTrack && (
-          <div className={styles.playerContainer}>
-            <Suspense fallback={null}>
-              <MusicPlayer />
-            </Suspense>
-          </div>
-        )}
+        {/* Music player — fixed at bottom on secondary pages */}
+        <GlobalPlayer />
       </div>
     </BrowserRouter>
   )
