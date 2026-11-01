@@ -66,7 +66,7 @@ export const RELEASES = [
     releaseDate: '2022-12-14',
     type: 'single',
     genre: 'Dark Phonk',
-    cover: '/images/demon-mask.jpg',
+    cover: '/covers/my-weed.jpg',
     soundcloudUrl: 'https://soundcloud.com/sillic1um/my-weed',
     tracks: [
       {
@@ -92,7 +92,7 @@ export const RELEASES = [
     releaseDate: '2023-04-18',
     type: 'single',
     genre: 'Drift Phonk',
-    cover: '/images/logo-red.png',
+    cover: '/covers/kordeity.jpg',
     soundcloudUrl: 'https://soundcloud.com/sillic1um',
     tracks: [
       {
@@ -117,7 +117,7 @@ export const RELEASES = [
     releaseDate: '2023-08-09',
     type: 'single',
     genre: 'Underground Phonk',
-    cover: '/images/demon-mask.jpg',
+    cover: '/covers/broken-wheel.jpg',
     soundcloudUrl: 'https://soundcloud.com/sillic1um',
     tracks: [
       {
@@ -141,7 +141,7 @@ export const RELEASES = [
     releaseDate: '2023-10-31',
     type: 'single',
     genre: 'Occult Phonk',
-    cover: '/images/logo-silver.png',
+    cover: '/covers/devil-night.jpg',
     soundcloudUrl: 'https://soundcloud.com/sillic1um',
     tracks: [
       {
@@ -165,7 +165,7 @@ export const RELEASES = [
     releaseDate: '2024-02-16',
     type: 'single',
     genre: 'Dark Phonk',
-    cover: '/images/demon-mask.jpg',
+    cover: '/covers/roku.jpg',
     soundcloudUrl: 'https://soundcloud.com/sillic1um',
     tracks: [
       {

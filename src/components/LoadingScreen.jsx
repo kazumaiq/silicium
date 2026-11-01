@@ -29,6 +29,8 @@ function generateParticles(count) {
 }
 
 export default function LoadingScreen() {
+  const isLoading = useStore((s) => s.isLoading)
+  const introComplete = useStore((s) => s.introComplete)
   const setLoading = useStore((s) => s.setLoading)
   const setIntroComplete = useStore((s) => s.setIntroComplete)
 
@@ -66,6 +68,8 @@ export default function LoadingScreen() {
   }, [setIntroComplete, setLoading])
 
   useEffect(() => {
+    if (introComplete || !isLoading) return
+
     // Reset refs arrays
     systemLinesRef.current = systemLinesRef.current.filter(Boolean)
     cornersRef.current = cornersRef.current.filter(Boolean)
@@ -168,9 +172,10 @@ export default function LoadingScreen() {
     return () => {
       tl.kill()
     }
-  }, [setIntroComplete, setLoading])
+  }, [isLoading, introComplete, setIntroComplete, setLoading])
 
-  if (!visible) return null
+  // Early return AFTER all hooks
+  if (introComplete || !isLoading || !visible) return null
 
   return (
     <div ref={overlayRef} className={styles.overlay}>
@@ -223,7 +228,7 @@ export default function LoadingScreen() {
       {/* Logo */}
       <div ref={logoRef} className={styles.logoContainer}>
         <img
-          src="/images/logo-red.png"
+          src="/images/logo-red-transparent.png"
           alt="SILICIUM"
           className={styles.logoImage}
           draggable={false}

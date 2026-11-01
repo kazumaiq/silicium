@@ -5,14 +5,24 @@ import { RELEASES } from './config'
 const initialRelease = RELEASES[0] || null
 const initialTrack = initialRelease?.tracks?.[0] || null
 
+const hasSkippedIntro = typeof window !== 'undefined' && (
+  new URLSearchParams(window.location.search).has('nointro') || 
+  sessionStorage.getItem('silicium_intro_seen') === 'true'
+)
+
 export const useStore = create((set, get) => ({
   // Loading state
-  isLoading: true,
-  loadingProgress: 0,
-  introComplete: false,
+  isLoading: !hasSkippedIntro,
+  loadingProgress: hasSkippedIntro ? 100 : 0,
+  introComplete: hasSkippedIntro,
   setLoading: (isLoading) => set({ isLoading }),
   setLoadingProgress: (loadingProgress) => set({ loadingProgress }),
-  setIntroComplete: (introComplete) => set({ introComplete }),
+  setIntroComplete: (introComplete) => {
+    if (typeof window !== 'undefined' && introComplete) {
+      sessionStorage.setItem('silicium_intro_seen', 'true')
+    }
+    set({ introComplete })
+  },
 
   // Navigation
   currentSection: 'home',
@@ -56,7 +66,9 @@ export const useStore = create((set, get) => ({
   setMousePosition: (mousePosition) => set({ mousePosition }),
 
   // UI
+  language: 'RU', // RU | EN
   cursorType: 'default',
+  setLanguage: (language) => set({ language }),
   setCursorType: (cursorType) => set({ cursorType }),
 
   // Discography filters

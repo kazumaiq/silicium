@@ -57,7 +57,7 @@
   --space-4xl: 6rem;
   
   /* Layout */
-  --header-height: 60px;
+  --header-height: 54px;
   --player-height: 80px;
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --safe-area-top: env(safe-area-inset-top, 0px);

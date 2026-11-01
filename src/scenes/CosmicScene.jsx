@@ -772,9 +772,8 @@ function InnerScene() {
       <CameraController reducedMotion={reducedMotion} />
 
       <SceneRotator reducedMotion={reducedMotion}>
-        <StarField count={counts.stars} />
-        <CosmicDust count={counts.dust} />
-        <RedEnergyRifts count={counts.rifts} />
+        <StarField count={Math.min(counts.stars, 1000)} />
+        <CosmicDust count={Math.min(counts.dust, 250)} />
         <MetallicDebris count={counts.debris} />
         <OrbitalRings count={counts.rings} />
         <Nebula count={counts.nebula} />

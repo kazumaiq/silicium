@@ -5,8 +5,12 @@ import { Canvas } from '@react-three/fiber'
 import { useStore } from './data/store'
 import styles from './App.module.css'
 
-// ——— Lazy-loaded page components ———
-const HomePage = lazy(() => import('./sections/HomePage'))
+// ——— Core components (Immediate Load) ———
+import HomePage from './sections/HomePage'
+import Header from './components/Header'
+import LoadingScreen from './components/LoadingScreen'
+
+// ——— Lazy-loaded secondary pages ———
 const DiscographyPage = lazy(() => import('./sections/DiscographyPage'))
 const ReleasePage = lazy(() => import('./sections/ReleasePage'))
 const ArchivePage = lazy(() => import('./sections/ArchivePage'))
@@ -16,9 +20,7 @@ const PlatformsPage = lazy(() => import('./sections/PlatformsPage'))
 
 // ——— Lazy-loaded heavy components ———
 const CosmicScene = lazy(() => import('./scenes/CosmicScene'))
-const Header = lazy(() => import('./components/Header'))
 const MusicPlayer = lazy(() => import('./player/MusicPlayer'))
-const LoadingScreen = lazy(() => import('./components/LoadingScreen'))
 
 // ——————————————————————————————————————
 // Suspense fallback — minimal spinner
@@ -201,21 +203,17 @@ export default function App() {
         {/* Persistent 3D cosmic background — z-index: 0 */}
         <SceneBackground />
 
+        {/* Loading / Cinematic Intro overlay */}
+        <LoadingScreen />
+
         {/* Custom cursor — desktop only, highest z-index */}
         <CustomCursor />
-
-        {/* Loading / intro overlay — z-index: 10000 */}
-        <Suspense fallback={null}>
-          <LoadingScreen />
-        </Suspense>
 
         {/* Content layer — z-index: 10 (scrolls over 3D scene) */}
         <div className={styles.contentLayer}>
           {/* Fixed header — z-index: 100 */}
           <div className={styles.headerContainer}>
-            <Suspense fallback={null}>
-              <Header />
-            </Suspense>
+            <Header />
           </div>
 
           {/* Route listener for store sync */}
