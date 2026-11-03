@@ -222,19 +222,24 @@
 /* Mobile */
 @media (max-width: 768px) {
   .player {
-    padding: var(--space-xs) var(--space-md);
-    padding-bottom: calc(var(--space-xs) + var(--safe-area-bottom));
+    bottom: calc(50px + env(safe-area-inset-bottom, 0px));
+    padding: 6px var(--space-md);
+    background: rgba(6, 6, 6, 0.96);
+    border-top: 1px solid rgba(220, 20, 60, 0.4);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.85);
+    z-index: 998;
   }
 
   .playerInner {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: var(--space-sm);
   }
 
   .progressSection {
-    order: -1;
-    width: 100%;
-    margin-bottom: -var(--space-xs);
+    order: 0;
+    flex: 1;
+    min-width: 60px;
+    margin-bottom: 0;
   }
 
   .volumeSection {
@@ -242,12 +247,30 @@
   }
 
   .info {
-    min-width: 80px;
-    flex: 1;
+    min-width: 70px;
+    max-width: 130px;
+    flex: initial;
+  }
+
+  .title {
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .artist {
+    font-size: 9px;
   }
 
   .cover {
-    width: 40px;
-    height: 40px;
+    width: 34px;
+    height: 34px;
+  }
+
+  .playBtn {
+    width: 32px;
+    height: 32px;
+    font-size: 11px;
   }
 }

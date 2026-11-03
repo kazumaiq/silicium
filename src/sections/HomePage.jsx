@@ -259,33 +259,39 @@ export default function HomePage() {
             </div>
           </aside>
 
-          {/* ЦЕНТР: ДЕМОНИЧЕСКАЯ МАСКА + КРАСНОЕ КОЛЬЦО + ЛОГОТИП */}
+          {/* ЦЕНТР: ЕДИНАЯ ХУДОЖЕСТВЕННАЯ КОМПОЗИЦИЯ МАСКА + КОЛЬЦО + ЛОГОТИП */}
           <div className={styles.centerFocalStage}>
-            {/* Энергетическое кольцо */}
-            <div className={styles.energyRingWrapper}>
-              <div ref={ringRef} className={styles.pulsingEnergyRing} />
-              <div ref={laserRingRef} className={styles.laserOrbitRing} />
-              <div className={styles.innerSparksRing} />
+            <div className={styles.artworkContainer}>
+              {/* Энергетическое многослойное кольцо */}
+              <div className={styles.energyRingWrapper}>
+                <div ref={ringRef} className={styles.pulsingEnergyRing} />
+                <div ref={laserRingRef} className={styles.laserOrbitRing} />
+                <div className={styles.innerSparksRing} />
+              </div>
+
+              {/* Органично растворенная круглая маска в центре кольца */}
+              <div className={styles.maskCompositeContainer}>
+                <img
+                  ref={maskRef}
+                  src="/images/demon-mask-seamless.png"
+                  alt="SILICIUM Occult Mask"
+                  className={styles.centralDemonMask}
+                  loading="eager"
+                />
+              </div>
+
+              {/* Металлический прозрачный логотип точно поверх нижней челюсти маски */}
+              <div className={styles.logoTitleLockup}>
+                <img
+                  src="/images/logo-red-transparent.png"
+                  alt="SILICIUM"
+                  className={styles.logoOverlayImage}
+                />
+              </div>
             </div>
 
-            {/* Органично растворенная круглая маска */}
-            <div className={styles.maskCompositeContainer}>
-              <img
-                ref={maskRef}
-                src="/images/demon-mask-new.jpg"
-                alt="SILICIUM Occult Mask"
-                className={styles.centralDemonMask}
-                loading="eager"
-              />
-            </div>
-
-            {/* Металлический прозрачный логотип */}
-            <div className={styles.logoTitleLockup}>
-              <img
-                src="/images/logo-red-new.png"
-                alt="SILICIUM"
-                className={styles.logoOverlayImage}
-              />
+            {/* Подпись архива и кнопка скролла под маской */}
+            <div className={styles.metaTaglineCluster}>
               <div className={styles.archiveTagline}>{t.digitalArchive}</div>
               <div className={styles.yearsInterval}>// {t.years} //</div>
 

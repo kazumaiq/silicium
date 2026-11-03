@@ -344,12 +344,24 @@
 
 @media (max-width: 600px) {
   .header {
+    height: 48px;
     padding: 0 12px;
   }
 
-  .logoMain {
-    font-size: 13px;
-    letter-spacing: 0.2em;
+  .logoBtn {
+    min-height: 44px;
+  }
+
+  .logoImg {
+    height: 18px;
+  }
+
+  .menuBtn {
+    width: 44px;
+    height: 44px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
   }
 
   .rightCluster {
@@ -362,8 +374,9 @@
   }
 
   .langBtn {
-    padding: 1px 2px;
+    padding: 6px 4px;
     font-size: 10px;
+    min-height: 40px;
   }
 
   .mobileLabel {

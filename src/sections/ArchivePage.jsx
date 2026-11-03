@@ -37,13 +37,17 @@ export default function ArchivePage() {
     setPanelOpen(true)
   }
 
+  const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+
   const t = {
     RU: {
       code: '// 03 //',
       tag: 'ПРОСТРАНСТВЕННАЯ СЕТКА',
       title: '3D АРХИВ',
       subtitle: 'Интерактивная матрица артефактов SILICIUM. Вращайте орбиту, масштабируйте и нажимайте на артефакты для расшифровки.',
-      dragRotate: 'УДЕРЖИВАЙТЕ ДЛЯ ВРАЩЕНИЯ • ЗУМ КОЛЕСОМ • КЛИК ДЛЯ РАСШИФРОВКИ',
+      dragRotate: isTouch
+        ? 'СВАЙП ДЛЯ ВРАЩЕНИЯ • ТАП ПО АРТЕФАКТУ ДЛЯ РАСШИФРОВКИ'
+        : 'УДЕРЖИВАЙТЕ ДЛЯ ВРАЩЕНИЯ • ЗУМ КОЛЕСОМ • КЛИК ДЛЯ РАСШИФРОВКИ',
       decrypted: 'РАСШИФРОВАННЫЙ АРТЕФАКТ',
       cycle: 'ЦИКЛ',
       initiate: 'ЗАПУСТИТЬ ВОСПРОИЗВЕДЕНИЕ',
@@ -54,7 +58,9 @@ export default function ArchivePage() {
       tag: 'SPATIAL MATRIX',
       title: '3D ARCHIVE',
       subtitle: 'Interactive spatial artifact matrix of SILICIUM. Drag to rotate orbit, zoom and click artifacts to decrypt data.',
-      dragRotate: 'DRAG TO ROTATE MATRIX • SCROLL TO ZOOM • CLICK ARTIFACT TO DECRYPT',
+      dragRotate: isTouch
+        ? 'SWIPE TO ROTATE ORBIT • TAP ARTIFACT TO DECRYPT'
+        : 'DRAG TO ROTATE MATRIX • SCROLL TO ZOOM • CLICK ARTIFACT TO DECRYPT',
       decrypted: 'DECRYPTED ARTIFACT',
       cycle: 'CYCLE',
       initiate: 'INITIATE PLAYBACK',
@@ -65,7 +71,9 @@ export default function ArchivePage() {
     tag: 'SPATIAL MATRIX',
     title: '3D ARCHIVE',
     subtitle: 'Interactive spatial artifact matrix of SILICIUM.',
-    dragRotate: 'DRAG TO ROTATE MATRIX • SCROLL TO ZOOM • CLICK ARTIFACT TO DECRYPT',
+    dragRotate: isTouch
+      ? 'SWIPE TO ROTATE ORBIT • TAP ARTIFACT TO DECRYPT'
+      : 'DRAG TO ROTATE MATRIX • SCROLL TO ZOOM • CLICK ARTIFACT TO DECRYPT',
     decrypted: 'DECRYPTED ARTIFACT',
     cycle: 'CYCLE',
     initiate: 'INITIATE PLAYBACK',

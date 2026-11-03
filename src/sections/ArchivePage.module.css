@@ -222,10 +222,38 @@
 
 @media (max-width: 600px) {
   .archiveContainer {
-    padding: var(--space-xl) var(--space-sm);
+    padding: var(--space-xl) var(--space-xs);
   }
 
   .canvasArena {
-    height: 400px;
+    height: clamp(380px, 58vh, 480px);
+  }
+
+  .infoPanel {
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 80%;
+    border-left: none;
+    border-top: 2px solid var(--red-crimson);
+    transform: translateY(100%);
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.95);
+  }
+
+  .panelOpen {
+    transform: translateY(0);
+  }
+
+  .panelInner {
+    padding-bottom: var(--space-md);
+  }
+
+  .panelCoverBox {
+    max-height: 140px;
+    width: 140px;
+    margin: 0 auto var(--space-sm);
   }
 }

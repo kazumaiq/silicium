@@ -63,7 +63,7 @@ function CentralArtifact() {
   const meshRef = useRef()
   const ringRef = useRef()
   const ring2Ref = useRef()
-  const texture = useTexture('/images/demon-mask.jpg')
+  const texture = useTexture('/images/demon-mask-seamless.png')
 
   useFrame(({ clock }, delta) => {
     const bass = audioEngine.smoothedBass || 0
@@ -283,6 +283,10 @@ export default function ArchiveScene({ selectedRelease, onSelectRelease }) {
   const controlsRef = useRef()
   const [targetPos, setTargetPos] = useState(null)
 
+  const isTouchDevice = useMemo(() => {
+    return typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+  }, [])
+
   const handleSelect = (rel, pos) => {
     onSelectRelease(rel)
     if (pos) {
@@ -308,6 +312,7 @@ export default function ArchiveScene({ selectedRelease, onSelectRelease }) {
         minDistance={3.5}
         maxDistance={24}
         enablePan={false}
+        enableZoom={!isTouchDevice}
       />
 
       <CinematicCameraController
