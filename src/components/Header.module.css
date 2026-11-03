@@ -41,6 +41,19 @@
   color: var(--red-crimson);
 }
 
+.logoImg {
+  height: 22px;
+  width: auto;
+  filter: brightness(1.1) drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
+  transition: filter var(--duration-fast), transform var(--duration-fast);
+  mix-blend-mode: screen;
+}
+
+.logoBtn:hover .logoImg {
+  filter: brightness(1.3) drop-shadow(0 0 10px rgba(220, 20, 60, 0.5));
+  transform: scale(1.05);
+}
+
 /* Center Desktop Nav */
 .centerNav {
   display: flex;

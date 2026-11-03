@@ -117,7 +117,11 @@ export default function Header() {
           className={styles.logoBtn}
           aria-label="Silicium Home"
         >
-          <span className={styles.logoMain}>SILICIUM</span>
+          <img 
+            src="/images/logo-silver-new.png"
+            alt="SILICIUM"
+            className={styles.logoImg}
+          />
         </button>
 
         {/* Center: Desktop 6-Tab Navigation with Red Active Accent */}

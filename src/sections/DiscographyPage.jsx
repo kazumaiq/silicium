@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 import { useStore } from '../data/store'
 import { RELEASES } from '../data/config'
 import SectionHeader from '../components/SectionHeader'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 import styles from './DiscographyPage.module.css'
 
 export default function DiscographyPage() {
@@ -21,6 +22,9 @@ export default function DiscographyPage() {
     setSelectedReleaseModal,
     language,
   } = useStore()
+
+  const controlRef = useScrollReveal({ threshold: 0.1 })
+  const gridRef = useScrollReveal({ threshold: 0.05, rootMargin: '0px 0px -20px 0px' })
 
   // Извлекаем уникальные годы
   const availableYears = useMemo(() => {
@@ -97,7 +101,7 @@ export default function DiscographyPage() {
       />
 
       {/* Control Bar: Search & Filters */}
-      <div className={styles.controlBar}>
+      <div ref={controlRef} className={styles.controlBar}>
         <div className={styles.searchBox}>
           <span className={styles.searchIcon}>⌕</span>
           <input
@@ -175,7 +179,7 @@ export default function DiscographyPage() {
 
       {/* Release Matrix (Grid or List) */}
       {discographyView === 'grid' ? (
-        <div className={styles.releaseGrid}>
+        <div ref={gridRef} className={styles.releaseGrid} data-reveal="fade">
           {filteredReleases.map((rel) => {
             const isSelected = currentTrack?.id === rel.tracks[0]?.id
             const isPlayingThis = isPlaying && isSelected
@@ -233,7 +237,7 @@ export default function DiscographyPage() {
         </div>
       ) : (
         /* List View */
-        <div className={styles.releaseList}>
+        <div ref={gridRef} className={styles.releaseList} data-reveal="fade">
           {filteredReleases.map((rel, idx) => {
             const isSelected = currentTrack?.id === rel.tracks[0]?.id
             const isPlayingThis = isPlaying && isSelected

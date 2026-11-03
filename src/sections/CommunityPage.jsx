@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { ARTIST } from '../data/config'
 import { useStore } from '../data/store'
 import SectionHeader from '../components/SectionHeader'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 import styles from './CommunityPage.module.css'
 
 export default function CommunityPage() {
@@ -11,6 +12,9 @@ export default function CommunityPage() {
   const [message, setMessage] = useState({ name: '', text: '' })
   const [sent, setSent] = useState(false)
   const language = useStore((s) => s.language)
+
+  const telegramRef = useScrollReveal({ threshold: 0.1 })
+  const dispatchRef = useScrollReveal({ threshold: 0.1 })
 
   const handleSubscribe = (e) => {
     e.preventDefault()
@@ -106,7 +110,7 @@ export default function CommunityPage() {
 
       <div className={styles.grid}>
         {/* Main Telegram Portal Card */}
-        <div className={styles.telegramCard}>
+        <div ref={telegramRef} className={styles.telegramCard} data-reveal="left">
           <div className={styles.telegramBadge}>{t.telegramVector}</div>
           <h3 className={styles.telegramTitle}>{t.telegramTitle}</h3>
           <p className={styles.telegramDesc}>{t.telegramDesc}</p>
@@ -129,7 +133,7 @@ export default function CommunityPage() {
         </div>
 
         {/* Transmission Dispatch / Feedback Form */}
-        <div className={styles.dispatchCard}>
+        <div ref={dispatchRef} className={styles.dispatchCard} data-reveal="right">
           <h3 className={styles.dispatchTitle}>{t.dispatchTitle}</h3>
           <p className={styles.dispatchDesc}>{t.dispatchDesc}</p>
 

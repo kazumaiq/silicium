@@ -466,10 +466,12 @@ function DebrisFragment({ position, rotation, scale, geometryType, speed }) {
         <icosahedronGeometry args={[1, 0]} />
       )}
       <meshStandardMaterial
-        color="#C0C0C0"
-        metalness={0.9}
-        roughness={0.1}
-        envMapIntensity={1.5}
+        color="#B8B8C0"
+        metalness={0.95}
+        roughness={0.08}
+        envMapIntensity={2.0}
+        emissive="#200008"
+        emissiveIntensity={0.15}
       />
     </mesh>
   )
@@ -915,6 +917,34 @@ function CosmicShockwaveRing() {
 }
 
 // ─────────────────────────────────────────────────────────────────────
+// PULSING POINT LIGHT (Periodic Ambient Flash + Audio Reactive)
+// ─────────────────────────────────────────────────────────────────────
+
+function PulsingPointLight() {
+  const lightRef = useRef()
+
+  useFrame(({ clock }) => {
+    if (!lightRef.current) return
+    const t = clock.getElapsedTime()
+    // Periodic pulse cycle every ~7 seconds
+    const pulse = Math.pow(Math.max(0, Math.sin(t * 0.45)), 8) * 1.8
+    const bass = audioEngine.smoothedBass || 0
+    lightRef.current.intensity = pulse + bass * 1.4
+  })
+
+  return (
+    <pointLight
+      ref={lightRef}
+      position={[0, 2, -10]}
+      color="#ff0033"
+      distance={45}
+      decay={2}
+      intensity={0}
+    />
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────
 // INNER SCENE (all elements composed together)
 // ─────────────────────────────────────────────────────────────────────
 
@@ -941,6 +971,7 @@ function InnerScene() {
         <OrbitalRings count={counts.rings} />
         <Nebula count={counts.nebula} />
         <CosmicShockwaveRing />
+        <PulsingPointLight />
       </SceneRotator>
 
       {/* Fog for depth */}

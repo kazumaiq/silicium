@@ -3,10 +3,13 @@ import React from 'react'
 import { PLATFORMS } from '../data/config'
 import { useStore } from '../data/store'
 import SectionHeader from '../components/SectionHeader'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 import styles from './PlatformsPage.module.css'
 
 export default function PlatformsPage() {
   const language = useStore((s) => s.language)
+  const gridRef = useScrollReveal({ threshold: 0.1 })
+  const notesRef = useScrollReveal({ threshold: 0.15 })
 
   const platformIcons = {
     spotify: '♫',
@@ -55,7 +58,7 @@ export default function PlatformsPage() {
         subtitle={t.subtitle}
       />
 
-      <div className={styles.platformsGrid}>
+      <div ref={gridRef} className={styles.platformsGrid} data-reveal="fade">
         {Object.entries(PLATFORMS).map(([key, item]) => (
           <a
             key={key}
@@ -83,7 +86,7 @@ export default function PlatformsPage() {
         ))}
       </div>
 
-      <div className={styles.notesBox}>
+      <div ref={notesRef} className={styles.notesBox} data-reveal="scale">
         <div className={styles.notesHeader}>
           <span>{t.noticeTitle}</span>
         </div>

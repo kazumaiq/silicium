@@ -227,23 +227,27 @@
 
 .maskCompositeContainer {
   position: relative;
-  width: clamp(250px, 34vh, 360px);
-  height: clamp(250px, 34vh, 360px);
+  width: clamp(280px, 38vh, 400px);
+  height: clamp(280px, 38vh, 400px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 6;
-  filter: contrast(1.25) brightness(1.05);
+  filter: contrast(1.3) brightness(1.1);
+  /* Circular mask with radial gradient for organic blend */
+  mask-image: radial-gradient(ellipse 52% 52% at 50% 48%, black 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 52% 52% at 50% 48%, black 60%, transparent 100%);
 }
 
 .centralDemonMask {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 0 35px rgba(220, 20, 60, 0.45));
+  width: 115%;
+  height: 115%;
+  object-fit: cover;
+  filter: drop-shadow(0 0 40px rgba(220, 20, 60, 0.5)) drop-shadow(0 0 80px rgba(139, 0, 0, 0.3));
   user-select: none;
   pointer-events: none;
   animation: maskSubtleFloat 6s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
 }
 
 @keyframes maskSubtleFloat {
@@ -264,16 +268,17 @@
 }
 
 .logoOverlayImage {
-  width: clamp(260px, 34vw, 440px);
+  width: clamp(280px, 36vw, 480px);
   height: auto;
   mix-blend-mode: screen;
-  filter: drop-shadow(0 0 25px rgba(255, 0, 34, 0.75));
+  filter: drop-shadow(0 0 30px rgba(255, 0, 34, 0.7)) drop-shadow(0 0 60px rgba(139, 0, 0, 0.4));
   user-select: none;
-  transition: transform var(--duration-normal) var(--ease-out);
+  transition: transform var(--duration-normal) var(--ease-out), filter var(--duration-normal);
 }
 
 .logoOverlayImage:hover {
-  transform: scale(1.025);
+  transform: scale(1.03);
+  filter: drop-shadow(0 0 40px rgba(255, 0, 34, 0.9)) drop-shadow(0 0 80px rgba(220, 20, 60, 0.5));
 }
 
 .archiveTagline {
@@ -689,15 +694,15 @@
   scroll-margin-top: 54px;
 }
 
-/* Кинематографичный разделитель секций */
+/* Кинематографичный разделитель секций — Enhanced Phase 02 */
 .sectionDivider {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-md);
-  max-width: 1200px;
-  margin: var(--space-2xl) auto;
-  padding: 0 var(--space-xl);
+  gap: 0;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-3xl) var(--space-xl);
   position: relative;
   z-index: 10;
 }
@@ -705,19 +710,48 @@
 .dividerLine {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(220, 20, 60, 0.45) 50%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(220, 20, 60, 0.5) 30%, rgba(220, 20, 60, 0.7) 50%, rgba(220, 20, 60, 0.5) 70%, transparent);
+  position: relative;
+}
+
+.dividerLine::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255, 0, 34, 0.3) 50%, transparent);
+  filter: blur(3px);
 }
 
 .dividerNode {
   color: var(--red-crimson);
-  font-size: 10px;
-  text-shadow: 0 0 10px #ff0022;
-  animation: nodeGlow 2.5s infinite alternate;
+  font-size: 12px;
+  text-shadow: 0 0 12px #ff0022, 0 0 24px rgba(220, 20, 60, 0.5);
+  animation: nodeGlow 3s infinite alternate;
+  padding: 0 var(--space-lg);
+  position: relative;
 }
 
+.dividerNode::before,
+.dividerNode::after {
+  content: '—';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 8px;
+  color: rgba(220, 20, 60, 0.4);
+  letter-spacing: 2px;
+}
+
+.dividerNode::before { right: calc(100% + 4px); }
+.dividerNode::after { left: calc(100% + 4px); }
+
 @keyframes nodeGlow {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  100% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 6px #ff0022); }
+  0% { transform: scale(0.85); opacity: 0.5; filter: drop-shadow(0 0 4px #ff0022); }
+  50% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 10px #ff0022) drop-shadow(0 0 20px rgba(220,20,60,0.4)); }
+  100% { transform: scale(0.95); opacity: 0.7; filter: drop-shadow(0 0 6px #ff0022); }
 }
 
 /* ───────────────────────────────────────────────────────────── */
@@ -869,8 +903,8 @@
   }
 
   .maskCompositeContainer {
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
   }
 
   .logoTitleLockup {
@@ -880,7 +914,7 @@
 
   .logoOverlayImage {
     width: 82vw;
-    max-width: 270px;
+    max-width: 290px;
   }
 
   .archiveTagline {
@@ -956,8 +990,8 @@
   }
 
   .maskCompositeContainer {
-    width: 175px;
-    height: 175px;
+    width: 190px;
+    height: 190px;
   }
 
   .genreWord {

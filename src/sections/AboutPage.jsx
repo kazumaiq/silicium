@@ -3,10 +3,15 @@ import React from 'react'
 import { ARTIST, TIMELINE } from '../data/config'
 import { useStore } from '../data/store'
 import SectionHeader from '../components/SectionHeader'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 import styles from './AboutPage.module.css'
 
 export default function AboutPage() {
   const language = useStore((s) => s.language)
+
+  const dossierRef = useScrollReveal({ threshold: 0.1 })
+  const timelineRef = useScrollReveal({ threshold: 0.08 })
+  const quoteRef = useScrollReveal({ threshold: 0.15 })
 
   const t = {
     RU: {
@@ -70,7 +75,7 @@ export default function AboutPage() {
       <div className={styles.contentGrid}>
         {/* Entity Dossier / Bio */}
         <section className={styles.dossierSection}>
-          <div className={styles.dossierBox}>
+          <div ref={dossierRef} className={styles.dossierBox}>
             <div className={styles.dossierHeader}>
               <span>{t.classified}</span>
               <span className={styles.idCode}>{t.subFreq}</span>
@@ -109,14 +114,14 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className={styles.quoteBox}>
+          <div ref={quoteRef} className={styles.quoteBox} data-reveal="scale">
             <blockquote>{t.manifesto}</blockquote>
             <cite>// SILICIUM ARCHIVE MANIFESTO</cite>
           </div>
         </section>
 
         {/* Timeline Trajectory */}
-        <section className={styles.timelineSection}>
+        <section ref={timelineRef} className={styles.timelineSection} data-reveal="left">
           <div className={styles.timelineHeader}>
             <span>{t.trajectoryTitle}</span>
           </div>

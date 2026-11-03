@@ -272,7 +272,7 @@ export default function HomePage() {
             <div className={styles.maskCompositeContainer}>
               <img
                 ref={maskRef}
-                src="/images/demon-mask-blended.png"
+                src="/images/demon-mask-new.jpg"
                 alt="SILICIUM Occult Mask"
                 className={styles.centralDemonMask}
                 loading="eager"
@@ -282,7 +282,7 @@ export default function HomePage() {
             {/* Металлический прозрачный логотип */}
             <div className={styles.logoTitleLockup}>
               <img
-                src="/images/logo-red-transparent.png"
+                src="/images/logo-red-new.png"
                 alt="SILICIUM"
                 className={styles.logoOverlayImage}
               />

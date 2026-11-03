@@ -192,3 +192,80 @@ img {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
 }
+
+
+/* ─── SCROLL REVEAL ANIMATIONS ─── */
+.scroll-hidden {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Variant: slide from left */
+.scroll-hidden[data-reveal="left"] {
+  transform: translateX(-40px);
+}
+.scroll-revealed[data-reveal="left"] {
+  transform: translateX(0);
+}
+
+/* Variant: slide from right */
+.scroll-hidden[data-reveal="right"] {
+  transform: translateX(40px);
+}
+.scroll-revealed[data-reveal="right"] {
+  transform: translateX(0);
+}
+
+/* Variant: scale up */
+.scroll-hidden[data-reveal="scale"] {
+  transform: scale(0.92);
+}
+.scroll-revealed[data-reveal="scale"] {
+  transform: scale(1);
+}
+
+/* Variant: fade only (no movement) */
+.scroll-hidden[data-reveal="fade"] {
+  transform: none;
+}
+.scroll-revealed[data-reveal="fade"] {
+  transform: none;
+}
+
+/* ─── PERIODIC LIGHT PULSE OVERLAY ─── */
+.atmospheric-pulse-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: radial-gradient(ellipse at 50% 40%, rgba(220, 20, 60, 0.06) 0%, transparent 70%);
+  opacity: 0;
+  animation: atmosphericPulse 12s ease-in-out infinite;
+}
+
+@keyframes atmosphericPulse {
+  0%, 100% { opacity: 0; }
+  15% { opacity: 0; }
+  20% { opacity: 1; }
+  35% { opacity: 0.6; }
+  45% { opacity: 0; }
+  50% { opacity: 0; }
+  65% { opacity: 0.4; }
+  70% { opacity: 0; }
+}
+
+/* ─── CHROMATIC ABERRATION VIGNETTE ─── */
+.vignette-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.5) 100%);
+}

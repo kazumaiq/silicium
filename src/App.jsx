@@ -64,6 +64,10 @@ export default function App() {
         {/* Persistent 3D Cosmic Background */}
         <SceneBackground />
 
+        {/* Atmospheric Cinematic Overlays */}
+        <div className="atmospheric-pulse-overlay" />
+        <div className="vignette-overlay" />
+
         {/* Loading / Cinematic Intro Overlay */}
         <LoadingScreen />
 
