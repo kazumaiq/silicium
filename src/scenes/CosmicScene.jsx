@@ -16,17 +16,32 @@ const starVertexShader = /* glsl */ `
   attribute float aSize;
   attribute float aPhase;
   uniform float uTime;
+  uniform float uScrollOffset;
+  uniform float uScrollSpeed;
   varying float vAlpha;
 
   void main() {
-    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+    vec3 pos = position;
+
+    // Stars continuously fly toward and past camera on scroll!
+    float zTravel = pos.z - uScrollOffset * 1.8 - (uTime * 1.2);
+    pos.z = mod(zTravel + 80.0, 160.0) - 80.0;
+
+    // Dynamic lateral flight drift
+    pos.x += sin(uScrollOffset * 0.04 + aPhase * 6.28) * 1.5;
+    pos.y += cos(uScrollOffset * 0.03 + aPhase * 4.12) * 1.2;
+
+    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+
+    // Stars elongate into motion streaks when scrolling fast
+    float stretch = clamp(1.0 + abs(uScrollSpeed) * 0.22, 1.0, 3.0);
 
     // Twinkle: sine-based alpha modulation per star
     float twinkle = sin(uTime * 0.8 + aPhase * 6.2831) * 0.3 + 0.7;
-    vAlpha = twinkle;
+    vAlpha = twinkle * (0.65 + clamp(abs(uScrollSpeed) * 0.15, 0.0, 0.35));
 
-    gl_PointSize = aSize * (200.0 / -mvPosition.z);
-    gl_PointSize = clamp(gl_PointSize, 0.5, 6.0);
+    gl_PointSize = aSize * stretch * (210.0 / -mvPosition.z);
+    gl_PointSize = clamp(gl_PointSize, 0.8, 8.0);
     gl_Position = projectionMatrix * mvPosition;
   }
 `
@@ -48,23 +63,27 @@ const dustVertexShader = /* glsl */ `
   attribute float aSize;
   attribute float aPhase;
   uniform float uTime;
+  uniform float uScrollOffset;
   varying float vAlpha;
   varying float vPhase;
 
   void main() {
-    // Slow drift motion
     vec3 pos = position;
-    pos.x += sin(uTime * 0.05 + aPhase * 3.14) * 0.3;
-    pos.y += cos(uTime * 0.04 + aPhase * 2.71) * 0.2;
-    pos.z += sin(uTime * 0.03 + aPhase * 1.41) * 0.15;
+
+    // Slow drift motion + responsive flight to scroll depth
+    float zTravel = pos.z - uScrollOffset * 0.8;
+    pos.z = mod(zTravel + 40.0, 80.0) - 40.0;
+
+    pos.x += sin(uTime * 0.05 + aPhase * 3.14 + uScrollOffset * 0.02) * 0.8;
+    pos.y += cos(uTime * 0.04 + aPhase * 2.71 - uScrollOffset * 0.03) * 0.6;
 
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
 
-    vAlpha = 0.15 + sin(uTime * 0.3 + aPhase * 6.28) * 0.1;
+    vAlpha = 0.18 + sin(uTime * 0.3 + aPhase * 6.28) * 0.1;
     vPhase = aPhase;
 
-    gl_PointSize = aSize * (150.0 / -mvPosition.z);
-    gl_PointSize = clamp(gl_PointSize, 0.5, 4.0);
+    gl_PointSize = aSize * (160.0 / -mvPosition.z);
+    gl_PointSize = clamp(gl_PointSize, 0.5, 5.0);
     gl_Position = projectionMatrix * mvPosition;
   }
 `
@@ -94,27 +113,33 @@ const emberVertexShader = /* glsl */ `
   attribute float aSpeed;
   uniform float uTime;
   uniform float uAudioBass;
+  uniform float uScrollOffset;
+  uniform float uScrollSpeed;
   varying float vAlpha;
   varying float vHeat;
 
   void main() {
     vec3 pos = position;
-    // Upward drift wrapping continuously
-    float yOffset = uTime * (aSpeed + uAudioBass * 0.9) + aPhase * 40.0;
-    pos.y = mod(pos.y + yOffset, 40.0) - 20.0;
-    
+
+    // Upward drift wrapping continuously + dynamic velocity on scroll
+    float yOffset = uTime * (aSpeed + uAudioBass * 0.9) - (uScrollOffset * 0.6) + aPhase * 40.0;
+    pos.y = mod(pos.y + yOffset, 50.0) - 25.0;
+
+    // Embers fly in Z depth on scroll
+    float zOffset = pos.z - uScrollOffset * 1.2;
+    pos.z = mod(zOffset + 35.0, 70.0) - 35.0;
+
     // Chaotic turbulence
-    pos.x += sin(uTime * 0.7 + aPhase * 6.28) * 0.6;
-    pos.z += cos(uTime * 0.5 + aPhase * 4.12) * 0.4;
+    pos.x += sin(uTime * 0.7 + aPhase * 6.28) * 0.7;
 
     vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
 
     // Heat pulse with bass
     vHeat = sin(uTime * 1.5 + aPhase * 3.14) * 0.5 + 0.5 + uAudioBass * 0.6;
-    vAlpha = (0.35 + sin(uTime * 1.2 + aPhase * 5.0) * 0.25 + uAudioBass * 0.45);
+    vAlpha = (0.4 + sin(uTime * 1.2 + aPhase * 5.0) * 0.25 + uAudioBass * 0.45 + clamp(abs(uScrollSpeed) * 0.15, 0.0, 0.3));
 
     gl_PointSize = (aSize + uAudioBass * 3.0) * (180.0 / -mvPosition.z);
-    gl_PointSize = clamp(gl_PointSize, 1.0, 9.0);
+    gl_PointSize = clamp(gl_PointSize, 1.0, 9.5);
     gl_Position = projectionMatrix * mvPosition;
   }
 `
@@ -145,7 +170,7 @@ const emberFragmentShader = /* glsl */ `
 // STAR FIELD
 // ─────────────────────────────────────────────────────────────────────
 
-function StarField({ count }) {
+function StarField({ count, scrollUniforms }) {
   const meshRef = useRef()
   const materialRef = useRef()
 
@@ -164,25 +189,27 @@ function StarField({ count }) {
       positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta)
       positions[i * 3 + 2] = r * Math.cos(phi)
 
-      sizes[i] = 0.5 + Math.random() * 2.5
+      sizes[i] = 0.6 + Math.random() * 2.6
       phases[i] = Math.random()
     }
 
     return { positions, sizes, phases }
   }, [count])
 
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uScrollOffset: scrollUniforms?.uScrollOffset || { value: 0 },
+      uScrollSpeed: scrollUniforms?.uScrollSpeed || { value: 0 },
+    }),
+    [scrollUniforms]
+  )
+
   useFrame(({ clock }) => {
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = clock.getElapsedTime()
     }
   })
-
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-    }),
-    []
-  )
 
   return (
     <points ref={meshRef} frustumCulled={false}>
@@ -223,7 +250,7 @@ function StarField({ count }) {
 // COSMIC DUST
 // ─────────────────────────────────────────────────────────────────────
 
-function CosmicDust({ count }) {
+function CosmicDust({ count, scrollUniforms }) {
   const materialRef = useRef()
 
   const { positions, sizes, phases } = useMemo(() => {
@@ -232,9 +259,9 @@ function CosmicDust({ count }) {
     const phases = new Float32Array(count)
 
     for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 40
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 30
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 40
+      positions[i * 3] = (Math.random() - 0.5) * 45
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 35
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 45
 
       sizes[i] = 1.0 + Math.random() * 3.0
       phases[i] = Math.random()
@@ -246,8 +273,9 @@ function CosmicDust({ count }) {
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
+      uScrollOffset: scrollUniforms?.uScrollOffset || { value: 0 },
     }),
-    []
+    [scrollUniforms]
   )
 
   useFrame(({ clock }) => {
@@ -841,7 +869,7 @@ function SceneRotator({ children, reducedMotion }) {
 // VOLCANIC ASH & EMBERS (Occult Crimson Drift Particles)
 // ─────────────────────────────────────────────────────────────────────
 
-function VolcanicAshEmbers({ count = 220 }) {
+function VolcanicAshEmbers({ count = 220, scrollUniforms }) {
   const materialRef = useRef()
   const { positions, sizes, phases, speeds } = useMemo(() => {
     const positions = new Float32Array(count * 3)
@@ -866,8 +894,10 @@ function VolcanicAshEmbers({ count = 220 }) {
     () => ({
       uTime: { value: 0 },
       uAudioBass: { value: 0 },
+      uScrollOffset: scrollUniforms?.uScrollOffset || { value: 0 },
+      uScrollSpeed: scrollUniforms?.uScrollSpeed || { value: 0 },
     }),
-    []
+    [scrollUniforms]
   )
 
   useFrame(({ clock }) => {
@@ -984,16 +1014,38 @@ function InnerScene() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches
   }, [])
 
+  const scrollUniforms = useMemo(
+    () => ({
+      uScrollOffset: { value: 0 },
+      uScrollSpeed: { value: 0 },
+    }),
+    []
+  )
+
+  const lastScrollY = useRef(0)
+  const scrollVelocity = useRef(0)
+
+  useFrame(() => {
+    const currentY = window.scrollY
+    const dy = currentY - lastScrollY.current
+    lastScrollY.current = currentY
+
+    // Smooth inertial dampening of scroll velocity
+    scrollVelocity.current += (dy * 0.08 - scrollVelocity.current) * 0.14
+    scrollUniforms.uScrollOffset.value = currentY * 0.035
+    scrollUniforms.uScrollSpeed.value = scrollVelocity.current
+  })
+
   return (
     <>
       <CinematicLighting />
       <CameraController reducedMotion={reducedMotion} />
 
       <SceneRotator reducedMotion={reducedMotion}>
-        <StarField count={Math.min(counts.stars, 1000)} />
-        <CosmicDust count={Math.min(counts.dust, 250)} />
-        <VolcanicAshEmbers count={180} />
-        <RedEnergyRifts count={5} />
+        <StarField count={Math.min(counts.stars, 800)} scrollUniforms={scrollUniforms} />
+        <CosmicDust count={Math.min(counts.dust, 180)} scrollUniforms={scrollUniforms} />
+        <VolcanicAshEmbers count={120} scrollUniforms={scrollUniforms} />
+        <RedEnergyRifts count={4} />
         <MetallicDebris count={counts.debris} />
         <OrbitalRings count={counts.rings} />
         <Nebula count={counts.nebula} />

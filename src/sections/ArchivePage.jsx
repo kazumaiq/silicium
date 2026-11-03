@@ -1,4 +1,4 @@
-// SILICIUM — 3D Archive Spatial Universe (No-Box Seamless Experience)
+// SILICIUM — 3D Archive Spatial Universe (No-Box Seamless Experience + Tactile Rail)
 import React, { useState, Suspense, useRef, useEffect, useCallback } from 'react'
 import { Canvas } from '@react-three/fiber'
 import ArchiveScene from '../scenes/ArchiveScene'
@@ -14,6 +14,7 @@ export default function ArchivePage() {
   const [resetTrigger, setResetTrigger] = useState(0)
   const [isInView, setIsInView] = useState(false)
   const containerRef = useRef(null)
+  const railRef = useRef(null)
 
   const playTrack = useStore((s) => s.playTrack)
   const currentTrack = useStore((s) => s.currentTrack)
@@ -21,7 +22,7 @@ export default function ArchivePage() {
   const language = useStore((s) => s.language)
   const setSelectedReleaseModal = useStore((s) => s.setSelectedReleaseModal)
 
-  // IntersectionObserver для экономии ресурсов GPU вне видимости
+  // IntersectionObserver для экономии ресурсов GPU вне видимости (60 FPS Mobile Target)
   useEffect(() => {
     if (!containerRef.current) return
     const observer = new IntersectionObserver(
@@ -32,7 +33,7 @@ export default function ArchivePage() {
           setExploreMode(false)
         }
       },
-      { rootMargin: '100px' }
+      { rootMargin: '120px' }
     )
     observer.observe(containerRef.current)
     return () => observer.disconnect()
@@ -44,6 +45,8 @@ export default function ArchivePage() {
   }, [])
 
   const handleResetCamera = useCallback(() => {
+    setSelectedRelease(null)
+    setPanelOpen(false)
     setResetTrigger((v) => v + 1)
   }, [])
 
@@ -51,7 +54,15 @@ export default function ArchivePage() {
     setExploreMode((prev) => !prev)
   }, [])
 
-  const isTouch = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+  // Автоскролл карточки в селекторе при выборе в 3D
+  useEffect(() => {
+    if (selectedRelease && railRef.current) {
+      const activeEl = railRef.current.querySelector(`[data-id="${selectedRelease.id}"]`)
+      if (activeEl) {
+        activeEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+      }
+    }
+  }, [selectedRelease])
 
   const t = {
     RU: {
@@ -59,9 +70,10 @@ export default function ArchivePage() {
       tag: 'ПРОСТРАНСТВЕННАЯ СЕТКА',
       title: '3D АРХИВ',
       subtitle: 'Бесшовная пространственная матрица артефактов SILICIUM. Исследуйте орбиты и нажимайте на артефакты для расшифровки.',
+      matrixLabel: 'СЕЛЕКТОР АРТЕФАКТОВ // ТАП ДЛЯ НАВЕДЕНИЯ КАМЕРЫ',
       exploreBtn: '⊕ ИССЛЕДОВАТЬ 3D-МАТРИЦУ',
       exitExploreBtn: '✕ ЗАВЕРШИТЬ ОБЗОР',
-      resetBtn: '↺ СБРОС КАМЕРЫ',
+      resetBtn: '↺ ОБЩИЙ ПЛАН',
       exploreActive: 'РЕЖИМ ОБЗОРА АКТИВЕН // СВАЙП ДЛЯ ВРАЩЕНИЯ • PINCH ДЛЯ ЗУМА',
       scrollFree: 'ТАП ПО АРТЕФАКТУ ДЛЯ РАСШИФРОВКИ • СКРОЛЛ РАБОТАЕТ СВОБОДНО',
       decrypted: 'РАСШИФРОВАННЫЙ АРТЕФАКТ',
@@ -74,9 +86,10 @@ export default function ArchivePage() {
       tag: 'SPATIAL MATRIX',
       title: '3D ARCHIVE',
       subtitle: 'Seamless spatial artifact matrix of SILICIUM. Explore orbits and tap artifacts to decrypt archive data.',
+      matrixLabel: 'ARTIFACT MATRIX // TAP TO LOCK CAMERA',
       exploreBtn: '⊕ EXPLORE 3D MATRIX',
       exitExploreBtn: '✕ EXIT 3D VIEW',
-      resetBtn: '↺ RESET CAMERA',
+      resetBtn: '↺ OVERVIEW',
       exploreActive: 'EXPLORE MODE ACTIVE // SWIPE TO ROTATE • PINCH TO ZOOM',
       scrollFree: 'TAP ARTIFACT TO DECRYPT • SCROLL FLOWS NATURALLY',
       decrypted: 'DECRYPTED ARTIFACT',
@@ -89,6 +102,7 @@ export default function ArchivePage() {
     tag: 'SPATIAL MATRIX',
     title: '3D ARCHIVE',
     subtitle: 'Seamless spatial artifact matrix of SILICIUM.',
+    matrixLabel: 'ARTIFACT MATRIX // TAP TO LOCK',
     exploreBtn: '⊕ EXPLORE 3D',
     exitExploreBtn: '✕ EXIT 3D',
     resetBtn: '↺ RESET',
@@ -102,7 +116,7 @@ export default function ArchivePage() {
 
   return (
     <div ref={containerRef} className={styles.archiveContainer}>
-      {/* Dynamic Background Red Glow Pulse */}
+      {/* Ambient Deep Red Glow Fissure Behind Scene */}
       <div className={styles.spatialGlowFissure} />
 
       {/* Header with Mode Switcher */}
@@ -126,8 +140,54 @@ export default function ArchivePage() {
             {exploreMode ? t.exitExploreBtn : t.exploreBtn}
           </button>
 
+          {selectedRelease && (
+            <button
+              onClick={handleResetCamera}
+              className={styles.resetViewBtn}
+              aria-label="Reset Camera to Overview"
+            >
+              {t.resetBtn}
+            </button>
+          )}
+
           <div className={styles.modeStatusBadge}>
             {exploreMode ? t.exploreActive : t.scrollFree}
+          </div>
+        </div>
+
+        {/* Tactile Quick Artifact Selector Rail (Bug-Free, Pleasant Mobile Controls) */}
+        <div className={styles.matrixRailSection}>
+          <div className={styles.matrixRailLabel}>{t.matrixLabel}</div>
+          <div ref={railRef} className={styles.artifactMatrixRail}>
+            {RELEASES.map((rel, idx) => {
+              const isSelected = selectedRelease?.id === rel.id
+              const indexFormatted = String(idx + 1).padStart(2, '0')
+
+              return (
+                <button
+                  key={rel.id}
+                  data-id={rel.id}
+                  onClick={() => handleSelectRelease(rel)}
+                  className={`${styles.matrixCard} ${isSelected ? styles.matrixCardActive : ''}`}
+                  aria-label={`Select ${rel.title}`}
+                >
+                  <span className={styles.matrixIndex}>{indexFormatted}</span>
+                  <div className={styles.matrixThumbBox}>
+                    <img
+                      src={rel.cover || '/images/demon-mask-blended.png'}
+                      alt={rel.title}
+                      className={styles.matrixThumb}
+                      loading="lazy"
+                    />
+                    {isSelected && <div className={styles.matrixActiveLaser} />}
+                  </div>
+                  <div className={styles.matrixMeta}>
+                    <span className={styles.matrixTitle}>{rel.title}</span>
+                    <span className={styles.matrixYear}>{rel.year}</span>
+                  </div>
+                </button>
+              )
+            })}
           </div>
         </div>
       </div>
@@ -136,9 +196,9 @@ export default function ArchivePage() {
       <div className={`${styles.canvasArena} ${exploreMode ? styles.canvasExplore : styles.canvasNormal}`}>
         {isInView ? (
           <Canvas
-            camera={{ position: [0, 4.8, 14], fov: 50 }}
+            camera={{ position: [0, 4.6, 14.5], fov: 50 }}
             gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-            dpr={[1, 1.5]}
+            dpr={[1, Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 1.5)]}
           >
             <Suspense fallback={null}>
               <ArchiveScene
