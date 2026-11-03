@@ -1,0 +1,115 @@
+.footer {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  background: #020202;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: var(--space-3xl) var(--space-xl) calc(var(--space-4xl) + 20px);
+}
+
+.inner {
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.brandBox {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logoText {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--white);
+}
+
+.tagline {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--red-crimson);
+  letter-spacing: 0.2em;
+}
+
+.returnBtn {
+  background: rgba(14, 14, 14, 0.8);
+  border: 1px solid var(--gray-800);
+  border-left: 2px solid var(--red-crimson);
+  color: var(--silver);
+  padding: 8px 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.returnBtn:hover {
+  border-color: var(--red-crimson);
+  background: var(--red-blood);
+  color: var(--white);
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1) 20%, rgba(220, 20, 60, 0.4) 50%, rgba(255, 255, 255, 0.1) 80%, transparent);
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--silver-dark);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.links a {
+  color: var(--silver);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  transition: color var(--duration-fast);
+}
+
+.links a:hover {
+  color: var(--red-crimson);
+}
+
+.dot {
+  color: var(--gray-800);
+}
+
+@media (max-width: 600px) {
+  .footer {
+    padding: var(--space-2xl) var(--space-md) calc(var(--space-4xl) + 40px);
+  }
+
+  .bottomRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

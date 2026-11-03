@@ -1,6 +1,8 @@
-// SILICIUM — Community & Network Node
+// SILICIUM — Community Section (Occult Communion & Network Nodes)
 import React, { useState } from 'react'
 import { ARTIST } from '../data/config'
+import { useStore } from '../data/store'
+import SectionHeader from '../components/SectionHeader'
 import styles from './CommunityPage.module.css'
 
 export default function CommunityPage() {
@@ -8,6 +10,7 @@ export default function CommunityPage() {
   const [subscribed, setSubscribed] = useState(false)
   const [message, setMessage] = useState({ name: '', text: '' })
   const [sent, setSent] = useState(false)
+  const language = useStore((s) => s.language)
 
   const handleSubscribe = (e) => {
     e.preventDefault()
@@ -21,24 +24,92 @@ export default function CommunityPage() {
     setSent(true)
   }
 
+  const t = {
+    RU: {
+      code: '// 05 //',
+      tag: 'ТЕМНЫЙ УЗЕЛ СВЯЗИ',
+      title: 'СООБЩЕСТВО',
+      subtitle: 'Прямое подключение к подпольной сети вещания SILICIUM. Эксклюзивные дропы, неизданные стемы и закрытые частоты.',
+      telegramVector: 'ОСНОВНОЙ ВЕКТОР ВЕЩАНИЯ',
+      telegramTitle: 'TELEGRAM КАНАЛ',
+      telegramDesc: 'Вступайте во внутренний круг. Эксклюзивные треки, сырые семплы, тяжелый 808-дисторшн и закрытые релизы.',
+      enterTelegram: 'ВОЙТИ В АРХИВ TELEGRAM',
+      vkTitle: 'VK СООБЩЕСТВО',
+      vkDesc: 'Официальная группа и карточка артиста в экосистеме VK.',
+      openVk: 'ОТКРЫТЬ VK',
+      dispatchTitle: 'ПЕРЕДАТЬ ЧАСТОТНЫЙ СИГНАЛ',
+      dispatchDesc: 'Прямая форма связи с архивом. Вопросы по коллаборациям, мастерингу и букингу.',
+      namePlaceholder: 'ВАШЕ ИМЯ // ПОЗЫВНОЙ',
+      msgPlaceholder: 'ТЕКСТ СИГНАЛА...',
+      transmitBtn: 'ОТПРАВИТЬ СИГНАЛ',
+      signalSent: '✓ СИГНАЛ УСПЕШНО ПРИНЯТ В АРХИВ',
+      subscribeTitle: 'РАССЫЛКА НОВЫХ ЧАСТОТ',
+      emailPlaceholder: 'ВАШ EMAIL...',
+      subBtn: 'ПОДПИСАТЬСЯ',
+      subSuccess: '✓ ТЕРМИНАЛ АВТОРИЗОВАН',
+    },
+    EN: {
+      code: '// 05 //',
+      tag: 'DARK NETWORK NODE',
+      title: 'COMMUNITY',
+      subtitle: 'Direct connection to the underground frequency network. Exclusive stem releases, raw snippets and classified drops.',
+      telegramVector: 'PRIMARY BROADCAST VECTOR',
+      telegramTitle: 'TELEGRAM CHANNEL',
+      telegramDesc: 'Join the inner circle. Exclusive raw stems, unreleased snippets, dark phonk drops, and esoteric transmissions.',
+      enterTelegram: 'ENTER TELEGRAM ARCHIVE',
+      vkTitle: 'VK COMMUNITY',
+      vkDesc: 'Official group and artist profile within the VK audio ecosystem.',
+      openVk: 'OPEN VK NODE',
+      dispatchTitle: 'TRANSMIT FREQUENCY SIGNAL',
+      dispatchDesc: 'Direct communication terminal. Collaborations, inquiries, stems and booking requests.',
+      namePlaceholder: 'NAME // CALLSIGN',
+      msgPlaceholder: 'TRANSMISSION TEXT...',
+      transmitBtn: 'TRANSMIT SIGNAL',
+      signalSent: '✓ SIGNAL LOGGED INTO ARCHIVE',
+      subscribeTitle: 'FREQUENCY DISPATCH SUBSCRIPTION',
+      emailPlaceholder: 'ENTER EMAIL ADDRESS...',
+      subBtn: 'AUTHORIZE',
+      subSuccess: '✓ TERMINAL SUBSCRIBED',
+    },
+  }[language] || {
+    code: '// 05 //',
+    tag: 'DARK NETWORK NODE',
+    title: 'COMMUNITY',
+    subtitle: 'Direct connection to the underground frequency network.',
+    telegramVector: 'PRIMARY BROADCAST VECTOR',
+    telegramTitle: 'TELEGRAM CHANNEL',
+    telegramDesc: 'Join the inner circle. Exclusive raw stems, unreleased snippets, dark phonk drops.',
+    enterTelegram: 'ENTER TELEGRAM ARCHIVE',
+    vkTitle: 'VK COMMUNITY',
+    vkDesc: 'Official group and artist profile within the VK audio ecosystem.',
+    openVk: 'OPEN VK NODE',
+    dispatchTitle: 'TRANSMIT FREQUENCY SIGNAL',
+    dispatchDesc: 'Direct communication terminal.',
+    namePlaceholder: 'NAME // CALLSIGN',
+    msgPlaceholder: 'TRANSMISSION TEXT...',
+    transmitBtn: 'TRANSMIT SIGNAL',
+    signalSent: '✓ SIGNAL LOGGED',
+    subscribeTitle: 'FREQUENCY DISPATCH SUBSCRIPTION',
+    emailPlaceholder: 'ENTER EMAIL ADDRESS...',
+    subBtn: 'AUTHORIZE',
+    subSuccess: '✓ TERMINAL SUBSCRIBED',
+  }
+
   return (
     <div className={styles.communityContainer}>
-      <div className={styles.headerArea}>
-        <span className={styles.metaLabel}>// 05 // OCCULT COMMUNION</span>
-        <h1 className={styles.pageTitle}>COMMUNITY & NODES</h1>
-        <p className={styles.subtitle}>
-          Direct connection to the underground frequency network.
-        </p>
-      </div>
+      <SectionHeader
+        code={t.code}
+        tag={t.tag}
+        title={t.title}
+        subtitle={t.subtitle}
+      />
 
       <div className={styles.grid}>
         {/* Main Telegram Portal Card */}
         <div className={styles.telegramCard}>
-          <div className={styles.telegramBadge}>PRIMARY BROADCAST VECTOR</div>
-          <h2 className={styles.telegramTitle}>TELEGRAM CHANNEL</h2>
-          <p className={styles.telegramDesc}>
-            Join the inner circle. Exclusive raw stems, unreleased snippets, dark phonk drops, and esoteric transmissions.
-          </p>
+          <div className={styles.telegramBadge}>{t.telegramVector}</div>
+          <h3 className={styles.telegramTitle}>{t.telegramTitle}</h3>
+          <p className={styles.telegramDesc}>{t.telegramDesc}</p>
 
           <a
             href={ARTIST.telegram}
@@ -46,7 +117,7 @@ export default function CommunityPage() {
             rel="noreferrer"
             className={styles.telegramBtn}
           >
-            <span>ENTER TELEGRAM ARCHIVE</span>
+            <span>{t.enterTelegram}</span>
             <span className={styles.btnArrow}>↗</span>
           </a>
 
@@ -58,89 +129,66 @@ export default function CommunityPage() {
         </div>
 
         {/* Transmission Dispatch / Feedback Form */}
-        <div className={styles.dispatchBox}>
-          <div className={styles.boxHeader}>
-            <span>TRANSMIT DISPATCH</span>
-            <span className={styles.freqTag}>FREQ // 05.2</span>
-          </div>
+        <div className={styles.dispatchCard}>
+          <h3 className={styles.dispatchTitle}>{t.dispatchTitle}</h3>
+          <p className={styles.dispatchDesc}>{t.dispatchDesc}</p>
 
           {sent ? (
             <div className={styles.successBox}>
-              <div className={styles.successIcon}>✓</div>
-              <h3>TRANSMISSION ENCRYPTED & SENT</h3>
-              <p>Your message has been deposited into the SILICIUM vault.</p>
-              <button
-                onClick={() => {
-                  setSent(false)
-                  setMessage({ name: '', text: '' })
-                }}
-                className={styles.resetBtn}
-              >
-                TRANSMIT ANOTHER
-              </button>
+              <span>{t.signalSent}</span>
             </div>
           ) : (
             <form onSubmit={handleSendMessage} className={styles.form}>
-              <div className={styles.formGroup}>
-                <label className={styles.label}>IDENTITY / CALLSIGN</label>
-                <input
-                  type="text"
-                  placeholder="Anonymous Operator"
-                  value={message.name}
-                  onChange={(e) => setMessage({ ...message, name: e.target.value })}
-                  className={styles.input}
-                />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label className={styles.label}>FREQUENCY MESSAGE</label>
-                <textarea
-                  rows="4"
-                  placeholder="Enter your coordinates or message..."
-                  value={message.text}
-                  onChange={(e) => setMessage({ ...message, text: e.target.value })}
-                  className={styles.textarea}
-                  required
-                />
-              </div>
-
-              <button type="submit" className={styles.submitBtn}>
-                SEND TO ARCHIVE ↗
-              </button>
-            </form>
-          )}
-        </div>
-
-        {/* Newsletter / Frequency Uplink */}
-        <div className={styles.newsletterBox}>
-          <div className={styles.boxHeader}>
-            <span>DIRECT UPLINK</span>
-            <span className={styles.freqTag}>SUBSCRIPTION</span>
-          </div>
-
-          <p className={styles.newsletterDesc}>
-            Subscribe for immediate notices when new spatial artifacts or vinyl releases materialize.
-          </p>
-
-          {subscribed ? (
-            <div className={styles.subscribedMsg}>
-              SIGNAL LOCKED. YOU WILL RECEIVE OCCULT NOTIFICATIONS.
-            </div>
-          ) : (
-            <form onSubmit={handleSubscribe} className={styles.subscribeForm}>
               <input
-                type="email"
-                placeholder="OPERATOR_EMAIL@VOID.NET"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={styles.emailInput}
+                type="text"
+                placeholder={t.namePlaceholder}
+                value={message.name}
+                onChange={(e) => setMessage({ ...message, name: e.target.value })}
+                className={styles.inputField}
                 required
               />
-              <button type="submit" className={styles.subBtn}>
-                LOCK IN
+              <textarea
+                placeholder={t.msgPlaceholder}
+                value={message.text}
+                onChange={(e) => setMessage({ ...message, text: e.target.value })}
+                className={styles.textareaField}
+                rows={3}
+                required
+              />
+              <button type="submit" className={styles.submitBtn}>
+                {t.transmitBtn} →
               </button>
             </form>
           )}
+
+          {/* Secondary Hubs (VK & SoundCloud) */}
+          <div className={styles.secondaryHubs}>
+            <a
+              href={ARTIST.vkGroup}
+              target="_blank"
+              rel="noreferrer"
+              className={styles.subHubCard}
+            >
+              <div className={styles.subHubMeta}>
+                <span className={styles.subHubName}>{t.vkTitle}</span>
+                <span className={styles.subHubHandle}>@prod.sillicium</span>
+              </div>
+              <span className={styles.hubArrow}>↗</span>
+            </a>
+
+            <a
+              href={ARTIST.soundcloud}
+              target="_blank"
+              rel="noreferrer"
+              className={styles.subHubCard}
+            >
+              <div className={styles.subHubMeta}>
+                <span className={styles.subHubName}>SOUNDCLOUD</span>
+                <span className={styles.subHubHandle}>sillic1um</span>
+              </div>
+              <span className={styles.hubArrow}>↗</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>

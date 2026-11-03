@@ -1,122 +1,87 @@
 .platformsContainer {
-  max-width: 1100px;
+  max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
-  padding: calc(var(--header-height) + var(--space-3xl)) var(--space-xl) var(--space-4xl);
-  min-height: 100vh;
-}
-
-.headerArea {
-  margin-bottom: var(--space-3xl);
-}
-
-.metaLabel {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--red-crimson);
-  letter-spacing: 0.2em;
-}
-
-.pageTitle {
-  font-family: var(--font-mono);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: var(--white);
-  margin-bottom: var(--space-xs);
-}
-
-.subtitle {
-  color: var(--silver-dark);
-  font-size: var(--text-sm);
-  letter-spacing: 0.1em;
+  padding: var(--space-3xl) var(--space-xl) var(--space-4xl);
+  position: relative;
 }
 
 .platformsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--space-lg);
-  margin-bottom: var(--space-3xl);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
 }
 
 .platformCard {
+  background: rgba(8, 8, 8, 0.8);
+  border: 1px solid var(--gray-800);
+  border-left: 2px solid var(--red-crimson);
+  padding: var(--space-lg);
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
-  background: rgba(10, 10, 10, 0.75);
-  border: 1px solid var(--gray-800);
-  padding: var(--space-xl);
-  backdrop-filter: blur(10px);
-  transition: all var(--duration-normal) var(--ease-out);
-  position: relative;
-  overflow: hidden;
-}
-
-.platformCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--red-crimson);
-  opacity: 0;
-  transition: opacity var(--duration-fast);
+  gap: var(--space-md);
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all var(--duration-fast);
 }
 
 .platformCard:hover {
-  border-color: var(--red-blood);
-  transform: translateY(-4px);
-  background: rgba(20, 10, 10, 0.8);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(139, 0, 0, 0.2);
-}
-
-.platformCard:hover::before {
-  opacity: 1;
+  border-color: var(--red-crimson);
+  background: rgba(25, 5, 8, 0.85);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7), 0 0 15px rgba(220, 20, 60, 0.3);
 }
 
 .iconCircle {
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.8);
-  border: 1px solid var(--gray-700);
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--gray-800);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--text-lg);
-  color: var(--white);
-  transition: border-color var(--duration-fast);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--red-crimson);
+  flex-shrink: 0;
+  transition: all var(--duration-fast);
 }
 
 .platformCard:hover .iconCircle {
+  background: var(--red-blood);
+  color: var(--white);
   border-color: var(--red-crimson);
-  color: var(--red-crimson);
 }
 
 .cardInfo {
   flex: 1;
+  min-width: 0;
 }
 
 .platformName {
   font-family: var(--font-mono);
-  font-size: var(--text-lg);
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.1em;
   color: var(--white);
+  letter-spacing: 0.1em;
   margin-bottom: 2px;
 }
 
 .channelCode {
   font-family: var(--font-mono);
-  font-size: var(--text-xs);
+  font-size: 9px;
   color: var(--silver-dark);
   letter-spacing: 0.15em;
 }
 
 .arrowBox {
-  font-size: var(--text-md);
   color: var(--silver-dark);
-  transition: all var(--duration-fast);
+  font-size: 16px;
+  transition: transform var(--duration-fast);
 }
 
 .platformCard:hover .arrowBox {
@@ -125,27 +90,30 @@
 }
 
 .notesBox {
-  background: rgba(8, 8, 8, 0.6);
-  border: 1px dashed var(--gray-900);
-  padding: var(--space-lg);
-}
-
-.notesHeader {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  color: var(--red-crimson);
-  letter-spacing: 0.15em;
-  margin-bottom: var(--space-xs);
-}
-
-.notesBox p {
-  font-size: var(--text-xs);
+  background: rgba(12, 12, 12, 0.7);
+  border: 1px solid var(--gray-900);
+  padding: var(--space-md) var(--space-lg);
+  font-size: 11px;
   color: var(--silver-dark);
   line-height: 1.6;
 }
 
-.notesBox code {
-  color: var(--silver);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 2px 4px;
+.notesHeader {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--red-crimson);
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+@media (max-width: 600px) {
+  .platformsContainer {
+    padding: var(--space-xl) var(--space-sm) var(--space-4xl);
+  }
+
+  .platformsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
 }

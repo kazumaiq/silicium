@@ -1,0 +1,316 @@
+/* SILICIUM — Release Modal Overlay */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #080808;
+  border: 1px solid var(--gray-800);
+  border-top: 2px solid var(--red-crimson);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(220, 20, 60, 0.25);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--gray-900);
+  background: rgba(12, 12, 12, 0.95);
+}
+
+.codeCluster {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.redBadge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--red-crimson);
+  letter-spacing: 0.2em;
+}
+
+.codeText {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--silver-dark);
+  letter-spacing: 0.15em;
+}
+
+.closeBtn {
+  background: none;
+  border: 1px solid var(--gray-800);
+  color: var(--silver);
+  font-size: 14px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.closeBtn:hover {
+  border-color: var(--red-crimson);
+  color: var(--white);
+  background: var(--red-blood);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: var(--space-xl);
+  padding: var(--space-xl);
+}
+
+/* Cover Side */
+.coverSide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.coverFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: #000;
+  border: 1px solid var(--gray-900);
+  overflow: hidden;
+}
+
+.coverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.15);
+}
+
+.cornerTL, .cornerTR, .cornerBL, .cornerBR {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--red-crimson);
+  pointer-events: none;
+}
+
+.cornerTL { top: 6px; left: 6px; border-top: 1.5px solid; border-left: 1.5px solid; }
+.cornerTR { top: 6px; right: 6px; border-top: 1.5px solid; border-right: 1.5px solid; }
+.cornerBL { bottom: 6px; left: 6px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
+.cornerBR { bottom: 6px; right: 6px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+
+.techParams {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--gray-900);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.paramRow {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--silver-dark);
+}
+
+.paramVal {
+  color: var(--white);
+}
+
+/* Info Side */
+.infoSide {
+  display: flex;
+  flex-direction: column;
+}
+
+.typeBadgeRow {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.typeTag {
+  background: var(--red-blood);
+  color: var(--white);
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.yearTag {
+  border: 1px solid var(--gray-800);
+  color: var(--silver);
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.releaseTitle {
+  font-family: var(--font-mono);
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--white);
+  margin: var(--space-xs) 0 2px;
+}
+
+.artistLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--silver-dark);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--space-md);
+}
+
+.description {
+  font-size: 13px;
+  color: var(--silver);
+  line-height: 1.6;
+  margin-bottom: var(--space-lg);
+}
+
+.trackSequenceBlock {
+  margin-bottom: var(--space-lg);
+}
+
+.trackHeading {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--red-crimson);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--space-xs);
+}
+
+.trackList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.trackItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 8px 12px;
+  background: rgba(16, 16, 16, 0.7);
+  border: 1px solid var(--gray-900);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.trackItem:hover {
+  border-color: var(--red-crimson);
+  background: rgba(30, 8, 12, 0.6);
+}
+
+.trackItemActive {
+  border-color: var(--red-crimson);
+  background: rgba(40, 10, 15, 0.85);
+}
+
+.trackNum {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--silver-dark);
+}
+
+.trackPlayBtn {
+  background: none;
+  border: none;
+  color: var(--red-crimson);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.trackTitle {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--white);
+}
+
+.trackDuration {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--silver-dark);
+}
+
+.platformsRow {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: auto;
+}
+
+.platformLinkBtn {
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--gray-800);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-decoration: none;
+  transition: all var(--duration-fast);
+}
+
+.platformLinkBtn:hover {
+  border-color: var(--red-crimson);
+  background: var(--red-blood);
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    padding: var(--space-md);
+  }
+
+  .coverFrame {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+}

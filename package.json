@@ -26,6 +26,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "jpeg-js": "^0.4.4",
     "pngjs": "^7.0.0",
+    "puppeteer-core": "^24.43.1",
     "vite": "^6.0.3"
   }
 }

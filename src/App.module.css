@@ -167,6 +167,18 @@
   left: 0;
   width: 100%;
   z-index: var(--z-player);
+  animation: slideUpPlayer 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpPlayer {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .playerContainer {
+    bottom: 54px; /* Над мобильным доком */
+  }
 }
 
 /* Header container */
@@ -174,7 +186,10 @@
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   z-index: var(--z-header);
 }
 

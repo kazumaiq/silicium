@@ -1,27 +1,59 @@
-// SILICIUM — Music Platforms Matrix
+// SILICIUM — Music Platforms Matrix Section
 import React from 'react'
 import { PLATFORMS } from '../data/config'
+import { useStore } from '../data/store'
+import SectionHeader from '../components/SectionHeader'
 import styles from './PlatformsPage.module.css'
 
 export default function PlatformsPage() {
+  const language = useStore((s) => s.language)
+
   const platformIcons = {
     spotify: '♫',
     appleMusic: '',
     youtube: '▶',
-    youtubeMusic: '▷',
     vkMusic: 'VK',
     yandexMusic: 'Я',
+    soundcloud: '◆',
+  }
+
+  const t = {
+    RU: {
+      code: '// 06 //',
+      tag: 'РАСПРОСТРАНЕНИЕ ЗВУКА',
+      title: 'ПЛАТФОРМЫ',
+      subtitle: 'Официальные цифровые каналы и стриминговые узлы артиста SILICIUM в глобальных сетях.',
+      stream: 'СТРИМИНГ //',
+      noticeTitle: 'ПАРАМЕТРЫ СТРИМИНГА',
+      noticeText: 'Все релизы закодированы в формате высокого разрешения (Lossless FLAC Master). Прямой доступ к официальным аудиопотокам.',
+    },
+    EN: {
+      code: '// 06 //',
+      tag: 'SONIC DISTRIBUTION',
+      title: 'PLATFORMS',
+      subtitle: 'Official digital streaming hubs and distribution vectors across global audio networks.',
+      stream: 'STREAM //',
+      noticeTitle: 'STREAMING PARAMETERS',
+      noticeText: 'All frequencies feature high-resolution master audio encoding (Lossless FLAC Master stems). Direct connection to verified nodes.',
+    },
+  }[language] || {
+    code: '// 06 //',
+    tag: 'SONIC DISTRIBUTION',
+    title: 'PLATFORMS',
+    subtitle: 'Official digital channels and streaming hubs across global networks.',
+    stream: 'STREAM //',
+    noticeTitle: 'STREAMING PARAMETERS',
+    noticeText: 'All frequencies feature high-resolution master stems.',
   }
 
   return (
     <div className={styles.platformsContainer}>
-      <div className={styles.headerArea}>
-        <span className={styles.metaLabel}>// 06 // SONIC DISTRIBUTION</span>
-        <h1 className={styles.pageTitle}>PLATFORMS</h1>
-        <p className={styles.subtitle}>
-          Official digital channels and streaming hubs across global networks.
-        </p>
-      </div>
+      <SectionHeader
+        code={t.code}
+        tag={t.tag}
+        title={t.title}
+        subtitle={t.subtitle}
+      />
 
       <div className={styles.platformsGrid}>
         {Object.entries(PLATFORMS).map(([key, item]) => (
@@ -31,15 +63,16 @@ export default function PlatformsPage() {
             target="_blank"
             rel="noreferrer"
             className={styles.platformCard}
+            aria-label={`Open ${item.name}`}
           >
             <div className={styles.iconCircle}>
               <span>{platformIcons[key] || '◆'}</span>
             </div>
 
             <div className={styles.cardInfo}>
-              <h2 className={styles.platformName}>{item.name}</h2>
+              <h3 className={styles.platformName}>{item.name}</h3>
               <span className={styles.channelCode}>
-                STREAM // {key.toUpperCase()}
+                {t.stream} {key.toUpperCase()}
               </span>
             </div>
 
@@ -52,11 +85,9 @@ export default function PlatformsPage() {
 
       <div className={styles.notesBox}>
         <div className={styles.notesHeader}>
-          <span>CONFIGURATION NOTICE</span>
+          <span>{t.noticeTitle}</span>
         </div>
-        <p>
-          Coordinates can be redirected via <code>src/data/config.js</code>. All streams feature lossless master stems and certified metadata verification.
-        </p>
+        <p>{t.noticeText}</p>
       </div>
     </div>
   )

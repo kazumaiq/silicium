@@ -1,30 +1,20 @@
-// SILICIUM — Main Application Component
-import React, { Suspense, lazy, useEffect, useRef, useState, useCallback } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { Canvas } from '@react-three/fiber'
+// SILICIUM — Unified Seamless Application Root
+import React, { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useStore } from './data/store'
 import styles from './App.module.css'
 
-// ——— Core components (Immediate Load) ———
+// ——— Core Immediate Components ———
 import HomePage from './sections/HomePage'
 import Header from './components/Header'
 import LoadingScreen from './components/LoadingScreen'
 
-// ——— Lazy-loaded secondary pages ———
-const DiscographyPage = lazy(() => import('./sections/DiscographyPage'))
+// ——— Lazy Deep-Link Routes ———
 const ReleasePage = lazy(() => import('./sections/ReleasePage'))
-const ArchivePage = lazy(() => import('./sections/ArchivePage'))
-const AboutPage = lazy(() => import('./sections/AboutPage'))
-const CommunityPage = lazy(() => import('./sections/CommunityPage'))
-const PlatformsPage = lazy(() => import('./sections/PlatformsPage'))
-
-// ——— Lazy-loaded heavy components ———
 const CosmicScene = lazy(() => import('./scenes/CosmicScene'))
 const MusicPlayer = lazy(() => import('./player/MusicPlayer'))
 
-// ——————————————————————————————————————
-// Suspense fallback — minimal spinner
-// ——————————————————————————————————————
+// Suspense Fallback
 function SuspenseFallback() {
   return (
     <div className={styles.suspenseFallback}>
@@ -33,9 +23,7 @@ function SuspenseFallback() {
   )
 }
 
-// ——————————————————————————————————————
-// Custom Cursor (desktop only)
-// ——————————————————————————————————————
+// Custom Cursor (Desktop Only)
 function CustomCursor() {
   const dotRef = useRef(null)
   const ringRef = useRef(null)
@@ -43,7 +31,6 @@ function CustomCursor() {
   const [isTouch, setIsTouch] = useState(false)
 
   useEffect(() => {
-    // Detect touch device
     const touchCheck = window.matchMedia('(pointer: coarse)')
     setIsTouch(touchCheck.matches)
 
@@ -66,10 +53,8 @@ function CustomCursor() {
     }
 
     const animate = () => {
-      // Dot follows mouse tightly
       dotX += (mouseX - dotX) * 0.9
       dotY += (mouseY - dotY) * 0.9
-      // Ring lags behind for fluid feel
       ringX += (mouseX - ringX) * 0.15
       ringY += (mouseY - ringY) * 0.15
 
@@ -112,37 +97,7 @@ function CustomCursor() {
   )
 }
 
-// ——————————————————————————————————————
-// Route change listener — update store
-// ——————————————————————————————————————
-function RouteListener() {
-  const location = useLocation()
-  const setCurrentSection = useStore((s) => s.setCurrentSection)
-  const setMenuOpen = useStore((s) => s.setMenuOpen)
-
-  useEffect(() => {
-    // Map pathname to section id
-    const path = location.pathname
-    let section = 'home'
-    if (path.startsWith('/discography')) section = 'discography'
-    else if (path.startsWith('/archive')) section = 'archive'
-    else if (path.startsWith('/about')) section = 'about'
-    else if (path.startsWith('/community')) section = 'community'
-    else if (path.startsWith('/platforms')) section = 'platforms'
-
-    setCurrentSection(section)
-    setMenuOpen(false)
-
-    // Scroll to top on route change
-    window.scrollTo(0, 0)
-  }, [location.pathname, setCurrentSection, setMenuOpen])
-
-  return null
-}
-
-// ——————————————————————————————————————
-// 3D Scene Wrapper
-// ——————————————————————————————————————
+// 3D Cosmic Background
 function SceneBackground() {
   return (
     <div className={styles.sceneContainer}>
@@ -153,36 +108,18 @@ function SceneBackground() {
   )
 }
 
-// ——————————————————————————————————————
-// App Routes
-// ——————————————————————————————————————
-function AppRoutes() {
-  return (
-    <div className={styles.pageWrapper}>
-      <Suspense fallback={<SuspenseFallback />}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/discography" element={<DiscographyPage />} />
-          <Route path="/discography/:id" element={<ReleasePage />} />
-          <Route path="/archive" element={<ArchivePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route path="/platforms" element={<PlatformsPage />} />
-        </Routes>
-      </Suspense>
-    </div>
-  )
-}
-
-// ——————————————————————————————————————
-// Bottom Global Player Wrapper (active on secondary pages or mobile)
-// ——————————————————————————————————————
-function GlobalPlayer() {
+// Global Bottom Music Player (Active when scrolled past hero or on deep links)
+function GlobalBottomPlayer() {
   const currentTrack = useStore((s) => s.currentTrack)
+  const currentSection = useStore((s) => s.currentSection)
   const location = useLocation()
 
-  // On home page, player is integrated into right column; on other pages, it is fixed at bottom
-  if (!currentTrack || location.pathname === '/') return null
+  // Показываем плеер везде, кроме первого экрана Hero, чтобы не дублировать встроенный плеер
+  const shouldShow =
+    currentTrack &&
+    (location.pathname !== '/' || currentSection !== 'home')
+
+  if (!shouldShow) return null
 
   return (
     <div className={styles.playerContainer}>
@@ -193,38 +130,47 @@ function GlobalPlayer() {
   )
 }
 
-// ——————————————————————————————————————
-// Main App
-// ——————————————————————————————————————
 export default function App() {
   return (
     <BrowserRouter>
       <div className={styles.app}>
-        {/* Persistent 3D cosmic background — z-index: 0 */}
+        {/* Persistent 3D Cosmic Background */}
         <SceneBackground />
 
-        {/* Loading / Cinematic Intro overlay */}
+        {/* Loading / Cinematic Intro Overlay */}
         <LoadingScreen />
 
-        {/* Custom cursor — desktop only, highest z-index */}
+        {/* Custom Cursor */}
         <CustomCursor />
 
-        {/* Content layer — z-index: 10 (scrolls over 3D scene) */}
-        <div className={styles.contentLayer}>
-          {/* Fixed header — z-index: 100 */}
-          <div className={styles.headerContainer}>
-            <Header />
-          </div>
+        {/* Fixed Header */}
+        <Header />
 
-          {/* Route listener for store sync */}
-          <RouteListener />
+        {/* Main Content Stream */}
+        <main className={styles.contentLayer}>
+          <Suspense fallback={<SuspenseFallback />}>
+            <Routes>
+              {/* Главный непрерывный скролл-поток всех 6 разделов */}
+              <Route path="/" element={<HomePage />} />
 
-          {/* Page routes */}
-          <AppRoutes />
-        </div>
+              {/* Детальная страница релиза для глубоких ссылок */}
+              <Route path="/discography/:id" element={<ReleasePage />} />
 
-        {/* Music player — fixed at bottom on secondary pages */}
-        <GlobalPlayer />
+              {/* Редиректы со старых роутов к секциям единой страницы */}
+              <Route path="/discography" element={<Navigate to="/#discography" replace />} />
+              <Route path="/archive" element={<Navigate to="/#archive" replace />} />
+              <Route path="/about" element={<Navigate to="/#about" replace />} />
+              <Route path="/community" element={<Navigate to="/#community" replace />} />
+              <Route path="/platforms" element={<Navigate to="/#platforms" replace />} />
+
+              {/* Fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
+        </main>
+
+        {/* Global Bottom Audio Player */}
+        <GlobalBottomPlayer />
       </div>
     </BrowserRouter>
   )

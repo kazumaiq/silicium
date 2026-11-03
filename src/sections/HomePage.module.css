@@ -1,17 +1,13 @@
-/* SILICIUM — Exact Concept Mockup Layout Styling */
+/* SILICIUM — Seamless Continuous Scroll Layout & Mockup Styling */
 
-.mockupContainer {
+.seamlessContainer {
   position: relative;
   width: 100%;
-  height: 100vh;
-  max-height: 100vh;
-  padding-top: 54px;
-  padding-bottom: 12px;
+  min-height: 100vh;
   background-color: #030303;
-  overflow: hidden;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 /* ───────────────────────────────────────────────────────────── */
@@ -21,7 +17,7 @@
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 35%, rgba(60, 0, 8, 0.5) 0%, rgba(10, 0, 2, 0.7) 45%, rgba(3, 3, 3, 0.98) 80%),
+    radial-gradient(circle at 50% 35%, rgba(60, 0, 8, 0.45) 0%, rgba(10, 0, 2, 0.65) 45%, rgba(3, 3, 3, 0.98) 80%),
     linear-gradient(135deg, rgba(20, 20, 20, 0.6) 0%, rgba(5, 5, 5, 0.9) 100%);
   pointer-events: none;
   z-index: 0;
@@ -30,7 +26,7 @@
 .smokeLayer {
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 40%, rgba(255, 0, 34, 0.12) 0%, transparent 65%);
+  background: radial-gradient(ellipse at 50% 40%, rgba(255, 0, 34, 0.1) 0%, transparent 65%);
   filter: blur(40px);
   pointer-events: none;
   z-index: 1;
@@ -59,8 +55,8 @@
   top: 15%;
   left: 50%;
   transform: translateX(-50%);
-  width: 600px;
-  height: 600px;
+  width: min(600px, 90vw);
+  height: min(600px, 90vw);
   border-radius: 50%;
   background: radial-gradient(circle, rgba(220, 20, 60, 0.28) 0%, rgba(139, 0, 0, 0.15) 45%, transparent 70%);
   filter: blur(50px);
@@ -71,35 +67,46 @@
 /* Угловые металлические скобы */
 .cornerBracketTL, .cornerBracketTR, .cornerBracketBL, .cornerBracketBR {
   position: fixed;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   pointer-events: none;
   z-index: 15;
-  border-color: rgba(220, 20, 60, 0.6);
+  border-color: rgba(220, 20, 60, 0.5);
 }
 
-.cornerBracketTL { top: 62px; left: 16px; border-top: 2px solid; border-left: 2px solid; }
-.cornerBracketTR { top: 62px; right: 16px; border-top: 2px solid; border-right: 2px solid; }
+.cornerBracketTL { top: 60px; left: 16px; border-top: 2px solid; border-left: 2px solid; }
+.cornerBracketTR { top: 60px; right: 16px; border-top: 2px solid; border-right: 2px solid; }
 .cornerBracketBL { bottom: 16px; left: 16px; border-bottom: 2px solid; border-left: 2px solid; }
 .cornerBracketBR { bottom: 16px; right: 16px; border-bottom: 2px solid; border-right: 2px solid; }
 
-/* Вертикальные цепи / декоративные металлические риски */
+/* Вертикальные цепи / световые направляющие */
 .leftChainDecoration, .rightChainDecoration {
   position: fixed;
-  top: 120px;
-  bottom: 120px;
+  top: 80px;
+  bottom: 80px;
   width: 1px;
-  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.1) 20%, rgba(220, 20, 60, 0.4) 50%, rgba(255, 255, 255, 0.1) 80%, transparent);
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.1) 20%, rgba(220, 20, 60, 0.3) 50%, rgba(255, 255, 255, 0.1) 80%, transparent);
   pointer-events: none;
   z-index: 10;
 }
 
-.leftChainDecoration { left: 32px; }
-.rightChainDecoration { right: 32px; }
+.leftChainDecoration { left: 24px; }
+.rightChainDecoration { right: 24px; }
 
 /* ───────────────────────────────────────────────────────────── */
-/* СЕТКА ГЛАВНОГО ЭКРАНА (Left Column / Center / Right Column)   */
+/* 01 // СЕКЦИЯ HOME (HERO FIRST SCREEN)                         */
 /* ───────────────────────────────────────────────────────────── */
+.homeSection {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 54px);
+  padding-top: 54px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .mainStageGrid {
   position: relative;
   z-index: 10;
@@ -114,7 +121,7 @@
   min-height: 0;
 }
 
-/* ЛЕВАЯ ЧАСТЬ: МУЗЫКАЛЬНЫЕ НАПРАВЛЕНИЯ */
+/* Левая часть: Музыкальные направления */
 .leftGenresBlock {
   display: flex;
   flex-direction: column;
@@ -160,9 +167,7 @@
   padding-left: 8px;
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/* ЦЕНТР: ДЕМОНИЧЕСКАЯ МАСКА + КРАСНОЕ КОЛЬЦО + ЛОГОТИП         */
-/* ───────────────────────────────────────────────────────────── */
+/* Центр: Маска + Кольцо + Логотип */
 .centerFocalStage {
   position: relative;
   display: flex;
@@ -172,7 +177,6 @@
   width: 100%;
 }
 
-/* Красное энергетическое кольцо */
 .energyRingWrapper {
   position: absolute;
   top: 40%;
@@ -221,7 +225,6 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* Демоническая маска с органичным слиянием (БЕЗ КВАДРАТНЫХ РАМОК!) */
 .maskCompositeContainer {
   position: relative;
   width: clamp(250px, 34vh, 360px);
@@ -252,7 +255,7 @@
 .logoTitleLockup {
   position: relative;
   z-index: 12;
-  margin-top: -85px; /* Заходит поверх нижней части маски */
+  margin-top: -85px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -261,7 +264,7 @@
 }
 
 .logoOverlayImage {
-  width: clamp(260px, 34vw, 460px);
+  width: clamp(260px, 34vw, 440px);
   height: auto;
   mix-blend-mode: screen;
   filter: drop-shadow(0 0 25px rgba(255, 0, 34, 0.75));
@@ -291,20 +294,34 @@
   margin-top: 4px;
 }
 
-/* Индикатор прокрутки */
-.scrollIndicator {
+/* Кнопка прокрутки вниз к дискографии */
+.scrollDownBtn {
+  background: none;
+  border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
   margin-top: var(--space-md);
   color: var(--silver-dark);
-  font-size: 11px;
+  cursor: pointer;
+  padding: 4px;
+  transition: all var(--duration-fast);
+}
+
+.scrollDownBtn:hover {
+  color: var(--white);
+}
+
+.scrollDownText {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
 }
 
 .scrollLine {
   width: 1px;
-  height: 20px;
+  height: 18px;
   background: linear-gradient(180deg, var(--red-crimson), transparent);
   animation: lineDrop 2s infinite ease-in-out;
 }
@@ -327,9 +344,7 @@
   50% { transform: translateY(4px); }
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/* ПРАВАЯ ЧАСТЬ: КОМПАКТНЫЙ МУЗЫКАЛЬНЫЙ ПЛЕЕР                   */
-/* ───────────────────────────────────────────────────────────── */
+/* Правая часть: Компактный плеер */
 .rightPlayerBlock {
   display: flex;
   flex-direction: column;
@@ -390,7 +405,6 @@
   letter-spacing: 0.15em;
 }
 
-/* Компактная волна */
 .compactWaveform {
   display: flex;
   align-items: flex-end;
@@ -461,16 +475,16 @@
   color: var(--white);
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/* НИЖНЯЯ ЧАСТЬ: ПОСЛЕДНИЕ РЕЛИЗЫ (5 ОБЛОЖЕК)                  */
-/* ───────────────────────────────────────────────────────────── */
+/* Нижняя часть Hero: 5 релизов */
 .bottomReleasesSection {
   position: relative;
   z-index: 10;
   max-width: 1600px;
   width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
   margin: 0 auto;
-  padding: 2px var(--space-2xl) 10px;
+  padding: 2px var(--space-2xl) 14px;
   flex-shrink: 0;
 }
 
@@ -527,15 +541,18 @@
   color: var(--white);
 }
 
-/* Горизонтальная лента из 5 карточек */
 .fiveReleasesTrack {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: var(--space-md);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   overflow-x: auto;
   scroll-behavior: smooth;
   padding-bottom: var(--space-xs);
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .fiveReleasesTrack::-webkit-scrollbar {
@@ -599,13 +616,13 @@
 }
 
 .thumbPlayBtn {
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: var(--red-blood);
   border: 1px solid var(--red-crimson);
   color: var(--white);
-  font-size: 11px;
+  font-size: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -616,14 +633,15 @@
   background: rgba(0, 0, 0, 0.8);
   border: 1px solid var(--silver);
   color: var(--white);
-  padding: 3px 8px;
+  padding: 2px 6px;
   font-family: var(--font-mono);
   font-size: 9px;
   letter-spacing: 0.1em;
+  cursor: pointer;
 }
 
 .releaseMetaBox {
-  padding: var(--space-xs) var(--space-sm);
+  padding: 4px var(--space-sm);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -640,15 +658,36 @@
   text-overflow: ellipsis;
 }
 
-.releaseTitleText a {
+.textLinkBtn {
+  background: none;
+  border: none;
   color: var(--white);
-  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+
+.textLinkBtn:hover {
+  color: var(--red-crimson);
 }
 
 .releaseYearText {
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--silver-dark);
+}
+
+/* ───────────────────────────────────────────────────────────── */
+/* СЕКЦИИ НЕПРЕРЫВНОГО СКРОЛЛА (DISCOGRAPHY, ARCHIVE, ABOUT...)  */
+/* ───────────────────────────────────────────────────────────── */
+.contentSection {
+  position: relative;
+  width: 100%;
+  z-index: 10;
+  scroll-margin-top: 54px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 /* ───────────────────────────────────────────────────────────── */
@@ -659,7 +698,7 @@
 }
 
 /* ───────────────────────────────────────────────────────────── */
-/* АДАПТИВНОСТЬ: DESKTOP / TABLET / MOBILE (390px, 430px)        */
+/* АДАПТИВНОСТЬ: DESKTOP / TABLET / MOBILE (320px - 1920px)      */
 /* ───────────────────────────────────────────────────────────── */
 @media (max-width: 1200px) {
   .mainStageGrid {
@@ -673,22 +712,25 @@
 }
 
 @media (max-width: 900px) {
-  .mockupContainer {
-    height: auto;
-    max-height: none;
-    overflow-y: auto;
-    padding-bottom: 80px;
-  }
-
   .leftChainDecoration, .rightChainDecoration {
     display: none;
   }
 
+  .homeSection {
+    min-height: auto;
+    padding-bottom: var(--space-2xl);
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
   .mainStageGrid {
     grid-template-columns: 1fr;
-    gap: var(--space-2xl);
+    gap: var(--space-xl);
     padding: 0 var(--space-md);
     min-height: auto;
+    max-width: 100vw;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .leftGenresBlock {
@@ -696,96 +738,138 @@
     text-align: center;
     padding-left: 0;
     order: 2;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .genreList {
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px 16px;
+    gap: 8px 14px;
+    max-width: 100%;
   }
 
   .genreWord {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    letter-spacing: 0.15em;
   }
 
   .centerFocalStage {
     order: 1;
-    min-height: 380px;
+    min-height: 320px;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .rightPlayerBlock {
     order: 3;
     padding-right: 0;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .compactPlayerBox {
     border-right: 1px solid var(--gray-800);
     border-top: 2px solid var(--red-crimson);
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .bottomReleasesSection {
     padding: var(--space-xl) var(--space-md) var(--space-2xl);
+    max-width: 100vw;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .fiveReleasesTrack {
     display: flex;
     overflow-x: auto;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .releaseThumbCard {
-    flex: 0 0 160px;
+    flex: 0 0 150px;
   }
 }
 
-/* Мобильные экраны: iPhone (390px - 430px) */
+/* Мобильные экраны: iPhone & Android (320px - 600px) */
 @media (max-width: 600px) {
-  .mockupContainer {
-    padding-bottom: 74px; /* Отступ под нижний док */
+  .seamlessContainer {
+    padding-bottom: 60px; /* Отступ под нижний док */
   }
 
   .cornerBracketTL, .cornerBracketTR, .cornerBracketBL, .cornerBracketBR {
     display: none;
   }
 
+  .mainStageGrid {
+    padding: 0 8px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .genreList {
+    gap: 6px 12px;
+  }
+
+  .genreWord {
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+  }
+
+  .subBassNotice {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+
   .centerFocalStage {
-    min-height: 280px;
+    min-height: 250px;
+    width: 100%;
+    overflow: hidden;
   }
 
   .energyRingWrapper {
-    width: 250px;
-    height: 250px;
+    width: 220px;
+    height: 220px;
   }
 
   .maskCompositeContainer {
-    width: 230px;
-    height: 230px;
+    width: 200px;
+    height: 200px;
   }
 
   .logoTitleLockup {
-    margin-top: -55px;
+    margin-top: -50px;
+    width: 100%;
   }
 
   .logoOverlayImage {
-    width: 86vw;
-    max-width: 320px;
+    width: 82vw;
+    max-width: 270px;
   }
 
   .archiveTagline {
-    font-size: 11px;
-    letter-spacing: 0.3em;
+    font-size: 10px;
+    letter-spacing: 0.25em;
   }
 
   .yearsInterval {
-    font-size: 10px;
+    font-size: 9px;
   }
 
   .bottomReleasesSection {
-    padding: var(--space-lg) var(--space-sm) var(--space-md);
+    padding: var(--space-md) var(--space-xs) var(--space-sm);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .releaseThumbCard {
-    flex: 0 0 140px;
+    flex: 0 0 130px;
   }
 
   /* Фиксированный нижний док для смартфонов */
@@ -795,7 +879,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 56px;
+    height: 52px;
     background: rgba(4, 4, 4, 0.96);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(16px);
@@ -807,22 +891,51 @@
   }
 
   .mobileDockTab {
+    background: none;
+    border: none;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
+    gap: 1px;
     color: var(--silver-dark);
-    text-decoration: none;
     font-family: var(--font-mono);
-    font-size: 9px;
-    letter-spacing: 0.1em;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    padding: 3px 6px;
+    transition: color var(--duration-fast);
   }
 
   .dockIcon {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .mobileDockActive {
     color: var(--red-crimson);
+  }
+}
+
+@media (max-width: 360px) {
+  .logoOverlayImage {
+    max-width: 230px;
+  }
+
+  .energyRingWrapper {
+    width: 190px;
+    height: 190px;
+  }
+
+  .maskCompositeContainer {
+    width: 175px;
+    height: 175px;
+  }
+
+  .genreWord {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+  }
+
+  .releaseThumbCard {
+    flex: 0 0 115px;
   }
 }

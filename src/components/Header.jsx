@@ -1,5 +1,5 @@
-// SILICIUM — Official Header with Language Switcher & Precise Mockup Layout
-import React, { useEffect, useRef } from 'react'
+// SILICIUM — Modern Smooth-Scroll Header with Section Highlighting & Mobile Overlay
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useStore } from '../data/store'
 import { NAV_ITEMS } from '../data/config'
@@ -8,86 +8,141 @@ import styles from './Header.module.css'
 
 export default function Header() {
   const location = useLocation()
-  const { menuOpen, toggleMenu, setMenuOpen, introComplete, language, setLanguage } = useStore()
+  const {
+    currentSection,
+    setCurrentSection,
+    menuOpen,
+    toggleMenu,
+    setMenuOpen,
+    language,
+    setLanguage,
+  } = useStore()
+
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth <= 1050 : false
+  )
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1050)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const headerRef = useRef(null)
   const menuRef = useRef(null)
   const navItemsRef = useRef([])
 
   const navLabels = {
     RU: {
-      home: 'ГЛАВНАЯ',
-      discography: 'РЕЛИЗЫ',
-      archive: '3D АРХИВ',
-      about: 'О ПРОЕКТЕ',
-      community: 'СООБЩЕСТВО',
-      platforms: 'ПЛАТФОРМЫ',
+      home: '01 // ГЛАВНАЯ',
+      discography: '02 // РЕЛИЗЫ',
+      archive: '03 // 3D АРХИВ',
+      about: '04 // О ПРОЕКТЕ',
+      community: '05 // СООБЩЕСТВО',
+      platforms: '06 // ПЛАТФОРМЫ',
     },
     EN: {
-      home: 'HOME',
-      discography: 'RELEASES',
-      archive: '3D ARCHIVE',
-      about: 'ABOUT',
-      community: 'COMMUNITY',
-      platforms: 'PLATFORMS',
+      home: '01 // HOME',
+      discography: '02 // DISCOGRAPHY',
+      archive: '03 // 3D ARCHIVE',
+      about: '04 // ABOUT',
+      community: '05 // COMMUNITY',
+      platforms: '06 // PLATFORMS',
     },
   }
 
   const currentNav = navLabels[language] || navLabels.RU
 
-  // Close menu on route change
-  useEffect(() => {
+  // Плавный скролл к секции
+  const scrollToSection = (id) => {
     setMenuOpen(false)
-  }, [location.pathname, setMenuOpen])
+    setCurrentSection(id)
 
-  // Animate menu
+    // Если находимся на другой странице (например /discography/:id)
+    if (location.pathname !== '/') {
+      window.location.href = `/#${id}`
+      return
+    }
+
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+      if (window.history.replaceState) {
+        window.history.replaceState(null, '', `#${id}`)
+      }
+    }
+  }
+
+  // Анимация мобильного меню
   useEffect(() => {
     if (!menuRef.current) return
     if (menuOpen) {
+      document.body.style.overflow = 'hidden'
       gsap.to(menuRef.current, {
         clipPath: 'inset(0% 0% 0% 0%)',
-        duration: 0.5,
+        duration: 0.45,
         ease: 'power3.inOut',
       })
       navItemsRef.current.forEach((item, i) => {
         if (item) {
           gsap.fromTo(
             item,
-            { x: -40, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.4, delay: 0.15 + i * 0.06, ease: 'power3.out' }
+            { x: -30, opacity: 0 },
+            { x: 0, opacity: 1, duration: 0.35, delay: 0.12 + i * 0.05, ease: 'power3.out' }
           )
         }
       })
     } else {
+      document.body.style.overflow = ''
       gsap.to(menuRef.current, {
         clipPath: 'inset(0% 0% 100% 0%)',
-        duration: 0.35,
+        duration: 0.3,
         ease: 'power3.inOut',
       })
+    }
+    return () => {
+      document.body.style.overflow = ''
     }
   }, [menuOpen])
 
   return (
     <>
       <header ref={headerRef} className={styles.header}>
-        {/* Left: Silicium Brand */}
-        <Link to="/" className={styles.logo}>
+        {/* Left: Brand Logo */}
+        <button
+          onClick={() => scrollToSection('home')}
+          className={styles.logoBtn}
+          aria-label="Silicium Home"
+        >
           <span className={styles.logoMain}>SILICIUM</span>
-        </Link>
+        </button>
 
-        {/* Center: Clean Gothic Navigation */}
-        <nav className={styles.centerNav}>
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.id}
-              to={item.path}
-              className={`${styles.navLink} ${location.pathname === item.path ? styles.navActive : ''}`}
-            >
-              {currentNav[item.id] || item.label}
-            </Link>
-          ))}
-        </nav>
+        {/* Center: Desktop 6-Tab Navigation with Red Active Accent */}
+        {!isMobile && (
+          <nav className={styles.centerNav}>
+            {NAV_ITEMS.map((item) => {
+              const isActive = currentSection === item.id
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`${styles.navBtn} ${isActive ? styles.navActive : ''}`}
+                  aria-current={isActive ? 'true' : undefined}
+                >
+                  <span className={styles.navLabel}>
+                    {currentNav[item.id] || item.label}
+                  </span>
+                  {isActive && <span className={styles.activePill} />}
+                </button>
+              )
+            })}
+          </nav>
+        )}
 
-        {/* Right: Language switch + Menu Button */}
+        {/* Right: Language switch + Hamburger Toggle */}
         <div className={styles.rightCluster}>
           <div className={styles.langSwitch}>
             <button
@@ -108,7 +163,7 @@ export default function Header() {
           <button
             className={`${styles.menuBtn} ${menuOpen ? styles.menuBtnActive : ''}`}
             onClick={toggleMenu}
-            aria-label="Toggle menu"
+            aria-label="Toggle navigation menu"
           >
             <span className={styles.menuLine} />
             <span className={styles.menuLine} />
@@ -116,45 +171,56 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Fullscreen Overlay Menu */}
-      <nav ref={menuRef} className={styles.menu} style={{ clipPath: 'inset(0% 0% 100% 0%)' }}>
+      {/* Fullscreen Mobile / Drawer Overlay Menu */}
+      <div ref={menuRef} className={styles.mobileMenuOverlay} style={{ clipPath: 'inset(0% 0% 100% 0%)' }}>
         <div className={styles.menuInner}>
-          <div className={styles.menuHeader}>
-            <span className={styles.menuTitle}>// DIGITAL ARCHIVE //</span>
-            <span className={styles.menuStatus}>SIGNAL: LOCKED</span>
+          <div className={styles.menuTopMeta}>
+            <span className={styles.menuTitle}>// DIGITAL ARCHIVE ARCHITECTURE //</span>
+            <span className={styles.menuStatus}>FREQUENCY: CONNECTED</span>
           </div>
 
-          <ul className={styles.navList}>
-            {NAV_ITEMS.map((item, i) => (
-              <li key={item.id} ref={(el) => (navItemsRef.current[i] = el)}>
-                <Link
-                  to={item.path}
-                  className={`${styles.navMenuItem} ${location.pathname === item.path ? styles.navMenuItemActive : ''}`}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  <span className={styles.menuNum}>0{i + 1}</span>
-                  <span className={styles.menuItemLabel}>
-                    {currentNav[item.id] || item.label}
-                  </span>
-                  <span className={styles.menuArrow}>→</span>
-                </Link>
-              </li>
-            ))}
+          <ul className={styles.mobileNavList}>
+            {NAV_ITEMS.map((item, i) => {
+              const isActive = currentSection === item.id
+              return (
+                <li key={item.id} ref={(el) => (navItemsRef.current[i] = el)}>
+                  <button
+                    onClick={() => scrollToSection(item.id)}
+                    className={`${styles.mobileNavItem} ${isActive ? styles.mobileNavItemActive : ''}`}
+                  >
+                    <span className={styles.mobileNum}>0{i + 1}</span>
+                    <span className={styles.mobileLabel}>
+                      {currentNav[item.id] || item.label}
+                    </span>
+                    <span className={styles.mobileArrow}>→</span>
+                  </button>
+                </li>
+              )
+            })}
           </ul>
 
           <div className={styles.menuFooter}>
-            <span>SILICIUM © 2022 — 2026</span>
-            <a
-              href="https://t.me/silliciumphonk"
-              target="_blank"
-              rel="noreferrer"
-              className={styles.menuTelegram}
-            >
-              TELEGRAM ↗
-            </a>
+            <div className={styles.menuLangGroup}>
+              <span className={styles.menuLangLabel}>LANGUAGE:</span>
+              <button
+                onClick={() => setLanguage('RU')}
+                className={`${styles.menuLangBtn} ${language === 'RU' ? styles.menuLangBtnActive : ''}`}
+              >
+                RUSSIAN
+              </button>
+              <button
+                onClick={() => setLanguage('EN')}
+                className={`${styles.menuLangBtn} ${language === 'EN' ? styles.menuLangBtnActive : ''}`}
+              >
+                ENGLISH
+              </button>
+            </div>
+            <div className={styles.menuCoord}>
+              <span>SILICIUM AUDIO RESIDUALS // 2022 — 2026</span>
+            </div>
           </div>
         </div>
-      </nav>
+      </div>
     </>
   )
 }

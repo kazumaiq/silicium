@@ -27,9 +27,11 @@ export const useStore = create((set, get) => ({
   // Navigation
   currentSection: 'home',
   menuOpen: false,
+  selectedReleaseModal: null,
   setCurrentSection: (currentSection) => set({ currentSection }),
   setMenuOpen: (menuOpen) => set({ menuOpen }),
   toggleMenu: () => set((state) => ({ menuOpen: !state.menuOpen })),
+  setSelectedReleaseModal: (selectedReleaseModal) => set({ selectedReleaseModal }),
 
   // Player
   isPlaying: false,

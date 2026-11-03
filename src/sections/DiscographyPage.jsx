@@ -1,8 +1,8 @@
-// SILICIUM — Discography Page (Catalog & Audio Vault)
+// SILICIUM — Discography Section (Catalog & Audio Vault)
 import React, { useMemo } from 'react'
-import { Link } from 'react-router-dom'
 import { useStore } from '../data/store'
 import { RELEASES } from '../data/config'
+import SectionHeader from '../components/SectionHeader'
 import styles from './DiscographyPage.module.css'
 
 export default function DiscographyPage() {
@@ -18,6 +18,8 @@ export default function DiscographyPage() {
     playTrack,
     currentTrack,
     isPlaying,
+    setSelectedReleaseModal,
+    language,
   } = useStore()
 
   // Извлекаем уникальные годы
@@ -29,17 +31,14 @@ export default function DiscographyPage() {
   // Фильтрация и поиск
   const filteredReleases = useMemo(() => {
     return RELEASES.filter((rel) => {
-      // Поиск
       const searchMatch =
         !discographySearch ||
         rel.title.toLowerCase().includes(discographySearch.toLowerCase()) ||
         rel.genre?.toLowerCase().includes(discographySearch.toLowerCase())
 
-      // Тип
       const filterMatch =
         discographyFilter === 'all' || rel.type.toLowerCase() === discographyFilter.toLowerCase()
 
-      // Год
       const yearMatch =
         discographyYear === 'all' || rel.year.toString() === discographyYear.toString()
 
@@ -47,17 +46,55 @@ export default function DiscographyPage() {
     })
   }, [discographySearch, discographyFilter, discographyYear])
 
+  const t = {
+    RU: {
+      code: '// 02 //',
+      tag: 'КАТАЛОГ ЧАСТОТ',
+      title: 'ДИСКОГРАФИЯ',
+      subtitle: 'Архив физических и цифровых артефактов SILICIUM (2022 — 2026). Оккультный саундтрек темных измерений.',
+      searchPlaceholder: 'ПОИСК АРТЕФАКТА...',
+      all: 'ВСЕ',
+      single: 'СИНГЛЫ',
+      ep: 'EP',
+      album: 'АЛЬБОМЫ',
+      allCycles: 'ВСЕ ЦИКЛЫ',
+      spec: 'СПЕЦИФИКАЦИЯ',
+    },
+    EN: {
+      code: '// 02 //',
+      tag: 'FREQUENCY CATALOG',
+      title: 'DISCOGRAPHY',
+      subtitle: 'Physical & digital artifacts archive of SILICIUM (2022 — 2026). Occult frequencies extracted from the void.',
+      searchPlaceholder: 'SEARCH ARTIFACT...',
+      all: 'ALL',
+      single: 'SINGLE',
+      ep: 'EP',
+      album: 'ALBUM',
+      allCycles: 'ALL CYCLES',
+      spec: 'SPECIFICATION',
+    },
+  }[language] || {
+    code: '// 02 //',
+    tag: 'FREQUENCY CATALOG',
+    title: 'DISCOGRAPHY',
+    subtitle: 'Physical & digital artifacts archive of SILICIUM (2022 — 2026).',
+    searchPlaceholder: 'SEARCH ARTIFACT...',
+    all: 'ALL',
+    single: 'SINGLE',
+    ep: 'EP',
+    album: 'ALBUM',
+    allCycles: 'ALL CYCLES',
+    spec: 'SPECIFICATION',
+  }
+
   return (
     <div className={styles.discographyContainer}>
-      <div className={styles.headerArea}>
-        <div className={styles.titleMeta}>
-          <span className={styles.categoryCode}>// 02 //</span>
-          <h1 className={styles.mainTitle}>DISCOGRAPHY</h1>
-        </div>
-        <p className={styles.subtitle}>
-          Frequency catalog & physical/digital artifacts archive (2022 — 2026).
-        </p>
-      </div>
+      <SectionHeader
+        code={t.code}
+        tag={t.tag}
+        title={t.title}
+        subtitle={t.subtitle}
+      />
 
       {/* Control Bar: Search & Filters */}
       <div className={styles.controlBar}>
@@ -65,7 +102,7 @@ export default function DiscographyPage() {
           <span className={styles.searchIcon}>⌕</span>
           <input
             type="text"
-            placeholder="SEARCH ARTIFACT..."
+            placeholder={t.searchPlaceholder}
             value={discographySearch}
             onChange={(e) => setDiscographySearch(e.target.value)}
             className={styles.searchInput}
@@ -74,6 +111,7 @@ export default function DiscographyPage() {
             <button
               onClick={() => setDiscographySearch('')}
               className={styles.clearSearchBtn}
+              aria-label="Clear search"
             >
               ✕
             </button>
@@ -82,13 +120,18 @@ export default function DiscographyPage() {
 
         <div className={styles.filterGroup}>
           <div className={styles.typeButtons}>
-            {['all', 'single', 'ep', 'album'].map((type) => (
+            {[
+              { id: 'all', label: t.all },
+              { id: 'single', label: t.single },
+              { id: 'ep', label: t.ep },
+              { id: 'album', label: t.album },
+            ].map((item) => (
               <button
-                key={type}
-                onClick={() => setDiscographyFilter(type)}
-                className={`${styles.filterBtn} ${discographyFilter === type ? styles.activeFilter : ''}`}
+                key={item.id}
+                onClick={() => setDiscographyFilter(item.id)}
+                className={`${styles.filterBtn} ${discographyFilter === item.id ? styles.activeFilter : ''}`}
               >
-                {type.toUpperCase()}
+                {item.label}
               </button>
             ))}
           </div>
@@ -98,11 +141,12 @@ export default function DiscographyPage() {
               value={discographyYear}
               onChange={(e) => setDiscographyYear(e.target.value)}
               className={styles.yearSelect}
+              aria-label="Filter by year"
             >
-              <option value="all">ALL CYCLES</option>
-              {availableYears.map((yr) => (
-                <option key={yr} value={yr}>
-                  CYCLE {yr}
+              <option value="all">{t.allCycles}</option>
+              {availableYears.map((year) => (
+                <option key={year} value={year}>
+                  CYCLE {year}
                 </option>
               ))}
             </select>
@@ -112,14 +156,16 @@ export default function DiscographyPage() {
             <button
               onClick={() => setDiscographyView('grid')}
               className={`${styles.viewBtn} ${discographyView === 'grid' ? styles.activeView : ''}`}
-              title="Grid Matrix View"
+              title="Grid View"
+              aria-label="Grid View"
             >
               ⊞
             </button>
             <button
               onClick={() => setDiscographyView('list')}
               className={`${styles.viewBtn} ${discographyView === 'list' ? styles.activeView : ''}`}
-              title="Sequential List View"
+              title="List View"
+              aria-label="List View"
             >
               ☰
             </button>
@@ -127,105 +173,111 @@ export default function DiscographyPage() {
         </div>
       </div>
 
-      {/* Release List / Grid */}
-      {filteredReleases.length === 0 ? (
-        <div className={styles.emptyState}>
-          <div className={styles.emptyCode}>ERR_404: NO ARTIFACT LOCATED</div>
-          <p className={styles.emptyMsg}>
-            Adjust query parameters or frequency filters to decrypt archived records.
-          </p>
-          <button
-            onClick={() => {
-              setDiscographySearch('')
-              setDiscographyFilter('all')
-              setDiscographyYear('all')
-            }}
-            className={styles.resetBtn}
-          >
-            RESET FREQUENCY LOCK
-          </button>
-        </div>
-      ) : discographyView === 'grid' ? (
+      {/* Release Matrix (Grid or List) */}
+      {discographyView === 'grid' ? (
         <div className={styles.releaseGrid}>
-          {filteredReleases.map((rel) => (
-            <article key={rel.id} className={styles.gridCard}>
-              <div className={styles.cardCoverWrapper}>
-                <img
-                  src={rel.cover || '/images/demon-mask.jpg'}
-                  alt={rel.title}
-                  className={styles.cardCover}
-                />
-                <div className={styles.coverOverlay}>
-                  {rel.tracks && rel.tracks[0] && (
+          {filteredReleases.map((rel) => {
+            const isSelected = currentTrack?.id === rel.tracks[0]?.id
+            const isPlayingThis = isPlaying && isSelected
+
+            return (
+              <article
+                key={rel.id}
+                className={styles.gridCard}
+                onClick={() => setSelectedReleaseModal(rel)}
+              >
+                <div className={styles.cardCoverWrapper}>
+                  <img
+                    src={rel.cover || '/images/demon-mask-blended.png'}
+                    alt={rel.title}
+                    className={styles.cardCover}
+                    loading="lazy"
+                  />
+                  <div className={styles.cardOverlay}>
                     <button
-                      className={styles.quickPlayBtn}
+                      className={styles.overlayPlayBtn}
                       onClick={(e) => {
-                        e.preventDefault()
+                        e.stopPropagation()
                         playTrack(rel.tracks[0], rel)
                       }}
-                      title="Play track"
+                      aria-label={isPlayingThis ? 'Pause' : 'Play'}
                     >
-                      {isPlaying && currentTrack?.id === rel.tracks[0].id ? '▮▮' : '▶'}
+                      {isPlayingThis ? '▮▮' : '▶'}
                     </button>
-                  )}
-                  <Link to={`/discography/${rel.id}`} className={styles.inspectBtn}>
-                    INSPECT ↗
-                  </Link>
+                    <span className={styles.inspectHint}>{t.spec} ↗</span>
+                  </div>
                 </div>
-              </div>
 
-              <div className={styles.cardDetails}>
-                <div className={styles.cardHeader}>
-                  <span className={styles.cardYear}>CYCLE {rel.year}</span>
-                  <span className={styles.cardType}>{rel.type.toUpperCase()}</span>
+                <div className={styles.cardMeta}>
+                  <div className={styles.cardTopRow}>
+                    <span className={styles.cardYear}>CYCLE {rel.year}</span>
+                    <span className={styles.cardType}>{rel.type.toUpperCase()}</span>
+                  </div>
+
+                  <h3 className={styles.cardTitle}>{rel.title}</h3>
+
+                  <div className={styles.cardBottomRow}>
+                    <span className={styles.cardGenre}>{rel.genre || 'DARK PHONK'}</span>
+                    <span className={styles.cardTrackCount}>
+                      {rel.tracks?.length || 1} FREQ
+                    </span>
+                  </div>
                 </div>
-                <h3 className={styles.cardTitle}>
-                  <Link to={`/discography/${rel.id}`}>{rel.title}</Link>
-                </h3>
-                <div className={styles.cardFooter}>
-                  <span className={styles.cardGenre}>{rel.genre || 'DARK PHONK'}</span>
-                  <span className={styles.cardTrackCount}>
-                    {rel.tracks?.length || 1} FREQ
-                  </span>
-                </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            )
+          })}
         </div>
       ) : (
+        /* List View */
         <div className={styles.releaseList}>
-          {filteredReleases.map((rel, idx) => (
-            <div key={rel.id} className={styles.listRow}>
-              <span className={styles.listIdx}>0{idx + 1}</span>
-              <img
-                src={rel.cover || '/images/demon-mask.jpg'}
-                alt={rel.title}
-                className={styles.listCover}
-              />
-              <div className={styles.listInfo}>
-                <h3 className={styles.listTitle}>
-                  <Link to={`/discography/${rel.id}`}>{rel.title}</Link>
-                </h3>
-                <span className={styles.listMeta}>
-                  CYCLE {rel.year} // {rel.genre || 'DARK PHONK'} // {rel.type.toUpperCase()}
-                </span>
-              </div>
+          {filteredReleases.map((rel, idx) => {
+            const isSelected = currentTrack?.id === rel.tracks[0]?.id
+            const isPlayingThis = isPlaying && isSelected
 
-              <div className={styles.listActions}>
-                {rel.tracks && rel.tracks[0] && (
-                  <button
-                    className={styles.listPlayBtn}
-                    onClick={() => playTrack(rel.tracks[0], rel)}
-                  >
-                    {isPlaying && currentTrack?.id === rel.tracks[0].id ? 'PAUSE' : 'TRANSMIT ▶'}
-                  </button>
-                )}
-                <Link to={`/discography/${rel.id}`} className={styles.listDetailLink}>
-                  DETAILS →
-                </Link>
+            return (
+              <div
+                key={rel.id}
+                className={styles.listRow}
+                onClick={() => setSelectedReleaseModal(rel)}
+              >
+                <span className={styles.listNum}>0{idx + 1}</span>
+
+                <button
+                  className={styles.listPlayBtn}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    playTrack(rel.tracks[0], rel)
+                  }}
+                  aria-label={isPlayingThis ? 'Pause' : 'Play'}
+                >
+                  {isPlayingThis ? '▮▮' : '▶'}
+                </button>
+
+                <div className={styles.listThumb}>
+                  <img src={rel.cover} alt={rel.title} loading="lazy" />
+                </div>
+
+                <div className={styles.listInfo}>
+                  <div className={styles.listTitle}>{rel.title}</div>
+                  <div className={styles.listMeta}>
+                    {rel.genre} // CYCLE {rel.year}
+                  </div>
+                </div>
+
+                <div className={styles.listType}>{rel.type.toUpperCase()}</div>
+
+                <button
+                  className={styles.listSpecBtn}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setSelectedReleaseModal(rel)
+                  }}
+                >
+                  {t.spec} ↗
+                </button>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
     </div>

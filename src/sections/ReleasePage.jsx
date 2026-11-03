@@ -30,7 +30,7 @@ export default function ReleasePage() {
   return (
     <div className={styles.releaseContainer}>
       <div className={styles.navRow}>
-        <Link to="/discography" className={styles.backLink}>
+        <Link to="/#discography" className={styles.backLink}>
           ← BACK TO ARCHIVE
         </Link>
         <span className={styles.archiveCode}>

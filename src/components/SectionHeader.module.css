@@ -1,0 +1,72 @@
+.sectionHeaderArea {
+  position: relative;
+  width: 100%;
+  margin-bottom: var(--space-2xl);
+}
+
+.topCluster {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
+.codeText {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--red-crimson);
+  letter-spacing: 0.25em;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tagBadge {
+  background: rgba(220, 20, 60, 0.15);
+  border: 1px solid rgba(220, 20, 60, 0.4);
+  color: var(--white);
+  padding: 1px 6px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+}
+
+.laserLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(220, 20, 60, 0.7) 0%, rgba(220, 20, 60, 0.15) 60%, transparent 100%);
+}
+
+.titleText {
+  font-family: var(--font-mono);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: var(--space-xs);
+  text-transform: uppercase;
+}
+
+.subtitleText {
+  color: var(--silver-dark);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  max-width: 700px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .sectionHeaderArea {
+    margin-bottom: var(--space-xl);
+  }
+
+  .titleText {
+    font-size: 1.6rem;
+    letter-spacing: 0.08em;
+  }
+
+  .subtitleText {
+    font-size: var(--text-xs);
+  }
+}

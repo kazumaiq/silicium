@@ -1,29 +1,82 @@
-// SILICIUM — About / Chronicle Section
+// SILICIUM — About Section (Origin & Evolution Dossier)
 import React from 'react'
 import { ARTIST, TIMELINE } from '../data/config'
+import { useStore } from '../data/store'
+import SectionHeader from '../components/SectionHeader'
 import styles from './AboutPage.module.css'
 
 export default function AboutPage() {
+  const language = useStore((s) => s.language)
+
+  const t = {
+    RU: {
+      code: '// 04 //',
+      tag: 'ХРОНИКА СУЩНОСТИ',
+      title: 'О ПРОЕКТЕ',
+      subtitle: 'Цифровое досье и параметры хронологической траектории проекта SILICIUM.',
+      classified: 'ЗАСЕКРЕЧЕННАЯ ТРАНСЛЯЦИЯ',
+      subFreq: 'ПОДЧАСТОТА: #SIL-2022',
+      paradoxTitle: 'ПАРАДОКС SILICIUM',
+      designation: 'ОБОЗНАЧЕНИЕ:',
+      activeEra: 'ЭПОХА АКТИВНОСТИ:',
+      genesisBroadcast: 'ПЕРВАЯ ТРАНСЛЯЦИЯ:',
+      status: 'СТАТУС:',
+      online: 'В СЕТИ // ВЕЩАНИЕ',
+      trajectoryTitle: 'ХРОНОЛОГИЧЕСКАЯ ТРАЕКТОРИЯ',
+      manifesto: '"Звук — это не просто колебания в пустоте. Это архитектура забытых измерений, деконструирующая реальность через 808-дисторшн."',
+    },
+    EN: {
+      code: '// 04 //',
+      tag: 'ENTITY CHRONICLE',
+      title: 'ABOUT',
+      subtitle: 'Digital dossier and timeline parameters of the SILICIUM project.',
+      classified: 'CLASSIFIED TRANSMISSION',
+      subFreq: 'SUB-FREQ: #SIL-2022',
+      paradoxTitle: 'THE SILICIUM PARADOX',
+      designation: 'DESIGNATION:',
+      activeEra: 'ACTIVE ERA:',
+      genesisBroadcast: 'GENESIS BROADCAST:',
+      status: 'STATUS:',
+      online: 'ONLINE // BROADCASTING',
+      trajectoryTitle: 'CHRONOLOGICAL TRAJECTORY',
+      manifesto: '"Sound is not merely vibration in the void; it is the architecture of forgotten dimensions, deconstructing reality through 808 distortion."',
+    },
+  }[language] || {
+    code: '// 04 //',
+    tag: 'ENTITY CHRONICLE',
+    title: 'ABOUT',
+    subtitle: 'Digital dossier and timeline parameters of the SILICIUM project.',
+    classified: 'CLASSIFIED TRANSMISSION',
+    subFreq: 'SUB-FREQ: #SIL-2022',
+    paradoxTitle: 'THE SILICIUM PARADOX',
+    designation: 'DESIGNATION:',
+    activeEra: 'ACTIVE ERA:',
+    genesisBroadcast: 'GENESIS BROADCAST:',
+    status: 'STATUS:',
+    online: 'ONLINE // BROADCASTING',
+    trajectoryTitle: 'CHRONOLOGICAL TRAJECTORY',
+    manifesto: '"Sound is not merely vibration in the void; it is the architecture of forgotten dimensions."',
+  }
+
   return (
     <div className={styles.aboutContainer}>
-      <div className={styles.headerArea}>
-        <span className={styles.metaLabel}>// 04 // ENTITY CHRONICLE</span>
-        <h1 className={styles.pageTitle}>ORIGIN & EVOLUTION</h1>
-        <p className={styles.subtitle}>
-          Digital dossier and timeline parameters of SILICIUM.
-        </p>
-      </div>
+      <SectionHeader
+        code={t.code}
+        tag={t.tag}
+        title={t.title}
+        subtitle={t.subtitle}
+      />
 
       <div className={styles.contentGrid}>
         {/* Entity Dossier / Bio */}
         <section className={styles.dossierSection}>
           <div className={styles.dossierBox}>
             <div className={styles.dossierHeader}>
-              <span>CLASSIFIED TRANSMISSION</span>
-              <span className={styles.idCode}>SUB-FREQ: #SIL-2022</span>
+              <span>{t.classified}</span>
+              <span className={styles.idCode}>{t.subFreq}</span>
             </div>
 
-            <h2 className={styles.identityTitle}>THE SILICIUM PARADOX</h2>
+            <h3 className={styles.identityTitle}>{t.paradoxTitle}</h3>
 
             <div className={styles.dossierText}>
               <p>
@@ -38,52 +91,50 @@ export default function AboutPage() {
 
             <div className={styles.specsGrid}>
               <div className={styles.specItem}>
-                <span className={styles.specLabel}>DESIGNATION:</span>
+                <span className={styles.specLabel}>{t.designation}</span>
                 <span className={styles.specVal}>{ARTIST.name}</span>
               </div>
               <div className={styles.specItem}>
-                <span className={styles.specLabel}>ACTIVE ERA:</span>
+                <span className={styles.specLabel}>{t.activeEra}</span>
                 <span className={styles.specVal}>{ARTIST.years}</span>
               </div>
               <div className={styles.specItem}>
-                <span className={styles.specLabel}>GENESIS BROADCAST:</span>
+                <span className={styles.specLabel}>{t.genesisBroadcast}</span>
                 <span className={styles.specVal}>{ARTIST.firstTrack}</span>
               </div>
               <div className={styles.specItem}>
-                <span className={styles.specLabel}>STATUS:</span>
-                <span className={styles.specValActive}>ONLINE // BROADCASTING</span>
+                <span className={styles.specLabel}>{t.status}</span>
+                <span className={styles.specValActive}>{t.online}</span>
               </div>
             </div>
           </div>
 
           <div className={styles.quoteBox}>
-            <blockquote>
-              "Sound is not merely vibration in the void; it is the architecture of forgotten dimensions."
-            </blockquote>
-            <cite>// ARCHIVE CODEX</cite>
+            <blockquote>{t.manifesto}</blockquote>
+            <cite>// SILICIUM ARCHIVE MANIFESTO</cite>
           </div>
         </section>
 
-        {/* Timeline Component */}
+        {/* Timeline Trajectory */}
         <section className={styles.timelineSection}>
-          <h3 className={styles.timelineHeading}>CHRONOLOGICAL TRAJECTORY</h3>
+          <div className={styles.timelineHeader}>
+            <span>{t.trajectoryTitle}</span>
+          </div>
 
-          <div className={styles.timeline}>
-            {TIMELINE.map((cycle, idx) => (
-              <div key={idx} className={styles.timelineItem}>
-                <div className={styles.timelineMarker}>
-                  <div className={styles.markerDot} />
-                  <div className={styles.markerYear}>{cycle.year}</div>
+          <div className={styles.timelineStream}>
+            {TIMELINE.map((node, i) => (
+              <div key={i} className={styles.timelineNode}>
+                <div className={styles.nodeMarker}>
+                  <div className={styles.pulseDot} />
+                  <span className={styles.nodeYear}>{node.year}</span>
                 </div>
 
-                <div className={styles.timelineContent}>
-                  {cycle.events.map((evt, eIdx) => (
+                <div className={styles.nodeCards}>
+                  {node.events.map((ev, eIdx) => (
                     <div key={eIdx} className={styles.eventCard}>
-                      <div className={styles.eventBadge}>
-                        {evt.type?.toUpperCase() || 'EVENT'}
-                      </div>
-                      <h4 className={styles.eventTitle}>{evt.title}</h4>
-                      <p className={styles.eventDesc}>{evt.description}</p>
+                      <span className={styles.eventType}>{ev.type.toUpperCase()}</span>
+                      <h4 className={styles.eventTitle}>{ev.title}</h4>
+                      <p className={styles.eventDesc}>{ev.description}</p>
                     </div>
                   ))}
                 </div>
