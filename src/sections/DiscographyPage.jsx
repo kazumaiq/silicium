@@ -187,7 +187,7 @@ export default function DiscographyPage() {
             return (
               <article
                 key={rel.id}
-                className={styles.gridCard}
+                className={`${styles.gridCard} ${isPlayingThis ? styles.gridCardActive : ''}`}
                 onClick={() => setSelectedReleaseModal(rel)}
                 data-cursor-lock
                 data-cursor-label="DECRYPT // ARTIFACT"

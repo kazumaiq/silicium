@@ -703,32 +703,45 @@ function Nebula({ count }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// CAMERA CONTROLLER (parallax)
+// CAMERA CONTROLLER (parallax + scroll-driven spatial depth)
 // ─────────────────────────────────────────────────────────────────────
 
 function CameraController({ reducedMotion }) {
   const mousePosition = useStore((s) => s.mousePosition)
   const { camera } = useThree()
+  const scrollRef = useRef(0)
 
-  // Store target values for lerping
-  const targetRef = useRef({ x: 0, y: 0 })
+  useEffect(() => {
+    const handleScroll = () => {
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+      scrollRef.current = Math.min(1, Math.max(0, window.scrollY / maxScroll))
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useFrame(() => {
     if (reducedMotion) return
 
-    const parallaxStrength = 1.5
-    targetRef.current.x = mousePosition.x * parallaxStrength
-    targetRef.current.y = mousePosition.y * parallaxStrength * 0.6
+    const scroll = scrollRef.current
+    const parallaxStrength = 1.2
+
+    // Spatial 3D traversal through cosmic depth on scroll (Continuous Living Universe)
+    const targetX = mousePosition.x * parallaxStrength
+    const targetY = (mousePosition.y * parallaxStrength * 0.5) - (scroll * 14)
+    const targetZ = 8 + Math.sin(scroll * Math.PI) * 4.0
 
     // Smooth lerp
-    camera.position.x += (targetRef.current.x - camera.position.x) * 0.02
-    camera.position.y += (targetRef.current.y - camera.position.y) * 0.02
+    camera.position.x += (targetX - camera.position.x) * 0.04
+    camera.position.y += (targetY - camera.position.y) * 0.04
+    camera.position.z += (targetZ - camera.position.z) * 0.04
 
-    // Subtle look-at offset
+    // Subtle look-at offset that pans down through the universe
     camera.lookAt(
-      camera.position.x * 0.3,
-      camera.position.y * 0.3,
-      -10
+      camera.position.x * 0.35,
+      camera.position.y - 1.5,
+      -12
     )
   })
 
@@ -794,17 +807,31 @@ function CinematicLighting() {
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// AMBIENT SCENE ROTATION
+// AMBIENT SCENE ROTATION (Reacts dynamically to scroll progress)
 // ─────────────────────────────────────────────────────────────────────
 
 function SceneRotator({ children, reducedMotion }) {
   const groupRef = useRef()
+  const scrollRef = useRef(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+      scrollRef.current = Math.min(1, Math.max(0, window.scrollY / maxScroll))
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useFrame(({ clock }) => {
     if (!groupRef.current || reducedMotion) return
     const t = clock.getElapsedTime()
-    groupRef.current.rotation.y = Math.sin(t * 0.02) * 0.03
-    groupRef.current.rotation.x = Math.cos(t * 0.015) * 0.01
+    const scroll = scrollRef.current
+
+    // Ambient drift + scroll-driven 3D rotation
+    groupRef.current.rotation.y = Math.sin(t * 0.02) * 0.04 + scroll * 0.35
+    groupRef.current.rotation.x = Math.cos(t * 0.015) * 0.02 - scroll * 0.15
   })
 
   return <group ref={groupRef}>{children}</group>

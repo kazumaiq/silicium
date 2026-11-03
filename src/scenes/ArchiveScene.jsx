@@ -1,4 +1,4 @@
-// SILICIUM — 3D Archive Scene (Interactive Spatial Release Matrix & Cinematic Focus)
+// SILICIUM — 3D Archive Scene (Spatial Orbit Matrix & Cinematic Focus)
 import React, { useRef, useState, useMemo, useEffect } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls, Html, useTexture } from '@react-three/drei'
@@ -12,44 +12,57 @@ function ArtifactMesh({ releaseId, hovered, isSelected }) {
 
   useFrame((_, delta) => {
     if (meshRef.current) {
-      const speed = isSelected ? 0.8 : hovered ? 1.4 : 0.4
-      meshRef.current.rotation.x += delta * speed * 0.5
+      const speed = isSelected ? 0.7 : hovered ? 1.4 : 0.35
+      meshRef.current.rotation.x += delta * speed * 0.4
       meshRef.current.rotation.y += delta * speed
     }
   })
 
-  // Различные формы цифровых артефактов
   const geometry = useMemo(() => {
     switch (releaseId) {
       case 'my-weed':
-        return new THREE.OctahedronGeometry(1.0, 0)
+        return new THREE.OctahedronGeometry(0.9, 0)
       case 'kordeity':
-        return new THREE.ConeGeometry(0.9, 1.8, 6)
+        return new THREE.ConeGeometry(0.8, 1.6, 6)
       case 'broken-wheel-phonk':
-        return new THREE.TorusGeometry(0.8, 0.35, 16, 32)
-      case 'devil-night':
-        return new THREE.IcosahedronGeometry(1.05, 0)
+        return new THREE.TorusGeometry(0.7, 0.3, 16, 32)
+      case 'bless':
+        return new THREE.IcosahedronGeometry(0.95, 0)
+      case 'gantelya':
+        return new THREE.CylinderGeometry(0.6, 0.6, 1.4, 8)
+      case 'faith':
+        return new THREE.TetrahedronGeometry(1.0, 0)
+      case 'where-your-bound':
+        return new THREE.TorusKnotGeometry(0.6, 0.2, 48, 8)
+      case 'apathy':
+        return new THREE.DodecahedronGeometry(0.9, 0)
+      case 'blood-flame':
+        return new THREE.OctahedronGeometry(1.0, 1)
+      case 'domination':
+        return new THREE.BoxGeometry(1.1, 1.1, 1.1)
+      case 'night-on-that-side':
+        return new THREE.IcosahedronGeometry(0.9, 1)
       case 'roku':
-        return new THREE.DodecahedronGeometry(1.0, 0)
+        return new THREE.DodecahedronGeometry(0.95, 0)
       default:
-        return new THREE.BoxGeometry(1.2, 1.2, 1.2)
+        return new THREE.BoxGeometry(0.95, 0.95, 0.95)
     }
   }, [releaseId])
 
-  const color = isSelected ? '#ff1133' : hovered ? '#ff3355' : '#b8b8c2'
+  const color = isSelected ? '#ff1133' : hovered ? '#ff3355' : '#b0b0bc'
   const emissive = isSelected ? '#cc0022' : hovered ? '#880011' : '#141418'
-  const emissiveIntensity = isSelected ? 1.4 : hovered ? 0.9 : 0.2
+  const emissiveIntensity = isSelected ? 1.6 : hovered ? 1.0 : 0.2
 
   return (
     <mesh
       ref={meshRef}
       geometry={geometry}
-      scale={isSelected ? 1.4 : hovered ? 1.25 : 1.0}
+      scale={isSelected ? 1.35 : hovered ? 1.2 : 0.95}
     >
       <meshStandardMaterial
         color={color}
         metalness={0.92}
-        roughness={0.15}
+        roughness={0.18}
         emissive={emissive}
         emissiveIntensity={emissiveIntensity}
         wireframe={isSelected}
@@ -68,16 +81,16 @@ function CentralArtifact() {
   useFrame(({ clock }, delta) => {
     const bass = audioEngine.smoothedBass || 0
     if (meshRef.current) {
-      meshRef.current.rotation.y += delta * 0.18
+      meshRef.current.rotation.y += delta * 0.16
       meshRef.current.scale.setScalar(1 + bass * 0.08)
     }
     if (ringRef.current) {
-      ringRef.current.rotation.x += delta * 0.25
-      ringRef.current.rotation.y -= delta * 0.15
+      ringRef.current.rotation.x += delta * 0.22
+      ringRef.current.rotation.y -= delta * 0.14
     }
     if (ring2Ref.current) {
-      ring2Ref.current.rotation.z += delta * 0.2
-      ring2Ref.current.rotation.x -= delta * 0.12
+      ring2Ref.current.rotation.z += delta * 0.18
+      ring2Ref.current.rotation.x -= delta * 0.1
     }
   })
 
@@ -85,7 +98,7 @@ function CentralArtifact() {
     <group position={[0, 0, 0]}>
       {/* Куб-монолит с текстурой маски */}
       <mesh ref={meshRef}>
-        <boxGeometry args={[2.3, 2.3, 2.3]} />
+        <boxGeometry args={[2.0, 2.0, 2.0]} />
         <meshStandardMaterial
           map={texture}
           metalness={0.88}
@@ -97,7 +110,7 @@ function CentralArtifact() {
 
       {/* Внешнее энергетическое защитное кольцо */}
       <mesh ref={ringRef}>
-        <torusGeometry args={[3.4, 0.04, 16, 100]} />
+        <torusGeometry args={[2.9, 0.035, 16, 90]} />
         <meshStandardMaterial
           color="#ff0022"
           emissive="#ff0000"
@@ -107,9 +120,9 @@ function CentralArtifact() {
         />
       </mesh>
 
-      {/* Внутреннее перпендикулярное лазерное кольцо */}
+      {/* Внутреннее лазерное кольцо */}
       <mesh ref={ring2Ref}>
-        <torusGeometry args={[2.9, 0.02, 16, 80]} />
+        <torusGeometry args={[2.5, 0.02, 16, 70]} />
         <meshStandardMaterial
           color="#ff3344"
           emissive="#ff0022"
@@ -118,32 +131,35 @@ function CentralArtifact() {
         />
       </mesh>
 
-      <pointLight color="#ff0022" intensity={4} distance={12} />
+      <pointLight color="#ff0022" intensity={3.5} distance={10} />
     </group>
   )
 }
 
 // Отдельный интерактивный релиз-объект на орбите
-function OrbitingRelease({ release, index, total, onSelect, isSelected }) {
+function OrbitingRelease({ release, index, total, onSelect, isSelected, isMobile }) {
   const groupRef = useRef()
   const [hovered, setHovered] = useState(false)
 
-  // Вычисляем орбитальную позицию
+  // Адаптивный радиус: на смартфонах сжимаем орбиту, чтобы все 14 артефактов умещались в экран
+  const radius = isMobile ? 4.7 : 6.8
   const angle = (index / total) * Math.PI * 2
-  const radius = 6.8
   const initialX = Math.cos(angle) * radius
   const initialZ = Math.sin(angle) * radius
-  const initialY = (index % 2 === 0 ? 1 : -1) * 0.9
+  const initialY = (index % 2 === 0 ? 0.8 : -0.8)
 
   useFrame(({ clock }) => {
     if (groupRef.current) {
       // Плавное вращение орбиты, замедляется при выборе
-      const t = clock.getElapsedTime() * (isSelected ? 0.04 : 0.14) + angle
+      const t = clock.getElapsedTime() * (isSelected ? 0.03 : 0.12) + angle
       groupRef.current.position.x = Math.cos(t) * radius
       groupRef.current.position.z = Math.sin(t) * radius
-      groupRef.current.position.y = initialY + Math.sin(t * 1.8) * 0.35
+      groupRef.current.position.y = initialY + Math.sin(t * 1.6) * 0.28
     }
   })
+
+  // На смартфонах показываем надпись только для выбранного или наведенного объекта, чтобы не перегружать экран
+  const shouldShowLabel = !isMobile || isSelected || hovered
 
   return (
     <group ref={groupRef} position={[initialX, initialY, initialZ]}>
@@ -151,7 +167,7 @@ function OrbitingRelease({ release, index, total, onSelect, isSelected }) {
       <group
         onClick={(e) => {
           e.stopPropagation()
-          onSelect(release, groupRef.current.position)
+          onSelect(release, groupRef.current ? groupRef.current.position : null)
         }}
         onPointerOver={(e) => {
           e.stopPropagation()
@@ -170,74 +186,77 @@ function OrbitingRelease({ release, index, total, onSelect, isSelected }) {
       {isSelected && (
         <group>
           <mesh rotation={[Math.PI / 2, 0, 0]}>
-            <ringGeometry args={[1.6, 1.68, 48]} />
+            <ringGeometry args={[1.35, 1.42, 40]} />
             <meshBasicMaterial color="#ff0022" side={THREE.DoubleSide} />
           </mesh>
-          <pointLight color="#ff0033" intensity={2.5} distance={5} />
+          <pointLight color="#ff0033" intensity={2.2} distance={4} />
         </group>
       )}
 
       {/* Ободок энергии вокруг артефакта */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[1.35, 0.02, 16, 60]} />
+        <torusGeometry args={[1.15, 0.015, 12, 48]} />
         <meshBasicMaterial
-          color={hovered || isSelected ? '#ff0033' : '#444444'}
+          color={hovered || isSelected ? '#ff0033' : 'rgba(120, 120, 130, 0.4)'}
           wireframe
         />
       </mesh>
 
-      {/* Всплывающий HTML-маркер */}
-      <Html distanceFactor={11} position={[0, 1.5, 0]} center>
-        <div
-          onClick={(e) => {
-            e.stopPropagation()
-            onSelect(release, groupRef.current ? groupRef.current.position : null)
-          }}
-          style={{
-            background: hovered || isSelected ? 'rgba(160, 0, 20, 0.95)' : 'rgba(8, 8, 8, 0.88)',
-            border: `1px solid ${hovered || isSelected ? '#ff1133' : 'rgba(255, 255, 255, 0.15)'}`,
-            borderLeft: `3px solid ${hovered || isSelected ? '#ff0033' : '#666'}`,
-            color: '#fff',
-            padding: '4px 10px',
-            fontFamily: 'Courier New, monospace',
-            fontSize: '10px',
-            fontWeight: isSelected ? 'bold' : 'normal',
-            letterSpacing: '0.18em',
-            whiteSpace: 'nowrap',
-            cursor: 'pointer',
-            transition: 'all 0.2s ease',
-            boxShadow: hovered || isSelected ? '0 0 16px rgba(255, 0, 34, 0.7)' : 'none',
-            userSelect: 'none',
-          }}
-        >
-          {release.title} // {release.year}
-        </div>
-      </Html>
+      {/* Компактный маркер-подпись */}
+      {shouldShowLabel && (
+        <Html distanceFactor={isMobile ? 13 : 11} position={[0, 1.35, 0]} center>
+          <div
+            onClick={(e) => {
+              e.stopPropagation()
+              onSelect(release, groupRef.current ? groupRef.current.position : null)
+            }}
+            style={{
+              background: hovered || isSelected ? 'rgba(180, 0, 24, 0.95)' : 'rgba(8, 8, 8, 0.85)',
+              border: `1px solid ${hovered || isSelected ? '#ff1133' : 'rgba(255, 255, 255, 0.12)'}`,
+              borderLeft: `3px solid ${hovered || isSelected ? '#ff0033' : '#777'}`,
+              color: '#fff',
+              padding: isMobile ? '3px 7px' : '4px 9px',
+              fontFamily: 'var(--font-mono, monospace)',
+              fontSize: isMobile ? '9px' : '10px',
+              fontWeight: isSelected ? '700' : '400',
+              letterSpacing: '0.14em',
+              whiteSpace: 'nowrap',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              boxShadow: hovered || isSelected ? '0 0 16px rgba(255, 0, 34, 0.6)' : 'none',
+              userSelect: 'none',
+              pointerEvents: 'auto',
+            }}
+          >
+            {release.title} // {release.year}
+          </div>
+        </Html>
+      )}
     </group>
   )
 }
 
 // Плавный кинематографичный переход камеры к выбранному артефакту
-function CinematicCameraController({ targetReleasePos, controlsRef }) {
+function CinematicCameraController({ targetReleasePos, controlsRef, isMobile }) {
   const { camera } = useThree()
-  const defaultPos = useMemo(() => new THREE.Vector3(0, 4.5, 12), [])
+  const defaultPos = useMemo(() => new THREE.Vector3(0, isMobile ? 5.2 : 4.2, isMobile ? 15.5 : 12.5), [isMobile])
   const defaultTarget = useMemo(() => new THREE.Vector3(0, 0, 0), [])
 
   useFrame(() => {
     if (!controlsRef.current) return
 
     if (targetReleasePos) {
-      // Камера приближается к объекту с кинематографичным смещением
+      // Камера плавно приближается к объекту
       const desiredCam = new THREE.Vector3(
-        targetReleasePos.x * 1.35,
-        targetReleasePos.y + 1.2,
-        targetReleasePos.z * 1.35
+        targetReleasePos.x * 1.3,
+        targetReleasePos.y + (isMobile ? 0.9 : 1.1),
+        targetReleasePos.z * 1.3
       )
       camera.position.lerp(desiredCam, 0.05)
       controlsRef.current.target.lerp(targetReleasePos, 0.06)
     } else {
       // Возврат к общему космическому плану
-      camera.position.lerp(defaultPos, 0.035)
+      camera.position.lerp(defaultPos, 0.04)
       controlsRef.current.target.lerp(defaultTarget, 0.04)
     }
     controlsRef.current.update()
@@ -246,45 +265,17 @@ function CinematicCameraController({ targetReleasePos, controlsRef }) {
   return null
 }
 
-// Фоновые звёзды архива
-function ArchiveStars({ count = 1600 }) {
-  const points = useMemo(() => {
-    const pos = new Float32Array(count * 3)
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 85
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 85
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 85
-    }
-    return pos
-  }, [count])
-
-  return (
-    <points>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={points.length / 3}
-          array={points}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.11}
-        color="#ffffff"
-        transparent
-        opacity={0.5}
-        depthWrite={false}
-      />
-    </points>
-  )
-}
-
-export default function ArchiveScene({ selectedRelease, onSelectRelease }) {
+export default function ArchiveScene({
+  selectedRelease,
+  onSelectRelease,
+  exploreMode = false,
+  resetTrigger = 0,
+}) {
   const controlsRef = useRef()
   const [targetPos, setTargetPos] = useState(null)
 
-  const isTouchDevice = useMemo(() => {
-    return typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0)
+  const isMobile = useMemo(() => {
+    return typeof window !== 'undefined' && window.innerWidth < 768
   }, [])
 
   const handleSelect = (rel, pos) => {
@@ -294,7 +285,12 @@ export default function ArchiveScene({ selectedRelease, onSelectRelease }) {
     }
   }
 
-  // Сброс фокуса камеры при отмене выбора
+  // Сброс положения камеры по триггеру кнопки
+  useEffect(() => {
+    setTargetPos(null)
+  }, [resetTrigger])
+
+  // Сброс фокуса при закрытии инфо-панели
   useEffect(() => {
     if (!selectedRelease) {
       setTargetPos(null)
@@ -305,26 +301,28 @@ export default function ArchiveScene({ selectedRelease, onSelectRelease }) {
     <>
       <OrbitControls
         ref={controlsRef}
+        enabled={exploreMode}
         enableDamping
-        dampingFactor={0.06}
-        autoRotate={!selectedRelease}
+        dampingFactor={0.07}
+        autoRotate={!selectedRelease && !exploreMode}
         autoRotateSpeed={0.25}
-        minDistance={3.5}
-        maxDistance={24}
+        minDistance={3.2}
+        maxDistance={22}
         enablePan={false}
-        enableZoom={!isTouchDevice}
+        enableZoom={exploreMode}
+        touchAction="none"
       />
 
       <CinematicCameraController
         targetReleasePos={targetPos}
         controlsRef={controlsRef}
+        isMobile={isMobile}
       />
 
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[10, 15, 10]} intensity={1.5} color="#ffffff" />
-      <directionalLight position={[-10, -10, -10]} intensity={0.8} color="#ff0022" />
+      <ambientLight intensity={0.35} />
+      <directionalLight position={[10, 15, 10]} intensity={1.4} color="#ffffff" />
+      <directionalLight position={[-10, -10, -10]} intensity={0.9} color="#ff0022" />
 
-      <ArchiveStars />
       <CentralArtifact />
 
       {RELEASES.map((rel, idx) => (
@@ -335,6 +333,7 @@ export default function ArchiveScene({ selectedRelease, onSelectRelease }) {
           total={RELEASES.length}
           onSelect={handleSelect}
           isSelected={selectedRelease?.id === rel.id}
+          isMobile={isMobile}
         />
       ))}
     </>

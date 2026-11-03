@@ -1,9 +1,12 @@
+/* SILICIUM — About Dossier & Living Timeline Styles */
+
 .aboutContainer {
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
-  padding: var(--space-3xl) var(--space-xl);
+  padding: var(--space-2xl) var(--space-xl);
   position: relative;
+  box-sizing: border-box;
 }
 
 .contentGrid {
@@ -127,7 +130,7 @@
   font-style: normal;
 }
 
-/* Timeline Section */
+/* Timeline Section with Dynamic Red Laser Fill */
 .timelineSection {
   background: rgba(8, 8, 8, 0.7);
   border: 1px solid var(--gray-800);
@@ -153,14 +156,26 @@
   position: relative;
 }
 
-.timelineStream::before {
-  content: '';
+.timelineLaserTrack {
   position: absolute;
   top: 10px;
   bottom: 10px;
   left: 7px;
-  width: 1px;
-  background: linear-gradient(180deg, var(--red-crimson), rgba(220, 20, 60, 0.2) 80%, transparent);
+  width: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 1px;
+}
+
+.timelineLaserFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(180deg, #ff1133, #dc143c 80%, #ffffff);
+  box-shadow: 0 0 10px rgba(255, 0, 34, 0.8), 0 0 20px rgba(220, 20, 60, 0.5);
+  border-radius: 1px;
+  transition: height 0.1s linear;
 }
 
 .timelineNode {
@@ -179,11 +194,18 @@
   position: absolute;
   left: 2px;
   top: 6px;
-  width: 11px;
-  height: 11px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--red-crimson);
   box-shadow: 0 0 10px var(--red-crimson);
+  border: 2px solid #000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timelineNode:hover .pulseDot {
+  transform: scale(1.3);
+  box-shadow: 0 0 18px #ff0033;
 }
 
 .nodeYear {
@@ -201,34 +223,37 @@
 }
 
 .eventCard {
-  background: rgba(14, 14, 14, 0.85);
-  border: 1px solid var(--gray-900);
-  padding: var(--space-sm) var(--space-md);
-  transition: border-color var(--duration-fast);
+  background: rgba(14, 14, 16, 0.8);
+  border: 1px solid var(--gray-800);
+  padding: var(--space-md);
+  border-left: 2px solid var(--gray-800);
+  transition: all var(--duration-fast);
 }
 
 .eventCard:hover {
   border-color: var(--red-crimson);
+  border-left-color: var(--red-crimson);
+  background: rgba(22, 5, 8, 0.85);
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
 }
 
 .eventType {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  background: var(--red-blood);
-  color: var(--white);
-  padding: 1px 5px;
-  letter-spacing: 0.1em;
   display: inline-block;
-  margin-bottom: 4px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--red-crimson);
+  letter-spacing: 0.15em;
+  margin-bottom: 2px;
 }
 
 .eventTitle {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--white);
   letter-spacing: 0.05em;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .eventDesc {
@@ -237,15 +262,46 @@
   line-height: 1.5;
 }
 
-/* Mobile Responsive */
+/* ───────────────────────────────────────────────────────────── */
+/* MOBILE RESPONSIVE ADAPTATION                                  */
+/* ───────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .aboutContainer {
-    padding: var(--space-xl) var(--space-sm);
+    padding: var(--space-xl) var(--space-md);
   }
 
   .contentGrid {
     grid-template-columns: 1fr;
     gap: var(--space-xl);
+  }
+
+  .dossierBox,
+  .timelineSection {
+    padding: var(--space-md);
+  }
+
+  .identityTitle {
+    font-size: 1.3rem;
+  }
+
+  .dossierText {
+    font-size: 12px;
+  }
+
+  .specsGrid {
+    grid-template-columns: 1fr 1fr;
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .timelineStream {
+    gap: var(--space-lg);
+  }
+}
+
+@media (max-width: 360px) {
+  .aboutContainer {
+    padding: var(--space-lg) var(--space-xs);
   }
 
   .specsGrid {

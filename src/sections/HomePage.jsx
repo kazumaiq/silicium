@@ -42,6 +42,7 @@ export default function HomePage() {
   const maskRef = useRef(null)
   const auraRef = useRef(null)
   const waveBarsRef = useRef([])
+  const centerStageRef = useRef(null)
 
   const metalRef = useRef(null)
   const smokeRef = useRef(null)
@@ -169,11 +170,12 @@ export default function HomePage() {
         laserRingRef.current.style.borderColor = `rgba(255, 40, 60, ${0.5 + data.treble * 0.5})`
       }
 
-      // 3. Центральная демоническая маска — микровздрагивание на 808 бас
+      // 3. Центральная демоническая маска — медленное дыхание + микровздрагивание на 808 бас
       if (maskRef.current) {
-        const maskScale = 1 + data.bass * 0.06
+        const timePulse = Math.sin(Date.now() * 0.0016) * 0.025
+        const maskScale = 1 + timePulse + data.bass * 0.07
         maskRef.current.style.transform = `scale(${maskScale})`
-        maskRef.current.style.filter = `contrast(${1.25 + data.bass * 0.2}) brightness(${1.05 + data.energy * 0.15}) drop-shadow(0 0 ${35 + data.bass * 35}px rgba(220, 20, 60, ${0.45 + data.bass * 0.4}))`
+        maskRef.current.style.filter = `contrast(${1.25 + data.bass * 0.22}) brightness(${1.05 + data.energy * 0.16}) drop-shadow(0 0 ${35 + data.bass * 35}px rgba(220, 20, 60, ${0.45 + data.bass * 0.4}))`
       }
 
       // 4. Фоновая красная аура разрастается при низких частотах
@@ -200,12 +202,27 @@ export default function HomePage() {
       }
     })
 
-    // Многослойный скролл-параллакс
+    // Многослойный скролл-параллакс и живое перемещение красной ауры
     const handleScrollParallax = () => {
       const y = window.scrollY
-      if (metalRef.current) metalRef.current.style.transform = `translate3d(0, ${y * 0.08}px, 0)`
-      if (smokeRef.current) smokeRef.current.style.transform = `translate3d(0, ${y * 0.15}px, 0)`
-      if (cracksRef.current) cracksRef.current.style.transform = `translate3d(0, ${y * 0.04}px, 0)`
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+      const scrollRatio = y / maxScroll
+
+      // Hero композиция плавно уходит вверх при скролле
+      if (centerStageRef.current) {
+        centerStageRef.current.style.transform = `translate3d(0, ${-y * 0.16}px, 0)`
+        centerStageRef.current.style.opacity = Math.max(0, 1 - y * 0.0016).toString()
+      }
+
+      if (metalRef.current) metalRef.current.style.transform = `translate3d(0, ${y * 0.06}px, 0)`
+      if (smokeRef.current) smokeRef.current.style.transform = `translate3d(0, ${y * 0.12}px, 0)`
+      if (cracksRef.current) cracksRef.current.style.transform = `translate3d(0, ${y * 0.03}px, 0)`
+
+      // Красное свечение перемещается между секциями в зависимости от прогресса
+      if (auraRef.current) {
+        const targetTop = 15 + scrollRatio * 68
+        auraRef.current.style.top = `${targetTop}%`
+      }
     }
     window.addEventListener('scroll', handleScrollParallax, { passive: true })
 
@@ -260,7 +277,7 @@ export default function HomePage() {
           </aside>
 
           {/* ЦЕНТР: ЕДИНАЯ ХУДОЖЕСТВЕННАЯ КОМПОЗИЦИЯ МАСКА + КОЛЬЦО + ЛОГОТИП */}
-          <div className={styles.centerFocalStage}>
+          <div ref={centerStageRef} className={styles.centerFocalStage}>
             <div className={styles.artworkContainer}>
               {/* Энергетическое многослойное кольцо */}
               <div className={styles.energyRingWrapper}>

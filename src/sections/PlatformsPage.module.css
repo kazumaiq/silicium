@@ -109,11 +109,15 @@
 
 @media (max-width: 600px) {
   .platformsContainer {
-    padding: var(--space-xl) var(--space-sm) var(--space-4xl);
+    padding: var(--space-xl) var(--space-md) var(--space-3xl);
   }
 
   .platformsGrid {
     grid-template-columns: 1fr;
     gap: var(--space-sm);
+  }
+
+  .platformCard {
+    padding: var(--space-md);
   }
 }

@@ -1,5 +1,5 @@
-// SILICIUM — About Section (Origin & Evolution Dossier)
-import React from 'react'
+// SILICIUM — About Section (Origin & Evolution Dossier with Laser Timeline)
+import React, { useRef, useEffect } from 'react'
 import { ARTIST, TIMELINE } from '../data/config'
 import { useStore } from '../data/store'
 import SectionHeader from '../components/SectionHeader'
@@ -12,6 +12,25 @@ export default function AboutPage() {
   const dossierRef = useScrollReveal({ threshold: 0.1 })
   const timelineRef = useScrollReveal({ threshold: 0.08 })
   const quoteRef = useScrollReveal({ threshold: 0.15 })
+
+  const timelineStreamRef = useRef(null)
+  const laserFillRef = useRef(null)
+
+  // Dynamic laser line fill proportional to scroll progress through the timeline
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!timelineStreamRef.current || !laserFillRef.current) return
+      const rect = timelineStreamRef.current.getBoundingClientRect()
+      const windowH = window.innerHeight
+      // Progress from when top enters viewport (0%) to when bottom leaves (100%)
+      const progress = Math.min(1, Math.max(0, (windowH * 0.75 - rect.top) / rect.height))
+      laserFillRef.current.style.height = `${progress * 100}%`
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const t = {
     RU: {
@@ -120,13 +139,18 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Timeline Trajectory */}
+        {/* Timeline Trajectory with Living Laser Beam Fill */}
         <section ref={timelineRef} className={styles.timelineSection} data-reveal="left">
           <div className={styles.timelineHeader}>
             <span>{t.trajectoryTitle}</span>
           </div>
 
-          <div className={styles.timelineStream}>
+          <div ref={timelineStreamRef} className={styles.timelineStream}>
+            {/* The animated dynamic red laser fill */}
+            <div className={styles.timelineLaserTrack}>
+              <div ref={laserFillRef} className={styles.timelineLaserFill} />
+            </div>
+
             {TIMELINE.map((node, i) => (
               <div key={i} className={styles.timelineNode}>
                 <div className={styles.nodeMarker}>

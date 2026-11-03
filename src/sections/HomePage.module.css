@@ -290,6 +290,19 @@
   transition: transform var(--duration-normal) var(--ease-out), filter var(--duration-normal);
   background: transparent;
   border: none;
+  animation: metallicSheenPulse 7s ease-in-out infinite alternate;
+}
+
+@keyframes metallicSheenPulse {
+  0% {
+    filter: drop-shadow(0 0 20px rgba(220, 20, 60, 0.7)) drop-shadow(0 0 40px rgba(139, 0, 0, 0.4)) brightness(0.98);
+  }
+  50% {
+    filter: drop-shadow(0 0 35px rgba(255, 30, 60, 1)) drop-shadow(0 0 70px rgba(220, 20, 60, 0.7)) brightness(1.22);
+  }
+  100% {
+    filter: drop-shadow(0 0 22px rgba(255, 0, 34, 0.8)) drop-shadow(0 0 45px rgba(139, 0, 0, 0.5)) brightness(1.04);
+  }
 }
 
 .logoOverlayImage:hover {
@@ -720,7 +733,7 @@
   scroll-margin-top: 54px;
 }
 
-/* Кинематографичный разделитель секций — Enhanced Phase 02 */
+/* Кинематографичный разделитель секций — Compact Organic Continuity */
 .sectionDivider {
   display: flex;
   align-items: center;
@@ -728,7 +741,7 @@
   gap: 0;
   max-width: 1400px;
   margin: 0 auto;
-  padding: var(--space-3xl) var(--space-xl);
+  padding: var(--space-md) var(--space-xl);
   position: relative;
   z-index: 10;
 }
@@ -942,6 +955,10 @@
 
   .releaseThumbCard {
     flex: 0 0 140px;
+  }
+
+  .sectionDivider {
+    padding: 10px 16px;
   }
 }
 

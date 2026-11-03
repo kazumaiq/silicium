@@ -234,6 +234,16 @@
   filter: contrast(1.2) brightness(1.05) saturate(1.1);
 }
 
+.gridCardActive {
+  border-color: var(--red-crimson) !important;
+  box-shadow: 0 0 25px rgba(255, 0, 34, 0.45), inset 0 0 15px rgba(220, 20, 60, 0.2);
+}
+
+.gridCardActive .cardCover {
+  transform: scale(1.04);
+  filter: contrast(1.15) brightness(1.08);
+}
+
 .cardOverlay {
   position: absolute;
   inset: 0;
@@ -427,7 +437,7 @@
 /* Mobile Responsive */
 @media (max-width: 700px) {
   .discographyContainer {
-    padding: var(--space-xl) var(--space-sm);
+    padding: var(--space-xl) var(--space-md);
   }
 
   .releaseGrid {

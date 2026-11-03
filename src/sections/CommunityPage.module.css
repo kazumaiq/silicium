@@ -224,11 +224,17 @@
 
 @media (max-width: 600px) {
   .communityContainer {
-    padding: var(--space-xl) var(--space-sm);
+    padding: var(--space-xl) var(--space-md);
   }
 
   .grid {
     grid-template-columns: 1fr;
-    gap: var(--space-xl);
+    gap: var(--space-lg);
+  }
+
+  .telegramCard,
+  .dispatchCard,
+  .subscribeBox {
+    padding: var(--space-md);
   }
 }
