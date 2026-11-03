@@ -549,6 +549,7 @@
 
   .canvasArena {
     height: clamp(380px, 56vh, 520px);
+    margin-bottom: 30px;
   }
 
   .controlBarRow {

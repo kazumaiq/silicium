@@ -312,8 +312,8 @@ function OrbitingRelease({
     }
   })
 
-  // На смартфонах показываем надпись только для выбранного или наведенного объекта
-  const shouldShowLabel = !isMobile || isSelected || hovered
+  // Показываем подпись только для наведенного или выбранного объекта, чтобы сцена оставалась чистой и кинематографичной
+  const shouldShowLabel = isSelected || hovered
 
   return (
     <group ref={groupRef} position={[initialX, initialY, initialZ]}>
