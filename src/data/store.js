@@ -40,7 +40,7 @@ export const useStore = create((set, get) => ({
   currentRelease: initialRelease,
   volume: 0.8,
   progress: 0,
-  duration: 134,
+  duration: 187,
   miniPlayer: false,
   audioVisualizerData: new Float32Array(64),
   audioBass: 0,

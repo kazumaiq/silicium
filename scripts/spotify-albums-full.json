@@ -1,0 +1,100 @@
+[
+  {
+    "id": "my-weed",
+    "spotifyId": "3jn0MeQZ1J3YK1KoOtVnyd",
+    "title": "MY WEED",
+    "cover": "/covers/my-weed.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/3jn0MeQZ1J3YK1KoOtVnyd"
+  },
+  {
+    "id": "kordeity",
+    "spotifyId": "2JEQZUsgdb7U5ytFW8zwt3",
+    "title": "KORDEITY",
+    "cover": "/covers/kordeity.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/2JEQZUsgdb7U5ytFW8zwt3"
+  },
+  {
+    "id": "broken-wheel-phonk",
+    "spotifyId": "3KoSx9969tQ6bpVWi7fFSD",
+    "title": "BROKEN WHEEL PHONK",
+    "cover": "/covers/broken-wheel-phonk.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/3KoSx9969tQ6bpVWi7fFSD"
+  },
+  {
+    "id": "bless",
+    "spotifyId": "3qs7b47rMX78r13E3G70Kv",
+    "title": "BLESS",
+    "cover": "/covers/bless.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/3qs7b47rMX78r13E3G70Kv"
+  },
+  {
+    "id": "gantelya",
+    "spotifyId": "3d2XFznHSN5UOH3ijbU1Pm",
+    "title": "GANTELYA",
+    "cover": "/covers/gantelya.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/3d2XFznHSN5UOH3ijbU1Pm"
+  },
+  {
+    "id": "faith",
+    "spotifyId": "2mvPhakQ3d9CrXiwwi73iA",
+    "title": "FAITH",
+    "cover": "/covers/faith.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/2mvPhakQ3d9CrXiwwi73iA"
+  },
+  {
+    "id": "where-your-bound",
+    "spotifyId": "5rFx4HcJF5HWiTZKGlJaxH",
+    "title": "WHERE YOUR BOUND",
+    "cover": "/covers/where-your-bound.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/5rFx4HcJF5HWiTZKGlJaxH"
+  },
+  {
+    "id": "apathy",
+    "spotifyId": "0BFqYt95gsgQKLqgx0Za5H",
+    "title": "apathy",
+    "cover": "/covers/apathy.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/0BFqYt95gsgQKLqgx0Za5H"
+  },
+  {
+    "id": "faint",
+    "spotifyId": "1RMKKvZhtQGrVjTv5RNVFx",
+    "title": "FAINT",
+    "cover": "/covers/faint.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/1RMKKvZhtQGrVjTv5RNVFx"
+  },
+  {
+    "id": "album-3QfHZ7RPHui7zAAP62RA3U",
+    "spotifyId": "3QfHZ7RPHui7zAAP62RA3U",
+    "title": "Чудеса",
+    "cover": "/covers/album-3QfHZ7RPHui7zAAP62RA3U.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/3QfHZ7RPHui7zAAP62RA3U"
+  },
+  {
+    "id": "blood-flame",
+    "spotifyId": "19xn3tQAst5EhUDkM1mdBq",
+    "title": "BLOOD FLAME",
+    "cover": "/covers/blood-flame.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/19xn3tQAst5EhUDkM1mdBq"
+  },
+  {
+    "id": "domination",
+    "spotifyId": "0llC0F8BRnSOCM4dVB5WaB",
+    "title": "DOMINATION",
+    "cover": "/covers/domination.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/0llC0F8BRnSOCM4dVB5WaB"
+  },
+  {
+    "id": "night-on-that-side",
+    "spotifyId": "26EafR6U3v4xZWfgfUD4W5",
+    "title": "Night on That Side",
+    "cover": "/covers/night-on-that-side.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/26EafR6U3v4xZWfgfUD4W5"
+  },
+  {
+    "id": "roku",
+    "spotifyId": "6xZEGzeKE9DC9n6bC4pCIu",
+    "title": "ROKU",
+    "cover": "/covers/roku.jpg",
+    "spotifyUrl": "https://open.spotify.com/album/6xZEGzeKE9DC9n6bC4pCIu"
+  }
+]

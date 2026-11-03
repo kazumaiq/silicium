@@ -103,16 +103,16 @@ export default function HomePage() {
     frequencyLabel: 'CURRENT FREQUENCY',
   }
 
-  // Звуковая симуляция волны
+  // Звуковая симуляция прогресса только при отсутствии физического аудио-файла
   useEffect(() => {
     let timer = null
-    if (isPlaying) {
+    if (isPlaying && !currentTrack?.audioSrc) {
       timer = setInterval(() => {
-        setProgress((p) => (p >= 134 ? 0 : p + 1))
+        setProgress((p) => (p >= 187 ? 0 : p + 1))
       }, 1000)
     }
     return () => clearInterval(timer)
-  }, [isPlaying, setProgress])
+  }, [isPlaying, currentTrack, setProgress])
 
   // ScrollSpy для точного определения активного раздела в реальном времени
   useEffect(() => {

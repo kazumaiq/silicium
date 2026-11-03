@@ -42,69 +42,62 @@ export default function MusicPlayer() {
   const [isDragging, setIsDragging] = useState(false)
   const [showVolume, setShowVolume] = useState(false)
 
-  // Initialize audio context for visualization
-  const initAudioContext = useCallback(() => {
-    if (audioContextRef.current || !audioRef.current) return
-    
-    try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)()
-      const analyser = ctx.createAnalyser()
-      analyser.fftSize = 128
-      analyser.smoothingTimeConstant = 0.8
-      
-      const source = ctx.createMediaElementSource(audioRef.current)
-      source.connect(analyser)
-      analyser.connect(ctx.destination)
-      
-      audioContextRef.current = ctx
-      analyserRef.current = analyser
-      sourceRef.current = source
-    } catch (e) {
-      console.warn('AudioContext not available:', e)
+  // Attach HTML5 audio to shared audioEngine
+  useEffect(() => {
+    if (audioRef.current) {
+      audioEngine.attachMediaElement(audioRef.current)
     }
   }, [])
-
-  // Update visualizer data
-  useEffect(() => {
-    if (!isPlaying || !analyserRef.current) return
-    
-    const dataArray = new Float32Array(analyserRef.current.frequencyBinCount)
-    let raf
-    
-    const update = () => {
-      analyserRef.current.getFloatFrequencyData(dataArray)
-      setAudioVisualizerData(new Float32Array(dataArray))
-      raf = requestAnimationFrame(update)
-    }
-    
-    update()
-    return () => cancelAnimationFrame(raf)
-  }, [isPlaying, setAudioVisualizerData])
 
   // Handle play/pause
   useEffect(() => {
     const audio = audioRef.current
-    if (!audio || !currentTrack?.audioSrc) return
+    if (!audio) return
 
     if (isPlaying) {
-      initAudioContext()
-      audio.play().catch(() => setIsPlaying(false))
+      if (audioEngine.ctx && audioEngine.ctx.state === 'suspended') {
+        audioEngine.ctx.resume()
+      }
+
+      if (currentTrack?.audioSrc) {
+        audioEngine.setPlayingRealAudio(true)
+        if (!audio.src || (!audio.src.endsWith(currentTrack.audioSrc) && audio.src !== window.location.origin + currentTrack.audioSrc)) {
+          audio.src = currentTrack.audioSrc
+          audio.load()
+        }
+        audio.play().catch((err) => {
+          console.warn('[SILICIUM Audio] Autoplay policy prevented playback:', err)
+          setIsPlaying(false)
+        })
+      } else {
+        audioEngine.setPlayingRealAudio(false)
+      }
     } else {
       audio.pause()
+      audioEngine.stopProceduralRhythm()
     }
-  }, [isPlaying, currentTrack, initAudioContext, setIsPlaying])
+  }, [isPlaying, currentTrack, setIsPlaying])
 
   // Handle track change
   useEffect(() => {
     const audio = audioRef.current
-    if (!audio || !currentTrack?.audioSrc) return
-    
-    audio.src = currentTrack.audioSrc
-    audio.load()
-    if (isPlaying) {
-      audio.play().catch(() => setIsPlaying(false))
+    if (!audio) return
+
+    if (currentTrack?.audioSrc) {
+      audio.src = currentTrack.audioSrc
+      audio.load()
+      if (isPlaying) {
+        audioEngine.setPlayingRealAudio(true)
+        audio.play().catch(() => setIsPlaying(false))
+      }
+    } else {
+      audio.pause()
+      audio.src = ''
+      if (isPlaying) {
+        audioEngine.setPlayingRealAudio(false)
+      }
     }
-  }, [currentTrack, setIsPlaying])
+  }, [currentTrack, isPlaying, setIsPlaying])
 
   // Handle volume
   useEffect(() => {

@@ -1,0 +1,122 @@
+{
+  "artistName": "Моя медиатека",
+  "listeners": "1,5 тыс. слушателей за месяц\n1 490 слушателей за месяц",
+  "tracks": [
+    {
+      "title": "1",
+      "plays": "",
+      "duration": "3:25",
+      "img": "https://i.scdn.co/image/ab67616d00004851206f4308aeedbe82b3b26f8d"
+    },
+    {
+      "title": "2",
+      "plays": "",
+      "duration": "1:59",
+      "img": "https://i.scdn.co/image/ab67616d0000485125031bd35cd9a914fcc5f243"
+    },
+    {
+      "title": "3",
+      "plays": "",
+      "duration": "2:06",
+      "img": "https://i.scdn.co/image/ab67616d000048518997eb0a4ddeebf2e51b1fc5"
+    },
+    {
+      "title": "4",
+      "plays": "",
+      "duration": "3:21",
+      "img": "https://i.scdn.co/image/ab67616d00004851aa568bd19455c3f7599bb2f7"
+    },
+    {
+      "title": "5",
+      "plays": "",
+      "duration": "3:07",
+      "img": "https://i.scdn.co/image/ab67616d000048517c3f7d49469597fc592a97f3"
+    }
+  ],
+  "releases": [
+    {
+      "href": "https://open.spotify.com/album/2JEQZUsgdb7U5ytFW8zwt3",
+      "title": "KORDEITY",
+      "img": "",
+      "text": "KORDEITY\n\n2022 • Сингл"
+    },
+    {
+      "href": "https://open.spotify.com/album/3KoSx9969tQ6bpVWi7fFSD",
+      "title": "BROKEN WHEEL PHONK",
+      "img": "",
+      "text": "BROKEN WHEEL PHONK\n\n2022 • Сингл"
+    },
+    {
+      "href": "https://open.spotify.com/album/3jn0MeQZ1J3YK1KoOtVnyd",
+      "title": "MY WEED",
+      "img": "",
+      "text": "MY WEED2022 • Сингл"
+    },
+    {
+      "href": "https://open.spotify.com/album/3qs7b47rMX78r13E3G70Kv",
+      "title": "BLESS",
+      "img": "",
+      "text": "BLESS2022 • Сингл"
+    },
+    {
+      "href": "https://open.spotify.com/album/3d2XFznHSN5UOH3ijbU1Pm",
+      "title": "GANTELYA",
+      "img": "",
+      "text": "GANTELYA2022 • Сингл"
+    },
+    {
+      "href": "https://open.spotify.com/album/2mvPhakQ3d9CrXiwwi73iA",
+      "title": "FAITH",
+      "img": "",
+      "text": "FAITH2025 • Сингл"
+    },
+    {
+      "href": "https://open.spotify.com/album/5rFx4HcJF5HWiTZKGlJaxH",
+      "title": "WHERE YOUR BOUND",
+      "img": "",
+      "text": "WHERE YOUR BOUND2022 • Сингл"
+    },
+    {
+      "href": "https://open.spotify.com/album/0BFqYt95gsgQKLqgx0Za5H",
+      "title": "apathy",
+      "img": "",
+      "text": "apathy2024 • Сингл"
+    },
+    {
+      "href": "https://open.spotify.com/album/1RMKKvZhtQGrVjTv5RNVFx",
+      "title": "FAINT",
+      "img": "",
+      "text": "FAINT2024 • Сингл"
+    },
+    {
+      "href": "https://open.spotify.com/album/3QfHZ7RPHui7zAAP62RA3U",
+      "title": "Чудеса",
+      "img": "",
+      "text": "Чудеса2024 • Сингл"
+    },
+    {
+      "href": "https://open.spotify.com/album/19xn3tQAst5EhUDkM1mdBq",
+      "title": "",
+      "img": "",
+      "text": ""
+    },
+    {
+      "href": "https://open.spotify.com/album/0llC0F8BRnSOCM4dVB5WaB",
+      "title": "",
+      "img": "",
+      "text": ""
+    },
+    {
+      "href": "https://open.spotify.com/album/26EafR6U3v4xZWfgfUD4W5",
+      "title": "",
+      "img": "",
+      "text": ""
+    },
+    {
+      "href": "https://open.spotify.com/album/6xZEGzeKE9DC9n6bC4pCIu",
+      "title": "",
+      "img": "",
+      "text": ""
+    }
+  ]
+}

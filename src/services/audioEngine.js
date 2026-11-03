@@ -76,21 +76,35 @@ class AudioEngine {
   // Connect real HTML5 Audio Element if CORS allows
   attachMediaElement(audioElement) {
     if (!this.init() || !audioElement) return
+    if (this.attachedElement === audioElement) return
 
     try {
       if (this.sourceNode) {
-        this.sourceNode.disconnect()
+        try { this.sourceNode.disconnect() } catch (e) {}
       }
       this.sourceNode = this.ctx.createMediaElementSource(audioElement)
       this.sourceNode.connect(this.analyser)
       this.analyser.connect(this.ctx.destination)
+      this.attachedElement = audioElement
+      this.hasMediaElement = true
     } catch (e) {
-      // Element might already be connected or tainted by CORS
+      console.warn('[SILICIUM AudioEngine] MediaElement connection note:', e)
+      this.hasMediaElement = true
+    }
+  }
+
+  setPlayingRealAudio(isReal) {
+    this.isPlayingRealAudio = isReal
+    if (isReal) {
+      this.stopProceduralRhythm()
+    } else if (this.isPlaying) {
+      this.startProceduralRhythm(this.bpm)
     }
   }
 
   // Start internal procedural 808 occult rhythm pulse for non-CORS audio
   startProceduralRhythm(bpm = 130) {
+    if (this.isPlayingRealAudio) return
     this.bpm = bpm
     if (!this.init()) return
 
@@ -186,7 +200,11 @@ class AudioEngine {
       this.ctx.resume()
     }
 
-    this.startProceduralRhythm(bpm)
+    if (!this.isPlayingRealAudio) {
+      this.startProceduralRhythm(bpm)
+    } else {
+      this.stopProceduralRhythm()
+    }
     this.startAnalysisLoop()
   }
 

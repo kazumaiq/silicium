@@ -35,21 +35,21 @@ function SceneBackground() {
   )
 }
 
-// Global Bottom Music Player (Active when scrolled past hero or on deep links)
+// Global Bottom Music Player (Kept persistently mounted so audio playback is uninterrupted across continuous scrolling)
 function GlobalBottomPlayer() {
   const currentTrack = useStore((s) => s.currentTrack)
   const currentSection = useStore((s) => s.currentSection)
   const location = useLocation()
 
-  // Показываем плеер везде, кроме первого экрана Hero, чтобы не дублировать встроенный плеер
-  const shouldShow =
-    currentTrack &&
-    (location.pathname !== '/' || currentSection !== 'home')
-
-  if (!shouldShow) return null
+  // Показываем плашку плеера внизу на всех страницах и секциях кроме первого экрана Hero,
+  // но сохраняем компонент смонтированным, чтобы фоновое воспроизведение MP3 не прерывалось при возврате наверх
+  const isHidden = !currentTrack || (location.pathname === '/' && currentSection === 'home')
 
   return (
-    <div className={styles.playerContainer}>
+    <div
+      className={`${styles.playerContainer} ${isHidden ? styles.playerContainerHidden : ''}`}
+      aria-hidden={isHidden}
+    >
       <Suspense fallback={null}>
         <MusicPlayer />
       </Suspense>
