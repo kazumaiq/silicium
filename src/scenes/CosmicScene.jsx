@@ -1,9 +1,10 @@
 // SILICIUM — Main 3D Cosmic Scene
 // Core visual element: stars, nebula, energy rifts, metallic debris, orbital rings
-import React, { useRef, useMemo, useCallback, Suspense } from 'react'
+import React, { useRef, useMemo, useCallback, Suspense, useEffect } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useStore } from '../data/store'
+import { audioEngine } from '../services/audioEngine'
 import { getQualityCounts } from '../hooks/usePerformance'
 import styles from './CosmicScene.module.css'
 
@@ -84,6 +85,59 @@ const dustFragmentShader = /* glsl */ `
     vec3 color = mix(coolDust, warmDust, step(0.5, vPhase));
 
     gl_FragColor = vec4(color, alpha);
+  }
+`
+
+const emberVertexShader = /* glsl */ `
+  attribute float aSize;
+  attribute float aPhase;
+  attribute float aSpeed;
+  uniform float uTime;
+  uniform float uAudioBass;
+  varying float vAlpha;
+  varying float vHeat;
+
+  void main() {
+    vec3 pos = position;
+    // Upward drift wrapping continuously
+    float yOffset = uTime * (aSpeed + uAudioBass * 0.9) + aPhase * 40.0;
+    pos.y = mod(pos.y + yOffset, 40.0) - 20.0;
+    
+    // Chaotic turbulence
+    pos.x += sin(uTime * 0.7 + aPhase * 6.28) * 0.6;
+    pos.z += cos(uTime * 0.5 + aPhase * 4.12) * 0.4;
+
+    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+
+    // Heat pulse with bass
+    vHeat = sin(uTime * 1.5 + aPhase * 3.14) * 0.5 + 0.5 + uAudioBass * 0.6;
+    vAlpha = (0.35 + sin(uTime * 1.2 + aPhase * 5.0) * 0.25 + uAudioBass * 0.45);
+
+    gl_PointSize = (aSize + uAudioBass * 3.0) * (180.0 / -mvPosition.z);
+    gl_PointSize = clamp(gl_PointSize, 1.0, 9.0);
+    gl_Position = projectionMatrix * mvPosition;
+  }
+`
+
+const emberFragmentShader = /* glsl */ `
+  varying float vAlpha;
+  varying float vHeat;
+
+  void main() {
+    float dist = length(gl_PointCoord - vec2(0.5));
+    if (dist > 0.5) discard;
+
+    float alpha = smoothstep(0.5, 0.05, dist) * vAlpha;
+
+    // Glowing ember gradient: dark red -> bright crimson -> incandescent orange core
+    vec3 darkRed = vec3(0.65, 0.02, 0.05);
+    vec3 brightCrimson = vec3(1.0, 0.08, 0.12);
+    vec3 orangeCore = vec3(1.0, 0.6, 0.25);
+
+    vec3 col = mix(darkRed, brightCrimson, clamp(vHeat, 0.0, 1.0));
+    col = mix(col, orangeCore, smoothstep(0.25, 0.0, dist) * vHeat);
+
+    gl_FragColor = vec4(col, alpha);
   }
 `
 
@@ -264,14 +318,15 @@ function SingleRift({ points, width, pulseSpeed, pulseOffset }) {
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime()
-    const pulse = 0.6 + Math.sin(t * pulseSpeed + pulseOffset) * 0.4
+    const bass = audioEngine.smoothedBass || 0
+    const pulse = 0.6 + Math.sin(t * pulseSpeed + pulseOffset) * 0.4 + bass * 0.9
 
     if (meshRef.current) {
-      meshRef.current.material.emissiveIntensity = pulse * 2.0
-      meshRef.current.material.opacity = 0.7 + pulse * 0.3
+      meshRef.current.material.emissiveIntensity = pulse * (2.2 + bass * 3.5)
+      meshRef.current.material.opacity = Math.min(1.0, 0.7 + pulse * 0.3 + bass * 0.3)
     }
     if (glowRef.current) {
-      glowRef.current.material.opacity = pulse * 0.15
+      glowRef.current.material.opacity = Math.min(0.85, pulse * 0.16 + bass * 0.4)
     }
   })
 
@@ -754,6 +809,112 @@ function SceneRotator({ children, reducedMotion }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────
+// VOLCANIC ASH & EMBERS (Occult Crimson Drift Particles)
+// ─────────────────────────────────────────────────────────────────────
+
+function VolcanicAshEmbers({ count = 220 }) {
+  const materialRef = useRef()
+  const { positions, sizes, phases, speeds } = useMemo(() => {
+    const positions = new Float32Array(count * 3)
+    const sizes = new Float32Array(count)
+    const phases = new Float32Array(count)
+    const speeds = new Float32Array(count)
+
+    for (let i = 0; i < count; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 36
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 40
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 30 - 4
+
+      sizes[i] = 1.4 + Math.random() * 2.8
+      phases[i] = Math.random()
+      speeds[i] = 0.5 + Math.random() * 0.9
+    }
+
+    return { positions, sizes, phases, speeds }
+  }, [count])
+
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uAudioBass: { value: 0 },
+    }),
+    []
+  )
+
+  useFrame(({ clock }) => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = clock.getElapsedTime()
+      materialRef.current.uniforms.uAudioBass.value = audioEngine.smoothedBass || 0
+    }
+  })
+
+  return (
+    <points frustumCulled={false}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
+        <bufferAttribute attach="attributes-aSize" count={count} array={sizes} itemSize={1} />
+        <bufferAttribute attach="attributes-aPhase" count={count} array={phases} itemSize={1} />
+        <bufferAttribute attach="attributes-aSpeed" count={count} array={speeds} itemSize={1} />
+      </bufferGeometry>
+      <shaderMaterial
+        ref={materialRef}
+        vertexShader={emberVertexShader}
+        fragmentShader={emberFragmentShader}
+        uniforms={uniforms}
+        transparent
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </points>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// COSMIC SHOCKWAVE RING (Bass Transient Pulse Wave)
+// ─────────────────────────────────────────────────────────────────────
+
+function CosmicShockwaveRing() {
+  const meshRef = useRef()
+  const ringScale = useRef(1)
+  const ringAlpha = useRef(0)
+
+  useEffect(() => {
+    return audioEngine.onBeat((beat) => {
+      if (beat.type === 'kick') {
+        ringScale.current = 1.5
+        ringAlpha.current = 0.8
+      }
+    })
+  }, [])
+
+  useFrame((_, delta) => {
+    if (!meshRef.current) return
+    if (ringAlpha.current > 0.01) {
+      ringScale.current += delta * 14
+      ringAlpha.current = Math.max(0, ringAlpha.current - delta * 1.6)
+      meshRef.current.scale.set(ringScale.current, ringScale.current, 1)
+      meshRef.current.material.opacity = ringAlpha.current
+    } else {
+      meshRef.current.material.opacity = 0
+    }
+  })
+
+  return (
+    <mesh ref={meshRef} position={[0, 0, -14]} rotation={[0, 0, 0]}>
+      <ringGeometry args={[1, 1.25, 64]} />
+      <meshBasicMaterial
+        color="#ff0033"
+        transparent
+        opacity={0}
+        side={THREE.DoubleSide}
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+      />
+    </mesh>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────
 // INNER SCENE (all elements composed together)
 // ─────────────────────────────────────────────────────────────────────
 
@@ -774,9 +935,12 @@ function InnerScene() {
       <SceneRotator reducedMotion={reducedMotion}>
         <StarField count={Math.min(counts.stars, 1000)} />
         <CosmicDust count={Math.min(counts.dust, 250)} />
+        <VolcanicAshEmbers count={180} />
+        <RedEnergyRifts count={5} />
         <MetallicDebris count={counts.debris} />
         <OrbitalRings count={counts.rings} />
         <Nebula count={counts.nebula} />
+        <CosmicShockwaveRing />
       </SceneRotator>
 
       {/* Fog for depth */}

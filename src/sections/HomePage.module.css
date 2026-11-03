@@ -687,7 +687,37 @@
   width: 100%;
   z-index: 10;
   scroll-margin-top: 54px;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Кинематографичный разделитель секций */
+.sectionDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  max-width: 1200px;
+  margin: var(--space-2xl) auto;
+  padding: 0 var(--space-xl);
+  position: relative;
+  z-index: 10;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(220, 20, 60, 0.45) 50%, transparent);
+}
+
+.dividerNode {
+  color: var(--red-crimson);
+  font-size: 10px;
+  text-shadow: 0 0 10px #ff0022;
+  animation: nodeGlow 2.5s infinite alternate;
+}
+
+@keyframes nodeGlow {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  100% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 6px #ff0022); }
 }
 
 /* ───────────────────────────────────────────────────────────── */

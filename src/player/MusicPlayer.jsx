@@ -1,6 +1,7 @@
 // SILICIUM — Music Player Component
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useStore } from '../data/store'
+import { audioEngine } from '../services/audioEngine'
 import styles from './MusicPlayer.module.css'
 
 export default function MusicPlayer() {
@@ -9,6 +10,26 @@ export default function MusicPlayer() {
   const audioContextRef = useRef(null)
   const sourceRef = useRef(null)
   const progressRef = useRef(null)
+  const vizBarsRef = useRef([])
+
+  // Real-time authentic FFT visualizer
+  useEffect(() => {
+    const unsubscribe = audioEngine.onFrame((data) => {
+      if (!vizBarsRef.current || !data.rawFft) return
+      const total = vizBarsRef.current.length
+      for (let i = 0; i < total; i++) {
+        const bar = vizBarsRef.current[i]
+        if (bar) {
+          const binIdx = Math.floor((i / total) * (data.rawFft.length * 0.75))
+          const val = data.rawFft[binIdx] || 0
+          const h = Math.max(2, (val / 255) * 24)
+          bar.style.height = `${h}px`
+          bar.style.opacity = (0.3 + (val / 255) * 0.7).toString()
+        }
+      }
+    })
+    return () => unsubscribe()
+  }, [])
   
   const {
     isPlaying, currentTrack, currentRelease,
@@ -160,12 +181,11 @@ export default function MusicPlayer() {
         {Array.from({ length: 32 }).map((_, i) => (
           <div
             key={i}
+            ref={(el) => (vizBarsRef.current[i] = el)}
             className={styles.vizBar}
             style={{
-              height: isPlaying 
-                ? `${Math.max(2, Math.random() * 20 + 4)}px` 
-                : '2px',
-              animationDelay: `${i * 30}ms`
+              height: '2px',
+              opacity: 0.3,
             }}
           />
         ))}

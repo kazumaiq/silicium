@@ -1,46 +1,172 @@
-.cursor {
+/* SILICIUM — Cybernetic Reticle Cursor Styling */
+
+.trailCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+.reticle {
   position: fixed;
   top: 0;
   left: 0;
-  width: 40px;
-  height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -16px;
   pointer-events: none;
-  z-index: var(--z-cursor);
-  mix-blend-mode: difference;
-  transition: width 0.3s var(--ease-out), height 0.3s var(--ease-out), border-color 0.3s;
+  z-index: 9999;
+  transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              margin 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease;
   will-change: transform;
 }
 
-.dot {
-  position: fixed;
-  top: 0;
-  left: 0;
+/* Corner Reticle Brackets */
+.cornerTL, .cornerTR, .cornerBL, .cornerBR {
+  position: absolute;
   width: 6px;
   height: 6px;
-  background: var(--red-crimson);
+  border-color: rgba(255, 255, 255, 0.6);
+  transition: all 0.2s ease;
+}
+
+.cornerTL {
+  top: 0;
+  left: 0;
+  border-top: 1.5px solid;
+  border-left: 1.5px solid;
+}
+
+.cornerTR {
+  top: 0;
+  right: 0;
+  border-top: 1.5px solid;
+  border-right: 1.5px solid;
+}
+
+.cornerBL {
+  bottom: 0;
+  left: 0;
+  border-bottom: 1.5px solid;
+  border-left: 1.5px solid;
+}
+
+.cornerBR {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1.5px solid;
+  border-right: 1.5px solid;
+}
+
+/* Crosshair subtle axis ticks */
+.crosshairH {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  right: 2px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-50%);
+}
+
+.crosshairV {
+  position: absolute;
+  left: 50%;
+  top: 2px;
+  bottom: 2px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(-50%);
+}
+
+/* Laser Center Dot */
+.laserDot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  margin-top: -2px;
+  background: #ff0022;
+  box-shadow: 0 0 8px #ff0022, 0 0 16px rgba(220, 20, 60, 0.8);
   border-radius: 50%;
   pointer-events: none;
-  z-index: var(--z-cursor);
+  z-index: 10000;
   will-change: transform;
 }
 
-.hover {
-  width: 60px;
-  height: 60px;
+/* Floating HUD */
+.reticleHud {
+  position: absolute;
+  top: 36px;
+  left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.hudCoords {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.45);
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1px 4px;
+  border-left: 1px solid var(--red-crimson);
+}
+
+.hudLockLabel {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--red-crimson);
+  background: rgba(10, 0, 2, 0.85);
+  padding: 1px 5px;
+  border: 1px solid var(--red-crimson);
+  box-shadow: 0 0 10px rgba(255, 0, 34, 0.4);
+  animation: hudBlink 1.5s infinite;
+}
+
+@keyframes hudBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Hover Lock State */
+.reticleLock {
+  width: 48px;
+  height: 48px;
+  margin-left: -24px;
+  margin-top: -24px;
+}
+
+.reticleLock .cornerTL,
+.reticleLock .cornerTR,
+.reticleLock .cornerBL,
+.reticleLock .cornerBR {
   border-color: var(--red-crimson);
+  width: 9px;
+  height: 9px;
+  filter: drop-shadow(0 0 4px #ff0022);
 }
 
-.click {
-  width: 30px;
-  height: 30px;
-  border-color: var(--red-energy);
-  background: rgba(220, 20, 60, 0.1);
+.reticleLock .crosshairH,
+.reticleLock .crosshairV {
+  background: rgba(255, 0, 34, 0.4);
 }
 
-@media (pointer: coarse) {
-  .cursor, .dot {
-    display: none;
+/* Strict Mobile / Touch Hide */
+@media (pointer: coarse), (max-width: 1024px) {
+  .trailCanvas,
+  .reticle,
+  .laserDot {
+    display: none !important;
   }
 }

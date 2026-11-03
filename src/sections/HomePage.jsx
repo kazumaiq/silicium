@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { ARTIST, RELEASES } from '../data/config'
 import { useStore } from '../data/store'
+import { audioEngine } from '../services/audioEngine'
 
 // Secondary Sections for Single-Page Seamless Flow
 import DiscographyPage from './DiscographyPage'
@@ -34,6 +35,17 @@ export default function HomePage() {
 
   const releasesScrollRef = useRef(null)
   const homeSectionRef = useRef(null)
+
+  // Audio Reactive & Parallax Refs
+  const ringRef = useRef(null)
+  const laserRingRef = useRef(null)
+  const maskRef = useRef(null)
+  const auraRef = useRef(null)
+  const waveBarsRef = useRef([])
+
+  const metalRef = useRef(null)
+  const smokeRef = useRef(null)
+  const cracksRef = useRef(null)
 
   // 5 последних релизов для Hero-карусели
   const latestFiveReleases = RELEASES.slice(0, 5)
@@ -135,15 +147,83 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', handleScrollSpy)
   }, [setCurrentSection])
 
+  // Реальное аудио-реактивное воздействие на Hero элементы в реальном времени (60 FPS)
+  useEffect(() => {
+    let laserAngle = 0
+
+    const unsubscribe = audioEngine.onFrame((data) => {
+      // 1. Центральное пульсирующее энергетическое кольцо
+      if (ringRef.current) {
+        const scale = 1 + data.bass * 0.14
+        const glowBlur = 25 + data.bass * 50
+        const glowOpacity = 0.75 + data.energy * 0.25
+        ringRef.current.style.transform = `scale(${scale})`
+        ringRef.current.style.boxShadow = `0 0 ${glowBlur}px rgba(255, 0, 34, ${glowOpacity}), 0 0 ${glowBlur * 2}px rgba(139, 0, 0, 0.6), inset 0 0 ${glowBlur}px rgba(255, 0, 34, 0.5)`
+        ringRef.current.style.borderColor = `rgba(255, ${Math.round(data.bass * 60)}, 34, 0.95)`
+      }
+
+      // 2. Лазерное орбитальное кольцо вращается в такт с частотами
+      if (laserRingRef.current) {
+        laserAngle += 0.5 + data.energy * 2.5
+        laserRingRef.current.style.transform = `rotate(${laserAngle}deg)`
+        laserRingRef.current.style.borderColor = `rgba(255, 40, 60, ${0.5 + data.treble * 0.5})`
+      }
+
+      // 3. Центральная демоническая маска — микровздрагивание на 808 бас
+      if (maskRef.current) {
+        const maskScale = 1 + data.bass * 0.06
+        maskRef.current.style.transform = `scale(${maskScale})`
+        maskRef.current.style.filter = `contrast(${1.25 + data.bass * 0.2}) brightness(${1.05 + data.energy * 0.15}) drop-shadow(0 0 ${35 + data.bass * 35}px rgba(220, 20, 60, ${0.45 + data.bass * 0.4}))`
+      }
+
+      // 4. Фоновая красная аура разрастается при низких частотах
+      if (auraRef.current) {
+        const auraScale = 1 + data.bass * 0.24
+        const auraOpacity = 0.28 + data.bass * 0.28
+        auraRef.current.style.transform = `translateX(-50%) scale(${auraScale})`
+        auraRef.current.style.opacity = auraOpacity.toString()
+      }
+
+      // 5. Полосы звуковой волны в компактном плеере
+      if (waveBarsRef.current.length > 0 && data.rawFft) {
+        const total = waveBarsRef.current.length
+        for (let i = 0; i < total; i++) {
+          const bar = waveBarsRef.current[i]
+          if (bar) {
+            const binIdx = Math.floor((i / total) * (data.rawFft.length * 0.65))
+            const val = data.rawFft[binIdx] || 0
+            const h = Math.max(3, (val / 255) * 26)
+            bar.style.height = `${h}px`
+            bar.style.opacity = (0.35 + (val / 255) * 0.65).toString()
+          }
+        }
+      }
+    })
+
+    // Многослойный скролл-параллакс
+    const handleScrollParallax = () => {
+      const y = window.scrollY
+      if (metalRef.current) metalRef.current.style.transform = `translate3d(0, ${y * 0.08}px, 0)`
+      if (smokeRef.current) smokeRef.current.style.transform = `translate3d(0, ${y * 0.15}px, 0)`
+      if (cracksRef.current) cracksRef.current.style.transform = `translate3d(0, ${y * 0.04}px, 0)`
+    }
+    window.addEventListener('scroll', handleScrollParallax, { passive: true })
+
+    return () => {
+      unsubscribe()
+      window.removeEventListener('scroll', handleScrollParallax)
+    }
+  }, [])
+
   return (
     <div className={styles.seamlessContainer}>
       {/* ───────────────────────────────────────────────────────────── */}
       {/* МНОГОСЛОЙНЫЙ ТЕМНЫЙ ФОН: Металл, дым, трещины стекла, аура    */}
       {/* ───────────────────────────────────────────────────────────── */}
-      <div className={styles.metalTextureLayer} />
-      <div className={styles.smokeLayer} />
-      <div className={styles.glassCracksLayer} />
-      <div className={styles.redGlowAura} />
+      <div ref={metalRef} className={styles.metalTextureLayer} />
+      <div ref={smokeRef} className={styles.smokeLayer} />
+      <div ref={cracksRef} className={styles.glassCracksLayer} />
+      <div ref={auraRef} className={styles.redGlowAura} />
 
       {/* Угловые металлические скобы и вертикальные цепи */}
       <div className={styles.cornerBracketTL} />
@@ -183,14 +263,15 @@ export default function HomePage() {
           <div className={styles.centerFocalStage}>
             {/* Энергетическое кольцо */}
             <div className={styles.energyRingWrapper}>
-              <div className={styles.pulsingEnergyRing} />
-              <div className={styles.laserOrbitRing} />
+              <div ref={ringRef} className={styles.pulsingEnergyRing} />
+              <div ref={laserRingRef} className={styles.laserOrbitRing} />
               <div className={styles.innerSparksRing} />
             </div>
 
             {/* Органично растворенная круглая маска */}
             <div className={styles.maskCompositeContainer}>
               <img
+                ref={maskRef}
                 src="/images/demon-mask-blended.png"
                 alt="SILICIUM Occult Mask"
                 className={styles.centralDemonMask}
@@ -213,6 +294,8 @@ export default function HomePage() {
                 onClick={() => scrollToSection('discography')}
                 className={styles.scrollDownBtn}
                 aria-label="Scroll down to Discography"
+                data-magnetic
+                data-cursor-label="NAVIGATE // DOWN"
               >
                 <span className={styles.scrollDownText}>{t.scrollDown}</span>
                 <span className={styles.scrollLine} />
@@ -234,15 +317,14 @@ export default function HomePage() {
 
               {/* Компактная анимированная звуковая волна */}
               <div className={styles.compactWaveform}>
-                {Array.from({ length: 18 }).map((_, i) => (
+                {Array.from({ length: 22 }).map((_, i) => (
                   <span
                     key={i}
+                    ref={(el) => (waveBarsRef.current[i] = el)}
                     className={styles.waveStick}
                     style={{
-                      height: isPlaying
-                        ? `${Math.max(4, (Math.sin(i * 0.9 + progress) * 0.5 + 0.5) * 22 + 4)}px`
-                        : '4px',
-                      opacity: isPlaying ? 0.95 : 0.35,
+                      height: '4px',
+                      opacity: 0.35,
                     }}
                   />
                 ))}
@@ -254,6 +336,8 @@ export default function HomePage() {
                   onClick={togglePlay}
                   className={`${styles.compactPlayBtn} ${isPlaying ? styles.compactPlayActive : ''}`}
                   aria-label={isPlaying ? 'Pause' : 'Play'}
+                  data-magnetic
+                  data-cursor-label={isPlaying ? 'PAUSE // STREAM' : 'TRANSMIT // BASS'}
                 >
                   {isPlaying ? '▮▮' : '▶'}
                 </button>
@@ -368,12 +452,26 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Cinematic Transition Divider */}
+      <div className={styles.sectionDivider}>
+        <span className={styles.dividerLine} />
+        <span className={styles.dividerNode}>◆</span>
+        <span className={styles.dividerLine} />
+      </div>
+
       {/* ───────────────────────────────────────────────────────────── */}
       {/* 02 // СЕКЦИЯ DISCOGRAPHY (ПОЛНЫЙ КАТАЛОГ ЧАСТОТ)              */}
       {/* ───────────────────────────────────────────────────────────── */}
       <section id="discography" className={styles.contentSection}>
         <DiscographyPage />
       </section>
+
+      {/* Cinematic Transition Divider */}
+      <div className={styles.sectionDivider}>
+        <span className={styles.dividerLine} />
+        <span className={styles.dividerNode}>◆</span>
+        <span className={styles.dividerLine} />
+      </div>
 
       {/* ───────────────────────────────────────────────────────────── */}
       {/* 03 // СЕКЦИЯ 3D ARCHIVE (ПРОСТРАНСТВЕННАЯ МАТРИЦА АРТЕФАКТОВ) */}
@@ -382,6 +480,13 @@ export default function HomePage() {
         <ArchivePage />
       </section>
 
+      {/* Cinematic Transition Divider */}
+      <div className={styles.sectionDivider}>
+        <span className={styles.dividerLine} />
+        <span className={styles.dividerNode}>◆</span>
+        <span className={styles.dividerLine} />
+      </div>
+
       {/* ───────────────────────────────────────────────────────────── */}
       {/* 04 // СЕКЦИЯ ABOUT (ORIGIN, PARADOX & TIMELINE)               */}
       {/* ───────────────────────────────────────────────────────────── */}
@@ -389,12 +494,26 @@ export default function HomePage() {
         <AboutPage />
       </section>
 
+      {/* Cinematic Transition Divider */}
+      <div className={styles.sectionDivider}>
+        <span className={styles.dividerLine} />
+        <span className={styles.dividerNode}>◆</span>
+        <span className={styles.dividerLine} />
+      </div>
+
       {/* ───────────────────────────────────────────────────────────── */}
       {/* 05 // СЕКЦИЯ COMMUNITY (ТЕРМИНАЛЫ СВЯЗИ & TELEGRAM)          */}
       {/* ───────────────────────────────────────────────────────────── */}
       <section id="community" className={styles.contentSection}>
         <CommunityPage />
       </section>
+
+      {/* Cinematic Transition Divider */}
+      <div className={styles.sectionDivider}>
+        <span className={styles.dividerLine} />
+        <span className={styles.dividerNode}>◆</span>
+        <span className={styles.dividerLine} />
+      </div>
 
       {/* ───────────────────────────────────────────────────────────── */}
       {/* 06 // СЕКЦИЯ PLATFORMS (СТРИМИНГОВЫЕ УЗЛЫ)                   */}

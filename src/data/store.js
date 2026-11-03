@@ -1,6 +1,7 @@
 // SILICIUM — Global State Management (Zustand)
 import { create } from 'zustand'
 import { RELEASES } from './config'
+import { audioEngine } from '../services/audioEngine'
 
 const initialRelease = RELEASES[0] || null
 const initialTrack = initialRelease?.tracks?.[0] || null
@@ -33,16 +34,30 @@ export const useStore = create((set, get) => ({
   toggleMenu: () => set((state) => ({ menuOpen: !state.menuOpen })),
   setSelectedReleaseModal: (selectedReleaseModal) => set({ selectedReleaseModal }),
 
-  // Player
+  // Player & Audio Reactive System
   isPlaying: false,
   currentTrack: initialTrack,
   currentRelease: initialRelease,
   volume: 0.8,
   progress: 0,
-  duration: 0,
+  duration: 134,
   miniPlayer: false,
   audioVisualizerData: new Float32Array(64),
-  setIsPlaying: (isPlaying) => set({ isPlaying }),
+  audioBass: 0,
+  audioMid: 0,
+  audioTreble: 0,
+  audioEnergy: 0,
+  isBassHit: false,
+
+  setIsPlaying: (isPlaying) => {
+    if (isPlaying) {
+      audioEngine.start()
+    } else {
+      audioEngine.stop()
+    }
+    set({ isPlaying })
+  },
+
   setCurrentTrack: (currentTrack) => set({ currentTrack }),
   setCurrentRelease: (currentRelease) => set({ currentRelease }),
   setVolume: (volume) => set({ volume }),
@@ -50,14 +65,27 @@ export const useStore = create((set, get) => ({
   setDuration: (duration) => set({ duration }),
   setMiniPlayer: (miniPlayer) => set({ miniPlayer }),
   setAudioVisualizerData: (audioVisualizerData) => set({ audioVisualizerData }),
-  
-  playTrack: (track, release) => set({ 
-    currentTrack: track, 
-    currentRelease: release,
-    isPlaying: true 
-  }),
-  
-  togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),
+  setAudioMetrics: (metrics) => set(metrics),
+
+  playTrack: (track, release) => {
+    audioEngine.start()
+    set({ 
+      currentTrack: track, 
+      currentRelease: release,
+      isPlaying: true,
+      progress: 0
+    })
+  },
+
+  togglePlay: () => {
+    const nextState = !get().isPlaying
+    if (nextState) {
+      audioEngine.start()
+    } else {
+      audioEngine.stop()
+    }
+    set({ isPlaying: nextState })
+  },
 
   // 3D Scene
   sceneQuality: 'high', // high | medium | low

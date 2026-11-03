@@ -116,6 +116,140 @@
   overflow: hidden;
 }
 
+.glassReflection {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, transparent 40%, rgba(220, 20, 60, 0.08) 80%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Живая звуковая волна в модалке */
+.liveWaveContainer {
+  background: rgba(12, 12, 12, 0.9);
+  border: 1px solid var(--gray-900);
+  border-left: 2px solid var(--red-crimson);
+  padding: 8px 10px;
+}
+
+.waveHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.waveLabel {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--silver-dark);
+  letter-spacing: 0.12em;
+}
+
+.waveStatus {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--red-crimson);
+  letter-spacing: 0.15em;
+  font-weight: 700;
+}
+
+.liveWaveCanvas {
+  width: 100%;
+  height: 38px;
+  display: block;
+}
+
+/* EQ Indicator */
+.eqIndicator {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.eqBar {
+  width: 2px;
+  background: var(--red-crimson);
+  border-radius: 1px;
+  animation: eqPulse 0.8s ease-in-out infinite alternate;
+}
+
+.eqBar:nth-child(1) { height: 60%; animation-delay: 0.1s; }
+.eqBar:nth-child(2) { height: 100%; animation-delay: 0.3s; }
+.eqBar:nth-child(3) { height: 40%; animation-delay: 0.2s; }
+
+@keyframes eqPulse {
+  0% { transform: scaleY(0.3); }
+  100% { transform: scaleY(1.0); }
+}
+
+/* Related Artifacts */
+.relatedSection {
+  padding: var(--space-md) var(--space-xl) var(--space-xl);
+  border-top: 1px solid var(--gray-900);
+  background: rgba(8, 8, 8, 0.6);
+}
+
+.relatedHeading {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--silver-dark);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--space-md);
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+.relatedCard {
+  background: rgba(14, 14, 14, 0.8);
+  border: 1px solid var(--gray-900);
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  transition: all var(--duration-fast);
+}
+
+.relatedCard:hover {
+  border-color: var(--red-crimson);
+  background: rgba(30, 8, 12, 0.7);
+  transform: translateY(-2px);
+}
+
+.relatedCover {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.relatedMeta {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.relatedYear {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--red-crimson);
+  letter-spacing: 0.1em;
+}
+
+.relatedTitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+}
+
 .coverImage {
   width: 100%;
   height: 100%;
@@ -312,5 +446,14 @@
   .coverFrame {
     max-width: 200px;
     margin: 0 auto;
+  }
+
+  .relatedGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .relatedSection {
+    padding: var(--space-md);
   }
 }

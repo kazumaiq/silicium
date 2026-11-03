@@ -185,6 +185,8 @@ export default function DiscographyPage() {
                 key={rel.id}
                 className={styles.gridCard}
                 onClick={() => setSelectedReleaseModal(rel)}
+                data-cursor-lock
+                data-cursor-label="DECRYPT // ARTIFACT"
               >
                 <div className={styles.cardCoverWrapper}>
                   <img
@@ -201,6 +203,8 @@ export default function DiscographyPage() {
                         playTrack(rel.tracks[0], rel)
                       }}
                       aria-label={isPlayingThis ? 'Pause' : 'Play'}
+                      data-magnetic
+                      data-cursor-label={isPlayingThis ? 'PAUSE // FREQ' : 'TRANSMIT // BASS'}
                     >
                       {isPlayingThis ? '▮▮' : '▶'}
                     </button>

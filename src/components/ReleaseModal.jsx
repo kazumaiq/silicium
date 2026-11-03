@@ -1,7 +1,57 @@
-// SILICIUM — Release Detail Modal Overlay for Seamless Browsing
-import React, { useEffect } from 'react'
+// SILICIUM — Release Detail Modal Overlay (Release Experience 2.0)
+import React, { useEffect, useRef } from 'react'
 import { useStore } from '../data/store'
+import { RELEASES } from '../data/config'
+import { audioEngine } from '../services/audioEngine'
 import styles from './ReleaseModal.module.css'
+
+// Живая звуковая волна в реальном времени
+function LiveModalWaveform() {
+  const canvasRef = useRef(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+
+    const unsubscribe = audioEngine.onFrame((data) => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      const w = canvas.width
+      const h = canvas.height
+      const barCount = 32
+      const barWidth = (w / barCount) - 2
+
+      for (let i = 0; i < barCount; i++) {
+        const bin = Math.floor((i / barCount) * (data.rawFft.length * 0.7))
+        const val = data.rawFft ? data.rawFft[bin] || 0 : 0
+        const barHeight = Math.max(2, (val / 255) * h)
+        const x = i * (barWidth + 2)
+        const y = h - barHeight
+
+        // Двухцветный градиент полосы: темно-красный у основания, ярко-алый на пике
+        const grad = ctx.createLinearGradient(0, h, 0, y)
+        grad.addColorStop(0, '#55000a')
+        grad.addColorStop(0.6, '#dc143c')
+        grad.addColorStop(1, '#ff3344')
+
+        ctx.fillStyle = grad
+        ctx.fillRect(x, y, barWidth, barHeight)
+      }
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+  return (
+    <div className={styles.liveWaveContainer}>
+      <div className={styles.waveHeader}>
+        <span className={styles.waveLabel}>FFT SPECTRUM ANALYSIS // 64 BINS</span>
+        <span className={styles.waveStatus}>SYNC: ACTIVE</span>
+      </div>
+      <canvas ref={canvasRef} width={280} height={42} className={styles.liveWaveCanvas} />
+    </div>
+  )
+}
 
 export default function ReleaseModal() {
   const selectedRelease = useStore((s) => s.selectedReleaseModal)
@@ -9,6 +59,10 @@ export default function ReleaseModal() {
   const playTrack = useStore((s) => s.playTrack)
   const currentTrack = useStore((s) => s.currentTrack)
   const isPlaying = useStore((s) => s.isPlaying)
+
+  const relatedReleases = selectedRelease
+    ? RELEASES.filter((r) => r.id !== selectedRelease.id).slice(0, 4)
+    : []
 
   useEffect(() => {
     const onKeyDown = (e) => {
@@ -50,7 +104,7 @@ export default function ReleaseModal() {
           <button
             onClick={() => setSelectedRelease(null)}
             className={styles.closeBtn}
-            aria-label="Close specification"
+            aria-label="Close modal"
           >
             ✕
           </button>
@@ -58,7 +112,7 @@ export default function ReleaseModal() {
 
         {/* Inner Content Grid */}
         <div className={styles.grid}>
-          {/* Cover Art Box */}
+          {/* Cover Side */}
           <div className={styles.coverSide}>
             <div className={styles.coverFrame}>
               <img
@@ -70,7 +124,11 @@ export default function ReleaseModal() {
               <div className={styles.cornerTR} />
               <div className={styles.cornerBL} />
               <div className={styles.cornerBR} />
+              <div className={styles.glassReflection} />
             </div>
+
+            {/* Живая звуковая волна */}
+            <LiveModalWaveform />
 
             <div className={styles.techParams}>
               <div className={styles.paramRow}>
@@ -120,6 +178,13 @@ export default function ReleaseModal() {
                         {isActive ? '▮▮' : '▶'}
                       </button>
                       <span className={styles.trackTitle}>{track.title}</span>
+                      {isActive && (
+                        <div className={styles.eqIndicator}>
+                          <span className={styles.eqBar} />
+                          <span className={styles.eqBar} />
+                          <span className={styles.eqBar} />
+                        </div>
+                      )}
                       <span className={styles.trackDuration}>{track.duration || '2:14'}</span>
                     </div>
                   )
@@ -152,6 +217,32 @@ export default function ReleaseModal() {
             </div>
           </div>
         </div>
+
+        {/* Related Artifacts Row */}
+        {relatedReleases.length > 0 && (
+          <div className={styles.relatedSection}>
+            <div className={styles.relatedHeading}>// RELATED OCCULT ARTIFACTS //</div>
+            <div className={styles.relatedGrid}>
+              {relatedReleases.map((rel) => (
+                <div
+                  key={rel.id}
+                  className={styles.relatedCard}
+                  onClick={() => setSelectedRelease(rel)}
+                >
+                  <img
+                    src={rel.cover || '/images/demon-mask-blended.png'}
+                    alt={rel.title}
+                    className={styles.relatedCover}
+                  />
+                  <div className={styles.relatedMeta}>
+                    <span className={styles.relatedYear}>{rel.year}</span>
+                    <span className={styles.relatedTitle}>{rel.title}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
