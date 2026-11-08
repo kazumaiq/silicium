@@ -42,10 +42,12 @@ export default function AboutPage() {
       subFreq: 'ПОДЧАСТОТА: #SIL-2022',
       paradoxTitle: 'ПАРАДОКС SILICIUM',
       designation: 'ОБОЗНАЧЕНИЕ:',
+      aliasLabel: 'АРТИСТ // HANDLE:',
+      scNode: 'SOUNDCLOUD:',
       activeEra: 'ЭПОХА АКТИВНОСТИ:',
       genesisBroadcast: 'ПЕРВАЯ ТРАНСЛЯЦИЯ:',
       status: 'СТАТУС:',
-      online: 'В СЕТИ // ВЕЩАНИЕ',
+      online: 'ОФИЦИАЛЬНЫЙ ПОРТАЛ // В СЕТИ',
       trajectoryTitle: 'ХРОНОЛОГИЧЕСКАЯ ТРАЕКТОРИЯ',
       manifesto: '"Звук — это не просто колебания в пустоте. Это архитектура забытых измерений, деконструирующая реальность через 808-дисторшн."',
     },
@@ -58,10 +60,12 @@ export default function AboutPage() {
       subFreq: 'SUB-FREQ: #SIL-2022',
       paradoxTitle: 'THE SILICIUM PARADOX',
       designation: 'DESIGNATION:',
+      aliasLabel: 'ARTIST // HANDLE:',
+      scNode: 'SOUNDCLOUD:',
       activeEra: 'ACTIVE ERA:',
       genesisBroadcast: 'GENESIS BROADCAST:',
       status: 'STATUS:',
-      online: 'ONLINE // BROADCASTING',
+      online: 'OFFICIAL PORTAL // ONLINE',
       trajectoryTitle: 'CHRONOLOGICAL TRAJECTORY',
       manifesto: '"Sound is not merely vibration in the void; it is the architecture of forgotten dimensions, deconstructing reality through 808 distortion."',
     },
@@ -117,6 +121,22 @@ export default function AboutPage() {
               <div className={styles.specItem}>
                 <span className={styles.specLabel}>{t.designation}</span>
                 <span className={styles.specVal}>{ARTIST.name}</span>
+              </div>
+              <div className={styles.specItem}>
+                <span className={styles.specLabel}>{t.aliasLabel}</span>
+                <span className={styles.specVal}>{ARTIST.handle}</span>
+              </div>
+              <div className={styles.specItem}>
+                <span className={styles.specLabel}>{t.scNode}</span>
+                <a
+                  href={ARTIST.soundcloud}
+                  target="_blank"
+                  rel="noopener noreferrer me"
+                  className={styles.specValLink}
+                  style={{ color: 'var(--red-crimson, #ff0033)', textDecoration: 'none' }}
+                >
+                  soundcloud.com/sillic1um ↗
+                </a>
               </div>
               <div className={styles.specItem}>
                 <span className={styles.specLabel}>{t.activeEra}</span>

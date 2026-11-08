@@ -64,9 +64,9 @@ export default function PlatformsPage() {
             key={key}
             href={item.url || '#'}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer me"
             className={styles.platformCard}
-            aria-label={`Open ${item.name}`}
+            aria-label={`Open official ${item.name}`}
           >
             <div className={styles.iconCircle}>
               <span>{platformIcons[key] || '◆'}</span>

@@ -54,17 +54,17 @@ export default function Footer() {
 
         <div className={styles.bottomRow}>
           <div className={styles.copyright}>
-            © 2022 — 2026 SILICIUM. {t.rights}.
+            © 2022 — 2026 SILICIUM (sillic1um). {t.rights}.
           </div>
 
           <div className={styles.links}>
-            <a href={ARTIST.telegram} target="_blank" rel="noreferrer">TELEGRAM</a>
+            <a href={ARTIST.soundcloud} target="_blank" rel="noopener noreferrer me">SOUNDCLOUD</a>
             <span className={styles.dot}>•</span>
-            <a href={ARTIST.soundcloud} target="_blank" rel="noreferrer">SOUNDCLOUD</a>
+            <a href={ARTIST.spotify} target="_blank" rel="noopener noreferrer me">SPOTIFY</a>
             <span className={styles.dot}>•</span>
-            <a href={ARTIST.spotify} target="_blank" rel="noreferrer">SPOTIFY</a>
+            <a href={ARTIST.telegram} target="_blank" rel="noopener noreferrer me">TELEGRAM</a>
             <span className={styles.dot}>•</span>
-            <a href={ARTIST.vkGroup} target="_blank" rel="noreferrer">VK</a>
+            <a href={ARTIST.vkGroup} target="_blank" rel="noopener noreferrer me">VK</a>
           </div>
         </div>
       </div>

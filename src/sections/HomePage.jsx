@@ -77,7 +77,7 @@ export default function HomePage() {
   // Тексты локализации
   const t = {
     RU: {
-      digitalArchive: 'DIGITAL ARCHIVE',
+      digitalArchive: 'OFFICIAL ARCHIVE // sillic1um',
       years: '2022 — 2026',
       latestReleases: 'ПОСЛЕДНИЕ РЕЛИЗЫ',
       scrollDown: 'ПРОКРУТИТЬ ВНИЗ',
@@ -86,7 +86,7 @@ export default function HomePage() {
       frequencyLabel: 'ТЕКУЩАЯ ЧАСТОТА',
     },
     EN: {
-      digitalArchive: 'DIGITAL ARCHIVE',
+      digitalArchive: 'OFFICIAL ARCHIVE // sillic1um',
       years: '2022 — 2026',
       latestReleases: 'LATEST RELEASES',
       scrollDown: 'SCROLL DOWN',
@@ -95,7 +95,7 @@ export default function HomePage() {
       frequencyLabel: 'CURRENT FREQUENCY',
     },
   }[language] || {
-    digitalArchive: 'DIGITAL ARCHIVE',
+    digitalArchive: 'OFFICIAL ARCHIVE // sillic1um',
     years: '2022 — 2026',
     latestReleases: 'ПОСЛЕДНИЕ РЕЛИЗЫ',
     scrollDown: 'SCROLL DOWN',

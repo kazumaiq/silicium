@@ -115,11 +115,11 @@ export default function Header() {
         <button
           onClick={() => scrollToSection('home')}
           className={styles.logoBtn}
-          aria-label="Silicium Home"
+          aria-label="SILICIUM (sillic1um) — Официальный сайт"
         >
           <img 
             src="/images/logo-silver-new.png"
-            alt="SILICIUM"
+            alt="SILICIUM (sillic1um) — Официальный сайт"
             className={styles.logoImg}
           />
         </button>

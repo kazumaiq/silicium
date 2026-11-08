@@ -3,8 +3,10 @@
 
 export const ARTIST = {
   name: 'SILICIUM',
-  alias: 'sillicium / sillic1um',
-  tagline: 'DIGITAL ARCHIVE // OCCULT PHONK FREQUENCIES',
+  handle: 'sillic1um',
+  alias: 'sillic1um / sillicium / SILIC1UM',
+  tagline: 'OFFICIAL ARTIST ARCHIVE // sillic1um',
+  officialWebsite: 'https://silicium.vercel.app/',
   years: '2022 — 2026',
   firstTrack: 'MY WEED // 2022',
   origin: 'Underground Audio Dimensions',
@@ -12,22 +14,25 @@ export const ARTIST = {
   telegram: 'https://t.me/silliciumphonk',
   vk: 'https://vk.com/artist/sillicium',
   vkGroup: 'https://vk.com/prod.sillicium',
-  soundcloud: 'https://on.soundcloud.com/lpmaAJq1EVE85p6354',
+  soundcloud: 'https://soundcloud.com/sillic1um',
+  soundcloudMobile: 'https://m.soundcloud.com/sillic1um',
+  soundcloudDirect: 'https://on.soundcloud.com/lpmaAJq1EVE85p6354',
   spotify: 'https://open.spotify.com/artist/5P7IaTkm7DkO2WdGPFbuWI?si=SC7ms1itQC-rrtBXLPB1rQ&utm_source=copy-link',
-  bio: 'SILICIUM (sillicium) — occult dark phonk and underground electronic entity initiated in 2022. The sound combines distorted 808 sub-bass, cold atmospheric synthesizers, Memphis hip-hop vocal chops, and dark gothic aesthetic.',
-  description: 'Operating at the boundary of dark phonk and industrial occult art. Genesis track "MY WEED" emerged in December 2022, establishing a continuous digital archive of distorted bass resonance.',
+  bio: 'SILICIUM (известен в сети как sillic1um / sillicium) — официальный проект оккультного dark phonk и андеграундной электронной музыки, основанный в декабре 2022 года. Звучание объединяет дисторшн 808 саб-баса, мрачные синты, мемфисские вокальные сэмплы и готическую эстетику.',
+  description: 'Официальный цифровой архив артиста SILICIUM (sillic1um). Точка отсчета — легендарный сингл "MY WEED" (2022). Подтвержденный профиль SoundCloud: soundcloud.com/sillic1um (m.soundcloud.com/sillic1um) и Spotify.',
 }
 
 export const PLATFORMS = {
+  soundcloud: {
+    name: 'SoundCloud (sillic1um)',
+    url: 'https://soundcloud.com/sillic1um',
+    mobileUrl: 'https://m.soundcloud.com/sillic1um',
+    badge: 'VERIFIED ARTIST',
+  },
   spotify: {
     name: 'Spotify',
     url: 'https://open.spotify.com/artist/5P7IaTkm7DkO2WdGPFbuWI?si=SC7ms1itQC-rrtBXLPB1rQ&utm_source=copy-link',
     badge: 'VERIFIED ARTIST',
-  },
-  soundcloud: {
-    name: 'SoundCloud',
-    url: 'https://on.soundcloud.com/lpmaAJq1EVE85p6354',
-    badge: 'VERIFIED NODE',
   },
   appleMusic: {
     name: 'Apple Music',
@@ -52,9 +57,9 @@ export const PLATFORMS = {
 }
 
 export const SOCIAL = {
+  soundcloud: { name: 'SoundCloud', url: 'https://soundcloud.com/sillic1um', mobileUrl: 'https://m.soundcloud.com/sillic1um', handle: 'sillic1um' },
   telegram: { name: 'Telegram Channel', url: 'https://t.me/silliciumphonk', handle: '@silliciumphonk' },
   vkGroup: { name: 'VK Community', url: 'https://vk.com/prod.sillicium', handle: 'prod.sillicium' },
-  soundcloud: { name: 'SoundCloud', url: 'https://on.soundcloud.com/lpmaAJq1EVE85p6354', handle: 'sillic1um' },
 }
 
 // REAL CONFIRMED SPOTIFY DISCOGRAPHY OF SILICIUM
