@@ -114,11 +114,14 @@
 }
 
 .quoteBox blockquote {
+  font-family: var(--font-editorial, 'Cormorant Garamond', serif);
   font-style: italic;
-  color: var(--white);
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: var(--space-xs);
+  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+  color: var(--white-chrome, #e8e4e6);
+  line-height: 1.5;
+  margin-bottom: var(--space-sm);
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 .quoteBox cite {

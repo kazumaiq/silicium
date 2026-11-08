@@ -111,18 +111,24 @@ export default function Header() {
   return (
     <>
       <header ref={headerRef} className={styles.header}>
-        {/* Left: Brand Logo */}
-        <button
-          onClick={() => scrollToSection('home')}
-          className={styles.logoBtn}
-          aria-label="SILICIUM (sillic1um) — Официальный сайт"
-        >
-          <img 
-            src="/images/logo-silver-new.png"
-            alt="SILICIUM (sillic1um) — Официальный сайт"
-            className={styles.logoImg}
-          />
-        </button>
+        {/* Left: Brand Logo & Live Status Indicator */}
+        <div className={styles.leftGroup}>
+          <button
+            onClick={() => scrollToSection('home')}
+            className={styles.logoBtn}
+            aria-label="SILICIUM (sillic1um) — Официальный сайт"
+          >
+            <img 
+              src="/images/logo-silver-new.png"
+              alt="SILICIUM (sillic1um) — Официальный сайт"
+              className={styles.logoImg}
+            />
+          </button>
+          <div className={styles.liveIndicator}>
+            <span className={styles.livePulseDot} />
+            <span className={styles.liveText}>ARCHIVE // LIVE</span>
+          </div>
+        </div>
 
         {/* Center: Desktop 6-Tab Navigation with Red Active Accent */}
         {!isMobile && (

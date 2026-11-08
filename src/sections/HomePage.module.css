@@ -105,6 +105,26 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
+}
+
+/* Martin Garrix Style Colossal Ghost Watermark Behind Hero */
+.heroGhostWatermark {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-size: clamp(6rem, 16vw, 17rem);
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(232, 228, 230, 0.04);
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 1;
+  white-space: nowrap;
+  user-select: none;
 }
 
 .mainStageGrid {
@@ -604,31 +624,49 @@
 }
 
 .releaseThumbCard {
-  background: rgba(8, 8, 8, 0.75);
-  border: 1px solid var(--gray-800);
+  background: rgba(10, 8, 10, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   cursor: pointer;
-  transition: all var(--duration-fast);
+  transition: transform var(--duration-fast), border-color var(--duration-fast), box-shadow var(--duration-fast);
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
 .releaseThumbCard:hover {
   border-color: var(--red-crimson);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8), 0 0 12px rgba(220, 20, 60, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.9), 0 0 18px rgba(255, 23, 61, 0.25);
 }
 
 .cardActiveSelection {
   border-color: var(--red-crimson);
-  background: rgba(25, 5, 8, 0.85);
+  background: rgba(25, 3, 7, 0.9);
+  box-shadow: 0 0 20px rgba(255, 23, 61, 0.35);
 }
 
 .coverFrame {
   position: relative;
-  aspect-ratio: 16 / 9;
-  max-height: 58px;
-  background: #000;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  background: #030303;
   overflow: hidden;
+}
+
+.thumbIndex {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--white);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 1px 5px;
+  z-index: 3;
+  pointer-events: none;
+  border-left: 2px solid var(--red-crimson);
 }
 
 .coverImg {
@@ -685,11 +723,11 @@
 }
 
 .releaseMetaBox {
-  padding: 4px var(--space-sm);
+  padding: 6px var(--space-sm) 8px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid var(--gray-900);
+  flex-direction: column;
+  gap: 3px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .releaseTitleText {
@@ -700,6 +738,29 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.releaseMetaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.releaseYearText {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--silver-dark);
+}
+
+.releaseFormatBadge {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  color: var(--red-crimson);
+  background: rgba(255, 23, 61, 0.12);
+  border: 1px solid rgba(255, 23, 61, 0.3);
+  padding: 1px 4px;
 }
 
 .textLinkBtn {

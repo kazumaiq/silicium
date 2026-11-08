@@ -254,6 +254,11 @@ export default function HomePage() {
       {/* 01 // СЕКЦИЯ HOME (EXACT CONCEPT MOCKUP HERO STAGE)           */}
       {/* ───────────────────────────────────────────────────────────── */}
       <section id="home" ref={homeSectionRef} className={styles.homeSection}>
+        {/* Martin Garrix Style Colossal Ghost Watermark */}
+        <div className={styles.heroGhostWatermark} aria-hidden="true">
+          SILICIUM
+        </div>
+
         <div className={styles.mainStageGrid}>
           {/* ЛЕВАЯ ЧАСТЬ: МУЗЫКАЛЬНЫЕ НАПРАВЛЕНИЯ */}
           <aside className={styles.leftGenresBlock}>
@@ -411,7 +416,7 @@ export default function HomePage() {
 
           {/* Горизонтальная лента из 5 карточек */}
           <div ref={releasesScrollRef} className={styles.fiveReleasesTrack}>
-            {latestFiveReleases.map((rel) => {
+            {latestFiveReleases.map((rel, idx) => {
               const isSelected = activeRelease.id === rel.id
               const isPlayingThis = isPlaying && isSelected
 
@@ -425,6 +430,7 @@ export default function HomePage() {
                   }}
                 >
                   <div className={styles.coverFrame}>
+                    <span className={styles.thumbIndex}>0{idx + 1}</span>
                     <img
                       src={rel.cover}
                       alt={rel.title}
@@ -466,7 +472,10 @@ export default function HomePage() {
                         {rel.title}
                       </button>
                     </div>
-                    <div className={styles.releaseYearText}>{rel.year}</div>
+                    <div className={styles.releaseMetaRow}>
+                      <span className={styles.releaseYearText}>{rel.year}</span>
+                      <span className={styles.releaseFormatBadge}>{rel.type || 'SINGLE'}</span>
+                    </div>
                   </div>
                 </article>
               )

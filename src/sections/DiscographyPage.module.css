@@ -1,223 +1,473 @@
+/* SILICIUM — Editorial Discography (Martin Garrix Architecture + Occult Identity) */
+
 .discographyContainer {
-  max-width: 1400px;
+  max-width: 1540px;
   width: 100%;
   margin: 0 auto;
-  padding: var(--space-3xl) var(--space-xl);
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 4vw, 3rem);
+  box-sizing: border-box;
   position: relative;
+  overflow: visible;
 }
 
-/* Control Bar */
-.controlBar {
+/* ───────────────────────────────────────────────────────────── */
+/* 1. EDITORIAL FEATURED HERO SECTION                            */
+/* ───────────────────────────────────────────────────────────── */
+.featuredHeroSection {
+  position: relative;
+  width: 100%;
+  margin-bottom: clamp(3rem, 7vw, 6rem);
+  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3.5rem);
+  background: linear-gradient(135deg, rgba(25, 3, 7, 0.45) 0%, rgba(8, 6, 7, 0.85) 60%, rgba(3, 3, 3, 0.95) 100%);
+  border: 1px solid rgba(255, 23, 61, 0.18);
+  border-left: 3px solid var(--red-neon, #FF173D);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 0 40px rgba(25, 3, 7, 0.4);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Watermark Text Behind Hero */
+.heroWatermarkText {
+  position: absolute;
+  top: -15px;
+  right: -20px;
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(4rem, 15vw, 13rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 23, 61, 0.05);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  line-height: 0.85;
+  z-index: 0;
+}
+
+.featuredHeroGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.heroContentCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.heroBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.heroBadge {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--red-neon, #FF173D);
+  background: rgba(255, 23, 61, 0.12);
+  border: 1px solid rgba(255, 23, 61, 0.35);
+  padding: 3px 8px;
+  text-transform: uppercase;
+}
+
+.heroDate {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 10px;
+  color: var(--gray-muted, #777177);
+  letter-spacing: 0.14em;
+}
+
+.heroTitle {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--white-chrome, #E8E4E6);
+  line-height: 0.95;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.heroArtistLine {
+  font-family: var(--font-editorial, 'Cormorant Garamond', serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  color: var(--gray-400, #9e9a9e);
+  margin-bottom: clamp(1rem, 2.5vw, 1.8rem);
+  letter-spacing: 0.04em;
+}
+
+.heroDescription {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+  color: var(--gray-300, #bdbabb);
+  line-height: 1.65;
+  max-width: 580px;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.heroActionsRow {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 18px);
+  flex-wrap: wrap;
+}
+
+.heroPlayBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 26px;
+  background: var(--red-neon, #FF173D);
+  color: #fff;
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  border: 1px solid var(--red-neon, #FF173D);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+  box-shadow: 0 0 20px rgba(255, 23, 61, 0.45);
+}
+
+.heroPlayBtn:hover {
+  background: #ff3355;
+  box-shadow: 0 0 30px rgba(255, 23, 61, 0.7);
+  transform: translateY(-1px);
+}
+
+.heroPlayBtnActive {
+  background: rgba(25, 3, 7, 0.9);
+  color: var(--red-neon, #FF173D);
+  border-color: var(--red-neon, #FF173D);
+  box-shadow: 0 0 25px rgba(255, 23, 61, 0.6);
+}
+
+.playIcon {
+  font-size: 12px;
+}
+
+.heroSpecBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 22px;
+  background: rgba(8, 6, 7, 0.8);
+  color: var(--white-chrome, #E8E4E6);
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.heroSpecBtn:hover {
+  border-color: var(--white-chrome, #E8E4E6);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Right Column Artwork Presentation */
+.heroArtworkCol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.artworkFrame {
+  position: relative;
+  width: min(100%, 420px);
+  aspect-ratio: 1;
+  background: #080607;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+}
+
+.artworkAmbientGlow {
+  position: absolute;
+  inset: -15px;
+  background: radial-gradient(circle, rgba(255, 23, 61, 0.3) 0%, transparent 70%);
+  filter: blur(25px);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.7;
+  transition: opacity 0.4s ease;
+}
+
+.artworkFrame:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 23, 61, 0.35);
+}
+
+.artworkFrame:hover .artworkAmbientGlow {
+  opacity: 1;
+}
+
+.heroArtworkImg {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.artworkCornerTL {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid var(--red-neon, #FF173D);
+  border-left: 2px solid var(--red-neon, #FF173D);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.artworkCornerBR {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  border-bottom: 2px solid var(--red-neon, #FF173D);
+  border-right: 2px solid var(--red-neon, #FF173D);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ───────────────────────────────────────────────────────────── */
+/* 2. EDITORIAL FILTER BAR & YEAR SELECTOR (MARTIN GARRIX STYLE)  */
+/* ───────────────────────────────────────────────────────────── */
+.controlBarSection {
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: clamp(1rem, 2.5vw, 1.8rem);
+}
+
+.filterBarHeaderRow {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   gap: var(--space-md);
-  padding: var(--space-md);
-  background: rgba(10, 10, 10, 0.8);
-  border: 1px solid var(--gray-800);
-  border-left: 2px solid var(--red-crimson);
-  margin-bottom: var(--space-2xl);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+  flex-wrap: wrap;
+}
+
+.archiveSectionHeading {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--white-chrome, #E8E4E6);
+  text-transform: uppercase;
+}
+
+.yearFilterTabs {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.8vw, 20px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.yearFilterTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.yearTabBtn {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--gray-muted, #777177);
+  background: none;
+  border: none;
+  padding: 6px 4px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.yearTabBtn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--red-neon, #FF173D);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.yearTabBtn:hover {
+  color: var(--white-chrome, #E8E4E6);
+}
+
+.yearTabActive {
+  color: var(--white-chrome, #E8E4E6);
+}
+
+.yearTabActive::after {
+  transform: scaleX(1);
+}
+
+.subFilterRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
   flex-wrap: wrap;
 }
 
 .searchBox {
-  position: relative;
   display: flex;
   align-items: center;
-  flex: 1;
-  min-width: 220px;
+  background: rgba(8, 6, 7, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  width: min(100%, 280px);
+  gap: 8px;
 }
 
 .searchIcon {
-  position: absolute;
-  left: 12px;
-  color: var(--silver-dark);
-  font-size: var(--text-base);
-  pointer-events: none;
+  font-size: 14px;
+  color: var(--gray-muted, #777177);
 }
 
 .searchInput {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--gray-800);
-  color: var(--white);
-  padding: 8px 32px 8px 36px;
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.1em;
+  background: none;
+  border: none;
   outline: none;
-  transition: border-color var(--duration-fast);
+  color: var(--white-chrome, #E8E4E6);
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  width: 100%;
 }
 
-.searchInput:focus {
-  border-color: var(--red-crimson);
-  box-shadow: 0 0 10px rgba(220, 20, 60, 0.2);
+.searchInput::placeholder {
+  color: var(--gray-600, #555055);
 }
 
 .clearSearchBtn {
-  position: absolute;
-  right: 10px;
   background: none;
   border: none;
-  color: var(--silver-dark);
+  color: var(--gray-muted, #777177);
+  font-size: 11px;
   cursor: pointer;
-  font-size: var(--text-xs);
 }
 
-.clearSearchBtn:hover {
-  color: var(--white);
-}
-
-.filterGroup {
+.typeButtonGroup {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  flex-wrap: wrap;
+  gap: 6px;
+  overflow-x: auto;
 }
 
-.typeButtons {
-  display: flex;
-  gap: 2px;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--gray-800);
-  padding: 2px;
-}
-
-.filterBtn {
-  background: none;
-  border: none;
-  color: var(--silver-dark);
-  font-family: var(--font-mono);
+.typeBtn {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
   font-size: 10px;
-  letter-spacing: 0.1em;
-  padding: 4px 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--gray-muted, #777177);
+  background: rgba(12, 10, 11, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 7px 14px;
   cursor: pointer;
-  transition: all var(--duration-fast);
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.filterBtn:hover {
-  color: var(--white);
+.typeBtn:hover {
+  color: var(--white-chrome, #E8E4E6);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.activeFilter {
-  color: var(--white);
-  background: var(--red-blood);
-  font-weight: 700;
-}
-
-.yearSelect {
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--gray-800);
-  color: var(--silver);
-  padding: 6px 10px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  outline: none;
-  cursor: pointer;
-}
-
-.yearSelect:focus {
-  border-color: var(--red-crimson);
+.typeBtnActive {
+  color: var(--white-chrome, #E8E4E6);
+  border-color: var(--red-neon, #FF173D);
+  background: rgba(25, 3, 7, 0.8);
 }
 
 .viewToggle {
   display: flex;
-  border: 1px solid var(--gray-800);
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
 }
 
 .viewBtn {
-  background: rgba(0, 0, 0, 0.5);
-  border: none;
-  color: var(--silver-dark);
-  padding: 4px 8px;
-  font-size: 12px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12, 10, 11, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--gray-muted, #777177);
+  font-size: 14px;
   cursor: pointer;
-  transition: color var(--duration-fast);
+  transition: all 0.2s ease;
 }
 
-.viewBtn:first-child {
-  border-right: 1px solid var(--gray-800);
+.viewBtn:hover {
+  color: var(--white-chrome, #E8E4E6);
 }
 
 .activeView {
-  color: var(--red-crimson);
-  background: rgba(220, 20, 60, 0.15);
+  color: var(--red-neon, #FF173D);
+  border-color: var(--red-neon, #FF173D);
+  background: rgba(25, 3, 7, 0.8);
 }
 
-/* Grid Matrix */
+/* ───────────────────────────────────────────────────────────── */
+/* 3. RELEASE CATALOG GRID (EDITORIAL ASYMMETRIC SCALE)          */
+/* ───────────────────────────────────────────────────────────── */
 .releaseGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: var(--space-lg);
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 3.5vw, 3rem);
 }
 
-/* Enhanced cinematic cover hover */
 .gridCard {
   position: relative;
-  background: rgba(8, 8, 8, 0.85);
-  border: 1px solid var(--gray-800);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: all var(--duration-fast);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  background: rgba(8, 6, 7, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
   cursor: pointer;
-}
-
-.gridCard::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(220, 20, 60, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.03) 100%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.gridCard:hover::before {
-  opacity: 1;
-}
-
-.gridCard::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.03) 45%,
-    rgba(255, 255, 255, 0.06) 50%,
-    rgba(255, 255, 255, 0.03) 55%,
-    transparent 60%
-  );
-  transform: translateX(-100%);
-  transition: transform 0.8s ease;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.gridCard:hover::after {
-  transform: translateX(100%);
+  box-sizing: border-box;
 }
 
 .gridCard:hover {
-  border-color: var(--red-crimson);
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 16px rgba(220, 20, 60, 0.25);
+  transform: translateY(-5px);
+  border-color: rgba(255, 23, 61, 0.5);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 23, 61, 0.2);
 }
 
-.cardCoverWrapper {
+.gridCardActive {
+  border-color: var(--red-neon, #FF173D);
+  box-shadow: 0 0 30px rgba(255, 23, 61, 0.35);
+}
+
+.cardCoverBox {
   position: relative;
+  width: 100%;
   aspect-ratio: 1;
-  background: #000;
+  background: #080607;
   overflow: hidden;
 }
 
@@ -225,162 +475,217 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: contrast(1.15) brightness(0.95);
+  display: block;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  filter: brightness(0.92) contrast(1.04);
 }
 
 .gridCard:hover .cardCover {
-  transform: scale(1.08);
-  filter: contrast(1.2) brightness(1.05) saturate(1.1);
+  transform: scale(1.05);
+  filter: brightness(1) contrast(1.08);
 }
 
-.gridCardActive {
-  border-color: var(--red-crimson) !important;
-  box-shadow: 0 0 25px rgba(255, 0, 34, 0.45), inset 0 0 15px rgba(220, 20, 60, 0.2);
+.cardCornerClipTL {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid rgba(255, 255, 255, 0.3);
+  border-left: 2px solid rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  transition: border-color 0.3s ease;
 }
 
-.gridCardActive .cardCover {
-  transform: scale(1.04);
-  filter: contrast(1.15) brightness(1.08);
+.cardCornerClipBR {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  border-right: 2px solid rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  transition: border-color 0.3s ease;
 }
 
-.cardOverlay {
+.gridCard:hover .cardCornerClipTL,
+.gridCard:hover .cardCornerClipBR {
+  border-color: var(--red-neon, #FF173D);
+}
+
+.cardHoverOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(3, 3, 3, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
+  gap: 10px;
   opacity: 0;
-  transition: opacity var(--duration-fast);
+  transition: opacity 0.3s ease;
 }
 
-.gridCard:hover .cardOverlay {
+.gridCard:hover .cardHoverOverlay {
   opacity: 1;
 }
 
 .overlayPlayBtn {
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background: var(--red-blood);
-  border: 1px solid var(--red-crimson);
-  color: var(--white);
-  font-size: 14px;
+  background: var(--red-neon, #FF173D);
+  color: #fff;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: none;
   cursor: pointer;
-  box-shadow: 0 0 15px rgba(220, 20, 60, 0.6);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 0 20px rgba(255, 23, 61, 0.7);
+}
+
+.overlayPlayBtn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 0 30px rgba(255, 23, 61, 0.9);
 }
 
 .inspectHint {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
   font-size: 10px;
-  letter-spacing: 0.15em;
-  color: var(--silver);
-  background: rgba(0, 0, 0, 0.8);
-  border: 1px solid var(--gray-800);
-  padding: 3px 8px;
+  color: var(--white-chrome, #E8E4E6);
+  letter-spacing: 0.18em;
 }
 
 .cardMeta {
-  padding: var(--space-sm) var(--space-md);
+  padding: clamp(1rem, 2vw, 1.4rem);
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  background: rgba(12, 12, 12, 0.95);
-  border-top: 1px solid var(--gray-900);
+  gap: 5px;
 }
 
 .cardTopRow {
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.1em;
+  align-items: center;
 }
 
 .cardYear {
-  color: var(--red-crimson);
-  font-weight: 700;
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 11px;
+  color: var(--gray-muted, #777177);
+  letter-spacing: 0.14em;
 }
 
 .cardType {
-  color: var(--silver-dark);
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 9px;
+  color: var(--red-neon, #FF173D);
+  letter-spacing: 0.18em;
+  font-weight: 700;
 }
 
 .cardTitle {
-  font-family: var(--font-mono);
-  font-size: 13px;
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--white);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 2px 0;
+  letter-spacing: -0.01em;
+  color: var(--white-chrome, #E8E4E6);
+  margin-top: 2px;
+  text-transform: uppercase;
+  line-height: 1.2;
 }
 
 .cardBottomRow {
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  color: var(--silver-dark);
+  align-items: center;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* List View */
+.cardGenre {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 10px;
+  color: var(--gray-muted, #777177);
+  letter-spacing: 0.1em;
+}
+
+.cardDuration {
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+  font-size: 10px;
+  color: var(--silver, #c0bcc0);
+  letter-spacing: 0.12em;
+}
+
+/* ───────────────────────────────────────────────────────────── */
+/* LIST VIEW                                                     */
+/* ───────────────────────────────────────────────────────────── */
 .releaseList {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .listRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: 40px 40px 60px 1fr 100px 120px;
   align-items: center;
-  gap: var(--space-md);
+  gap: clamp(8px, 2vw, 18px);
   padding: 10px 16px;
-  background: rgba(10, 10, 10, 0.7);
-  border: 1px solid var(--gray-900);
+  background: rgba(8, 6, 7, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.22s ease;
   cursor: pointer;
-  transition: all var(--duration-fast);
 }
 
 .listRow:hover {
-  border-color: var(--red-crimson);
-  background: rgba(25, 5, 8, 0.85);
+  background: rgba(25, 3, 7, 0.5);
+  border-color: rgba(255, 23, 61, 0.35);
+  transform: translateX(4px);
+}
+
+.listRowActive {
+  border-color: var(--red-neon, #FF173D);
+  background: rgba(25, 3, 7, 0.7);
 }
 
 .listNum {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
   font-size: 11px;
-  color: var(--silver-dark);
-  min-width: 24px;
+  color: var(--gray-muted, #777177);
 }
 
 .listPlayBtn {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: var(--red-blood);
-  border: 1px solid var(--red-crimson);
-  color: var(--white);
-  font-size: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 11px;
   cursor: pointer;
-  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.listPlayBtn:hover {
+  background: var(--red-neon, #FF173D);
+  border-color: var(--red-neon, #FF173D);
 }
 
 .listThumb {
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  background: #000;
+  overflow: hidden;
 }
 
 .listThumb img {
@@ -390,73 +695,114 @@
 }
 
 .listInfo {
-  flex: 1;
-  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .listTitle {
-  font-family: var(--font-mono);
-  font-size: 13px;
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: 1rem;
   font-weight: 700;
-  color: var(--white);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--white-chrome, #E8E4E6);
+  text-transform: uppercase;
 }
 
 .listMeta {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
   font-size: 10px;
-  color: var(--silver-dark);
+  color: var(--gray-muted, #777177);
 }
 
 .listType {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
   font-size: 10px;
-  color: var(--red-crimson);
-  padding: 2px 6px;
-  border: 1px solid var(--gray-800);
+  color: var(--red-neon, #FF173D);
+  letter-spacing: 0.16em;
+  font-weight: 600;
 }
 
 .listSpecBtn {
-  background: none;
-  border: 1px solid var(--gray-800);
-  color: var(--silver);
-  padding: 4px 8px;
-  font-family: var(--font-mono);
+  font-family: var(--font-mono, 'IBM Plex Mono', monospace);
   font-size: 10px;
+  color: var(--silver, #c0bcc0);
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
   cursor: pointer;
-  transition: all var(--duration-fast);
+  transition: all 0.2s ease;
+  text-align: center;
 }
 
 .listSpecBtn:hover {
-  border-color: var(--red-crimson);
-  color: var(--white);
+  border-color: var(--red-neon, #FF173D);
+  color: #fff;
 }
 
-/* Mobile Responsive */
-@media (max-width: 700px) {
-  .discographyContainer {
-    padding: var(--space-xl) var(--space-md);
-  }
-
+/* ───────────────────────────────────────────────────────────── */
+/* RESPONSIVE DESIGN (MOBILE, TABLET)                            */
+/* ───────────────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
   .releaseGrid {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-sm);
+  }
+}
+
+@media (max-width: 860px) {
+  .featuredHeroGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
-  .cardTitle {
-    font-size: 11px;
+  .heroArtworkCol {
+    order: -1;
   }
 
-  .controlBar {
+  .artworkFrame {
+    width: min(100%, 300px);
+    margin: 0 auto;
+  }
+
+  .listRow {
+    grid-template-columns: 32px 32px 48px 1fr;
+  }
+
+  .listType, .listSpecBtn {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .releaseGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .featuredHeroSection {
+    padding: 1.5rem;
+  }
+
+  .heroTitle {
+    font-size: 2.2rem;
+  }
+
+  .heroActionsRow {
     flex-direction: column;
     align-items: stretch;
   }
-}
 
-@media (max-width: 360px) {
-  .releaseGrid {
-    grid-template-columns: 1fr;
+  .heroPlayBtn, .heroSpecBtn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .cardHoverOverlay {
+    opacity: 1;
+    background: transparent;
+  }
+
+  .overlayPlayBtn {
+    width: 44px;
+    height: 44px;
+    font-size: 13px;
   }
 }

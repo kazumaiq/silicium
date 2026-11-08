@@ -16,6 +16,13 @@
   box-sizing: border-box;
 }
 
+.leftGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-shrink: 0;
+}
+
 .logoBtn {
   background: none;
   border: none;
@@ -25,6 +32,38 @@
   align-items: center;
   text-decoration: none;
   flex-shrink: 0;
+}
+
+.liveIndicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(25, 3, 7, 0.6);
+  border: 1px solid rgba(255, 23, 61, 0.25);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.livePulseDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--red-neon, #ff173d);
+  box-shadow: 0 0 6px #ff173d;
+  animation: liveDotPulse 2s infinite ease-in-out;
+}
+
+@keyframes liveDotPulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.liveText {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--white-chrome, #e8e4e6);
+  font-weight: 600;
 }
 
 .logoMain {

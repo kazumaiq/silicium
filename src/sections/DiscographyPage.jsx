@@ -1,4 +1,4 @@
-// SILICIUM — Discography Section (Catalog & Audio Vault)
+// SILICIUM — Editorial Discography (Martin Garrix Architecture + Occult Dark Aesthetic)
 import React, { useMemo } from 'react'
 import { useStore } from '../data/store'
 import { RELEASES } from '../data/config'
@@ -23,16 +23,21 @@ export default function DiscographyPage() {
     language,
   } = useStore()
 
+  const heroRef = useScrollReveal({ threshold: 0.1 })
   const controlRef = useScrollReveal({ threshold: 0.1 })
   const gridRef = useScrollReveal({ threshold: 0.05, rootMargin: '0px 0px -20px 0px' })
 
-  // Извлекаем уникальные годы
+  // Genesis Featured Release (MY WEED)
+  const genesisRelease = RELEASES.find((r) => r.id === 'my-weed') || RELEASES[0]
+  const isGenesisPlaying = isPlaying && currentTrack?.id === genesisRelease?.tracks?.[0]?.id
+
+  // Available unique years in descending order
   const availableYears = useMemo(() => {
     const years = Array.from(new Set(RELEASES.map((r) => r.year)))
     return years.sort((a, b) => b - a)
   }, [])
 
-  // Фильтрация и поиск
+  // Filtered releases
   const filteredReleases = useMemo(() => {
     return RELEASES.filter((rel) => {
       const searchMatch =
@@ -55,39 +60,57 @@ export default function DiscographyPage() {
       code: '// 02 //',
       tag: 'КАТАЛОГ ЧАСТОТ',
       title: 'ДИСКОГРАФИЯ',
-      subtitle: 'Архив физических и цифровых артефактов SILICIUM (2022 — 2026). Оккультный саундтрек темных измерений.',
-      searchPlaceholder: 'ПОИСК АРТЕФАКТА...',
+      subtitle: 'Официальный архив релизов SILICIUM (2022 — 2026). Оккультный темный фонк, дисторшн 808 саб-баса и студийные мастера.',
+      featuredBadge: 'ИСТОК // GENESIS RELEASE',
+      featuredArtist: '— SILICIUM // sillic1um',
+      playGenesis: 'ЗАПУСТИТЬ ВОСПРОИЗВЕДЕНИЕ',
+      pauseGenesis: 'ПАУЗА ЧАСТОТЫ',
+      decryptStory: 'СПЕЦИФИКАЦИЯ ↗',
+      allReleasesHeader: 'АРХИВ РЕЛИЗОВ',
+      searchPlaceholder: 'ПОИСК ПО КАТАЛОГУ...',
       all: 'ВСЕ',
       single: 'СИНГЛЫ',
       ep: 'EP',
       album: 'АЛЬБОМЫ',
-      allCycles: 'ВСЕ ЦИКЛЫ',
+      allCycles: 'ВСЕ ГОДЫ',
       spec: 'СПЕЦИФИКАЦИЯ',
     },
     EN: {
       code: '// 02 //',
       tag: 'FREQUENCY CATALOG',
       title: 'DISCOGRAPHY',
-      subtitle: 'Physical & digital artifacts archive of SILICIUM (2022 — 2026). Occult frequencies extracted from the void.',
-      searchPlaceholder: 'SEARCH ARTIFACT...',
+      subtitle: 'Official physical & digital release archive of SILICIUM (2022 — 2026). Occult dark phonk, 808 sub distortion & master stems.',
+      featuredBadge: 'GENESIS RELEASE // DEC 2022',
+      featuredArtist: '— SILICIUM // sillic1um',
+      playGenesis: 'INITIATE PLAYBACK',
+      pauseGenesis: 'PAUSE FREQUENCY',
+      decryptStory: 'FULL SPECIFICATION ↗',
+      allReleasesHeader: 'ALL RELEASES',
+      searchPlaceholder: 'SEARCH CATALOG...',
       all: 'ALL',
-      single: 'SINGLE',
+      single: 'SINGLES',
       ep: 'EP',
-      album: 'ALBUM',
-      allCycles: 'ALL CYCLES',
+      album: 'ALBUMS',
+      allCycles: 'ALL YEARS',
       spec: 'SPECIFICATION',
     },
   }[language] || {
     code: '// 02 //',
     tag: 'FREQUENCY CATALOG',
     title: 'DISCOGRAPHY',
-    subtitle: 'Physical & digital artifacts archive of SILICIUM (2022 — 2026).',
-    searchPlaceholder: 'SEARCH ARTIFACT...',
+    subtitle: 'Official release archive of SILICIUM (2022 — 2026).',
+    featuredBadge: 'GENESIS RELEASE',
+    featuredArtist: '— SILICIUM // sillic1um',
+    playGenesis: 'INITIATE PLAYBACK',
+    pauseGenesis: 'PAUSE FREQUENCY',
+    decryptStory: 'SPECIFICATION ↗',
+    allReleasesHeader: 'ALL RELEASES',
+    searchPlaceholder: 'SEARCH CATALOG...',
     all: 'ALL',
-    single: 'SINGLE',
+    single: 'SINGLES',
     ep: 'EP',
-    album: 'ALBUM',
-    allCycles: 'ALL CYCLES',
+    album: 'ALBUMS',
+    allCycles: 'ALL YEARS',
     spec: 'SPECIFICATION',
   }
 
@@ -98,32 +121,127 @@ export default function DiscographyPage() {
         tag={t.tag}
         title={t.title}
         subtitle={t.subtitle}
+        watermark="CATALOG"
       />
 
-      {/* Control Bar: Search & Filters */}
-      <div ref={controlRef} className={styles.controlBar}>
-        <div className={styles.searchBox}>
-          <span className={styles.searchIcon}>⌕</span>
-          <input
-            type="text"
-            placeholder={t.searchPlaceholder}
-            value={discographySearch}
-            onChange={(e) => setDiscographySearch(e.target.value)}
-            className={styles.searchInput}
-          />
-          {discographySearch && (
-            <button
-              onClick={() => setDiscographySearch('')}
-              className={styles.clearSearchBtn}
-              aria-label="Clear search"
+      {/* ───────────────────────────────────────────────────────────── */}
+      {/* 1. EDITORIAL FEATURED HERO (MARTIN GARRIX STYLE)              */}
+      {/* ───────────────────────────────────────────────────────────── */}
+      {genesisRelease && (
+        <section ref={heroRef} className={styles.featuredHeroSection}>
+          {/* Subtle Background Watermark Text */}
+          <div className={styles.heroWatermarkText} aria-hidden="true">
+            {genesisRelease.title}
+          </div>
+
+          <div className={styles.featuredHeroGrid}>
+            {/* Left Column: Massive Editorial Typography & Story */}
+            <div className={styles.heroContentCol}>
+              <div className={styles.heroBadgeRow}>
+                <span className={styles.heroBadge}>{t.featuredBadge}</span>
+                <span className={styles.heroDate}>{genesisRelease.releaseDate}</span>
+              </div>
+
+              <h1 className={styles.heroTitle}>{genesisRelease.title}</h1>
+
+              <div className={styles.heroArtistLine}>{t.featuredArtist}</div>
+
+              <p className={styles.heroDescription}>
+                {genesisRelease.description ||
+                  'The foundational genesis frequency of SILICIUM (December 2022). Heavy blown-out 808 sub-harmonics, haunting choir pads, and slow occult dark phonk groove.'}
+              </p>
+
+              <div className={styles.heroActionsRow}>
+                <button
+                  className={`${styles.heroPlayBtn} ${isGenesisPlaying ? styles.heroPlayBtnActive : ''}`}
+                  onClick={() => playTrack(genesisRelease.tracks[0], genesisRelease)}
+                  aria-label={isGenesisPlaying ? t.pauseGenesis : t.playGenesis}
+                >
+                  <span className={styles.playIcon}>{isGenesisPlaying ? '▮▮' : '▶'}</span>
+                  <span className={styles.playLabel}>
+                    {isGenesisPlaying ? t.pauseGenesis : t.playGenesis}
+                  </span>
+                </button>
+
+                <button
+                  className={styles.heroSpecBtn}
+                  onClick={() => setSelectedReleaseModal(genesisRelease)}
+                  aria-label="Open Release Specification"
+                >
+                  {t.decryptStory}
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column: High-Fashion Planar Artwork Presentation */}
+            <div
+              className={styles.heroArtworkCol}
+              onClick={() => setSelectedReleaseModal(genesisRelease)}
             >
-              ✕
+              <div className={styles.artworkFrame}>
+                <div className={styles.artworkAmbientGlow} />
+                <img
+                  src={genesisRelease.cover || '/covers/my-weed.jpg'}
+                  alt={genesisRelease.title}
+                  className={styles.heroArtworkImg}
+                />
+                <div className={styles.artworkCornerTL} />
+                <div className={styles.artworkCornerBR} />
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ───────────────────────────────────────────────────────────── */}
+      {/* 2. EDITORIAL FILTER & YEAR SELECTOR BAR                       */}
+      {/* ───────────────────────────────────────────────────────────── */}
+      <div ref={controlRef} className={styles.controlBarSection}>
+        <div className={styles.filterBarHeaderRow}>
+          <h3 className={styles.archiveSectionHeading}>{t.allReleasesHeader}</h3>
+
+          <div className={styles.yearFilterTabs}>
+            <button
+              onClick={() => setDiscographyYear('all')}
+              className={`${styles.yearTabBtn} ${discographyYear === 'all' ? styles.yearTabActive : ''}`}
+            >
+              {t.all}
             </button>
-          )}
+            {availableYears.map((yr) => (
+              <button
+                key={yr}
+                onClick={() => setDiscographyYear(yr.toString())}
+                className={`${styles.yearTabBtn} ${discographyYear === yr.toString() ? styles.yearTabActive : ''}`}
+              >
+                {yr}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className={styles.filterGroup}>
-          <div className={styles.typeButtons}>
+        {/* Secondary Filter: Search & Type */}
+        <div className={styles.subFilterRow}>
+          <div className={styles.searchBox}>
+            <span className={styles.searchIcon}>⌕</span>
+            <input
+              type="text"
+              placeholder={t.searchPlaceholder}
+              value={discographySearch}
+              onChange={(e) => setDiscographySearch(e.target.value)}
+              className={styles.searchInput}
+            />
+            {discographySearch && (
+              <button
+                onClick={() => setDiscographySearch('')}
+                className={styles.clearSearchBtn}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          <div className={styles.typeButtonGroup}>
             {[
               { id: 'all', label: t.all },
               { id: 'single', label: t.single },
@@ -133,29 +251,14 @@ export default function DiscographyPage() {
               <button
                 key={item.id}
                 onClick={() => setDiscographyFilter(item.id)}
-                className={`${styles.filterBtn} ${discographyFilter === item.id ? styles.activeFilter : ''}`}
+                className={`${styles.typeBtn} ${discographyFilter === item.id ? styles.typeBtnActive : ''}`}
               >
                 {item.label}
               </button>
             ))}
           </div>
 
-          <div className={styles.selectWrapper}>
-            <select
-              value={discographyYear}
-              onChange={(e) => setDiscographyYear(e.target.value)}
-              className={styles.yearSelect}
-              aria-label="Filter by year"
-            >
-              <option value="all">{t.allCycles}</option>
-              {availableYears.map((year) => (
-                <option key={year} value={year}>
-                  CYCLE {year}
-                </option>
-              ))}
-            </select>
-          </div>
-
+          {/* View Mode Toggle */}
           <div className={styles.viewToggle}>
             <button
               onClick={() => setDiscographyView('grid')}
@@ -177,11 +280,13 @@ export default function DiscographyPage() {
         </div>
       </div>
 
-      {/* Release Matrix (Grid or List) */}
+      {/* ───────────────────────────────────────────────────────────── */}
+      {/* 3. RELEASE CATALOG (EDITORIAL GRID OR LIST)                   */}
+      {/* ───────────────────────────────────────────────────────────── */}
       {discographyView === 'grid' ? (
         <div ref={gridRef} className={styles.releaseGrid} data-reveal="fade">
           {filteredReleases.map((rel) => {
-            const isSelected = currentTrack?.id === rel.tracks[0]?.id
+            const isSelected = currentTrack?.id === rel.tracks?.[0]?.id
             const isPlayingThis = isPlaying && isSelected
 
             return (
@@ -189,26 +294,29 @@ export default function DiscographyPage() {
                 key={rel.id}
                 className={`${styles.gridCard} ${isPlayingThis ? styles.gridCardActive : ''}`}
                 onClick={() => setSelectedReleaseModal(rel)}
-                data-cursor-lock
-                data-cursor-label="DECRYPT // ARTIFACT"
               >
-                <div className={styles.cardCoverWrapper}>
+                <div className={styles.cardCoverBox}>
                   <img
                     src={rel.cover || '/images/demon-mask-blended.png'}
                     alt={rel.title}
                     className={styles.cardCover}
                     loading="lazy"
                   />
-                  <div className={styles.cardOverlay}>
+                  
+                  {/* Subtle Gothic Frame Clips */}
+                  <div className={styles.cardCornerClipTL} />
+                  <div className={styles.cardCornerClipBR} />
+
+                  <div className={styles.cardHoverOverlay}>
                     <button
                       className={styles.overlayPlayBtn}
                       onClick={(e) => {
                         e.stopPropagation()
-                        playTrack(rel.tracks[0], rel)
+                        if (rel.tracks && rel.tracks[0]) {
+                          playTrack(rel.tracks[0], rel)
+                        }
                       }}
                       aria-label={isPlayingThis ? 'Pause' : 'Play'}
-                      data-magnetic
-                      data-cursor-label={isPlayingThis ? 'PAUSE // FREQ' : 'TRANSMIT // BASS'}
                     >
                       {isPlayingThis ? '▮▮' : '▶'}
                     </button>
@@ -218,17 +326,19 @@ export default function DiscographyPage() {
 
                 <div className={styles.cardMeta}>
                   <div className={styles.cardTopRow}>
-                    <span className={styles.cardYear}>CYCLE {rel.year}</span>
-                    <span className={styles.cardType}>{rel.type.toUpperCase()}</span>
+                    <span className={styles.cardYear}>{rel.year}</span>
+                    <span className={styles.cardType}>{rel.type?.toUpperCase()}</span>
                   </div>
 
                   <h3 className={styles.cardTitle}>{rel.title}</h3>
 
                   <div className={styles.cardBottomRow}>
                     <span className={styles.cardGenre}>{rel.genre || 'DARK PHONK'}</span>
-                    <span className={styles.cardTrackCount}>
-                      {rel.tracks?.length || 1} FREQ
-                    </span>
+                    {rel.tracks?.[0]?.duration && (
+                      <span className={styles.cardDuration}>
+                        {rel.tracks[0].duration}
+                      </span>
+                    )}
                   </div>
                 </div>
               </article>
@@ -239,22 +349,25 @@ export default function DiscographyPage() {
         /* List View */
         <div ref={gridRef} className={styles.releaseList} data-reveal="fade">
           {filteredReleases.map((rel, idx) => {
-            const isSelected = currentTrack?.id === rel.tracks[0]?.id
+            const isSelected = currentTrack?.id === rel.tracks?.[0]?.id
             const isPlayingThis = isPlaying && isSelected
+            const indexFormatted = String(idx + 1).padStart(2, '0')
 
             return (
               <div
                 key={rel.id}
-                className={styles.listRow}
+                className={`${styles.listRow} ${isPlayingThis ? styles.listRowActive : ''}`}
                 onClick={() => setSelectedReleaseModal(rel)}
               >
-                <span className={styles.listNum}>0{idx + 1}</span>
+                <span className={styles.listNum}>{indexFormatted}</span>
 
                 <button
                   className={styles.listPlayBtn}
                   onClick={(e) => {
                     e.stopPropagation()
-                    playTrack(rel.tracks[0], rel)
+                    if (rel.tracks && rel.tracks[0]) {
+                      playTrack(rel.tracks[0], rel)
+                    }
                   }}
                   aria-label={isPlayingThis ? 'Pause' : 'Play'}
                 >
@@ -268,11 +381,11 @@ export default function DiscographyPage() {
                 <div className={styles.listInfo}>
                   <div className={styles.listTitle}>{rel.title}</div>
                   <div className={styles.listMeta}>
-                    {rel.genre} // CYCLE {rel.year}
+                    {rel.genre} // {rel.year}
                   </div>
                 </div>
 
-                <div className={styles.listType}>{rel.type.toUpperCase()}</div>
+                <div className={styles.listType}>{rel.type?.toUpperCase()}</div>
 
                 <button
                   className={styles.listSpecBtn}
