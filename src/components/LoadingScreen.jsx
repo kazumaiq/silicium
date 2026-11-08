@@ -1,32 +1,8 @@
-// SILICIUM — Cinematic Loading / Intro Screen
-import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
+// SILICIUM — Editorial Entry Curtain (Martin Garrix Benchmark)
+import { useEffect, useRef, useState, useCallback } from 'react'
 import gsap from 'gsap'
 import { useStore } from '../data/store'
 import styles from './LoadingScreen.module.css'
-
-const SYSTEM_MESSAGES = [
-  'CONNECTING TO ARCHIVE...',
-  'SIGNAL DETECTED',
-  'DECRYPTING DATA STREAM',
-  'DIMENSION LOCK: ACQUIRED',
-]
-
-const PARTICLE_COUNT = 50
-
-function generateParticles(count) {
-  const particles = []
-  for (let i = 0; i < count; i++) {
-    particles.push({
-      id: i,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      animationDelay: `${Math.random() * 5}s`,
-      animationDuration: `${4 + Math.random() * 6}s`,
-      scale: 0.5 + Math.random() * 1.5,
-    })
-  }
-  return particles
-}
 
 export default function LoadingScreen() {
   const isLoading = useStore((s) => s.isLoading)
@@ -34,20 +10,15 @@ export default function LoadingScreen() {
   const setLoading = useStore((s) => s.setLoading)
   const setIntroComplete = useStore((s) => s.setIntroComplete)
 
-  const overlayRef = useRef(null)
-  const particleFieldRef = useRef(null)
-  const demonMaskRef = useRef(null)
-  const energyLinesRef = useRef(null)
-  const logoRef = useRef(null)
-  const systemLinesRef = useRef([])
-  const skipButtonRef = useRef(null)
-  const cornersRef = useRef([])
+  const curtainRef = useRef(null)
+  const contentRef = useRef(null)
+  const progressLineRef = useRef(null)
+  const percentRef = useRef(null)
   const timelineRef = useRef(null)
+  const [percent, setPercent] = useState(0)
   const [visible, setVisible] = useState(true)
 
-  const particles = useMemo(() => generateParticles(PARTICLE_COUNT), [])
-
-  const completeIntro = useCallback(() => {
+  const finishIntro = useCallback(() => {
     if (timelineRef.current) {
       timelineRef.current.kill()
     }
@@ -60,204 +31,98 @@ export default function LoadingScreen() {
       },
     })
 
-    tl.to(overlayRef.current, {
+    // Cinematic curtain lift
+    tl.to(contentRef.current, {
       opacity: 0,
-      duration: 0.8,
-      ease: 'power2.inOut',
+      y: -30,
+      duration: 0.4,
+      ease: 'power3.in',
     })
+    .to(curtainRef.current, {
+      yPercent: -100,
+      duration: 0.85,
+      ease: 'power4.inOut',
+    }, '-=0.2')
   }, [setIntroComplete, setLoading])
 
   useEffect(() => {
     if (introComplete || !isLoading) return
 
-    // Reset refs arrays
-    systemLinesRef.current = systemLinesRef.current.filter(Boolean)
-    cornersRef.current = cornersRef.current.filter(Boolean)
-
-    const tl = gsap.timeline()
+    const counter = { val: 0 }
+    const tl = gsap.timeline({
+      onComplete: () => {
+        finishIntro()
+      },
+    })
     timelineRef.current = tl
 
-    // Phase 1 (0–1s): Pure black — nothing happens
-    tl.addLabel('phase1', 0)
-
-    // Show skip button after 2s
-    tl.to(skipButtonRef.current, {
+    // Fade in brand elements immediately
+    tl.to(contentRef.current, {
       opacity: 1,
-      duration: 0.4,
+      y: 0,
+      duration: 0.6,
       ease: 'power2.out',
-    }, 2)
-
-    // Phase 2 (1–2.5s): Cosmic particles appear
-    tl.addLabel('phase2', 1)
-    tl.to(particleFieldRef.current, {
-      opacity: 1,
-      duration: 1.5,
-      ease: 'power2.out',
-    }, 'phase2')
-
-    // Corner brackets fade in
-    tl.to(cornersRef.current, {
-      opacity: 0.5,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: 'power2.out',
-    }, 'phase2+=0.5')
-
-    // System text appears (staggered typing effect)
-    tl.addLabel('systemText', 1.5)
-    systemLinesRef.current.forEach((line, i) => {
-      if (line) {
-        tl.to(line, {
-          opacity: 1,
-          x: 0,
-          duration: 0.4,
-          ease: 'power3.out',
-        }, `systemText+=${i * 0.5}`)
-      }
     })
 
-    // Phase 3 (2.5–4s): Demon mask fades in
-    tl.addLabel('phase3', 2.5)
-    tl.to(demonMaskRef.current, {
-      opacity: 0.6,
-      scale: 1,
-      duration: 1.5,
-      ease: 'power2.out',
-    }, 'phase3')
-
-    // Phase 4 (4–5s): Red energy lines activate
-    tl.addLabel('phase4', 4)
-    tl.to(energyLinesRef.current, {
-      opacity: 1,
-      duration: 0.3,
-      ease: 'power2.out',
-    }, 'phase4')
-
-    // Fade out demon mask as energy lines come in
-    tl.to(demonMaskRef.current, {
-      opacity: 0.15,
-      duration: 0.8,
+    // Progress counter 0 -> 100% in 1.4s
+    tl.to(counter, {
+      val: 100,
+      duration: 1.4,
       ease: 'power2.inOut',
-    }, 'phase4+=0.3')
-
-    // Phase 5 (5–6s): Logo appears
-    tl.addLabel('phase5', 5)
-    tl.to(logoRef.current, {
-      opacity: 1,
-      scale: 1,
-      duration: 1,
-      ease: 'back.out(1.4)',
-    }, 'phase5')
-
-    // Fade energy lines to subtle
-    tl.to(energyLinesRef.current, {
-      opacity: 0.3,
-      duration: 0.8,
-      ease: 'power2.inOut',
-    }, 'phase5+=0.3')
-
-    // Phase 6 (6–7s): Fade out everything
-    tl.addLabel('phase6', 6.2)
-    tl.to(overlayRef.current, {
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.inOut',
-      onComplete: () => {
-        setIntroComplete(true)
-        setLoading(false)
-        setVisible(false)
+      onUpdate: () => {
+        setPercent(Math.round(counter.val))
       },
-    }, 'phase6')
+    }, '-=0.2')
+
+    // Progress hairline expand
+    tl.to(progressLineRef.current, {
+      width: '100%',
+      duration: 1.4,
+      ease: 'power2.inOut',
+    }, '<')
 
     return () => {
       tl.kill()
     }
-  }, [isLoading, introComplete, setIntroComplete, setLoading])
+  }, [isLoading, introComplete, finishIntro])
 
-  // Early return AFTER all hooks
   if (introComplete || !isLoading || !visible) return null
 
   return (
-    <div ref={overlayRef} className={styles.overlay}>
-      {/* Scanline overlay */}
-      <div className={styles.scanlines} />
+    <div
+      ref={curtainRef}
+      className={styles.curtain}
+      onClick={finishIntro}
+      role="button"
+      tabIndex={0}
+      aria-label="Enter Silicium Experience"
+    >
+      <div ref={contentRef} className={styles.centerStage}>
+        <div className={styles.categoryBadge}>OFFICIAL ARTIST PORTAL</div>
 
-      {/* Corner brackets */}
-      <div ref={(el) => (cornersRef.current[0] = el)} className={styles.cornerTL} />
-      <div ref={(el) => (cornersRef.current[1] = el)} className={styles.cornerTR} />
-      <div ref={(el) => (cornersRef.current[2] = el)} className={styles.cornerBL} />
-      <div ref={(el) => (cornersRef.current[3] = el)} className={styles.cornerBR} />
-
-      {/* Particles */}
-      <div ref={particleFieldRef} className={styles.particleField}>
-        {particles.map((p) => (
-          <div
-            key={p.id}
-            className={styles.particle}
-            style={{
-              left: p.left,
-              top: p.top,
-              animationDelay: p.animationDelay,
-              animationDuration: p.animationDuration,
-              transform: `scale(${p.scale})`,
-            }}
+        <div className={styles.brandDisplay}>
+          <img
+            src="/images/logo-silver-transparent.png"
+            alt="SILICIUM"
+            className={styles.brandLogo}
+            draggable={false}
           />
-        ))}
-      </div>
+          <div className={styles.subTitle}>PHONK // BASS // SILLIC1UM</div>
+        </div>
 
-      {/* Demon mask */}
-      <div ref={demonMaskRef} className={styles.demonMask}>
-        <img
-          src="/images/demon-mask.jpg"
-          alt=""
-          className={styles.demonMaskImage}
-          draggable={false}
-        />
-      </div>
-
-      {/* Red energy lines */}
-      <div ref={energyLinesRef} className={styles.energyLines}>
-        <div className={`${styles.energyLine} ${styles.horizontal}`} />
-        <div className={`${styles.energyLine} ${styles.vertical}`} />
-        <div className={`${styles.energyLine} ${styles.diagonal1}`} />
-        <div className={`${styles.energyLine} ${styles.diagonal2}`} />
-        <div className={`${styles.energyLine} ${styles.diagonal3}`} />
-        <div className={`${styles.energyLine} ${styles.diagonal4}`} />
-      </div>
-
-      {/* Logo */}
-      <div ref={logoRef} className={styles.logoContainer}>
-        <img
-          src="/images/logo-red-transparent.png"
-          alt="SILICIUM"
-          className={styles.logoImage}
-          draggable={false}
-        />
-      </div>
-
-      {/* System text */}
-      <div className={styles.systemText}>
-        {SYSTEM_MESSAGES.map((msg, i) => (
-          <div
-            key={i}
-            ref={(el) => (systemLinesRef.current[i] = el)}
-            className={styles.systemLine}
-          >
-            {msg}
-            {i === SYSTEM_MESSAGES.length - 1 && <span className={styles.cursor} />}
+        {/* Minimal progress tracker */}
+        <div className={styles.progressContainer}>
+          <div className={styles.progressTrack}>
+            <div ref={progressLineRef} className={styles.progressBar} />
           </div>
-        ))}
+          <div className={styles.progressMeta}>
+            <span ref={percentRef} className={styles.percentNumber}>
+              {String(percent).padStart(3, '0')}%
+            </span>
+            <span className={styles.enterHint}>CLICK ANYWHERE TO ENTER</span>
+          </div>
+        </div>
       </div>
-
-      {/* Skip button */}
-      <button
-        ref={skipButtonRef}
-        className={styles.skipButton}
-        onClick={completeIntro}
-        type="button"
-      >
-        SKIP &gt;&gt;
-      </button>
     </div>
   )
 }
