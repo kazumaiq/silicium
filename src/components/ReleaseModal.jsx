@@ -98,8 +98,8 @@ export default function ReleaseModal() {
         {/* Top Header Bar */}
         <div className={styles.modalHeader}>
           <div className={styles.codeCluster}>
-            <span className={styles.redBadge}>// ARTIFACT DECRYPTION //</span>
-            <span className={styles.codeText}>ID: {selectedRelease.id.toUpperCase()}</span>
+            <span className={styles.redBadge}>SILICIUM ARCHIVE</span>
+            <span className={styles.codeText}>{selectedRelease.year} // {selectedRelease.type?.toUpperCase()}</span>
           </div>
           <button
             onClick={() => setSelectedRelease(null)}

@@ -1,313 +1,281 @@
-/* SILICIUM — About Dossier & Living Timeline Styles */
+/* SILICIUM — Editorial Narrative & Chronicle Styles (Martin Garrix Benchmark) */
 
 .aboutContainer {
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
-  padding: var(--space-2xl) var(--space-xl);
-  position: relative;
+  padding: 0 clamp(1.25rem, 4vw, 3.5rem);
   box-sizing: border-box;
 }
 
-.contentGrid {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: var(--space-2xl);
-  align-items: start;
-}
-
-/* Dossier Section */
-.dossierSection {
+/* ───────────────────────────────────────────────────────────── */
+/* 01 // EDITORIAL PULL QUOTE SPREAD (MAGAZINE STYLE)           */
+/* ───────────────────────────────────────────────────────────── */
+.quoteSpread {
+  margin-bottom: clamp(4rem, 8vw, 7rem);
+  padding: clamp(2rem, 4vw, 4rem) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
-  gap: var(--space-xl);
+  gap: 1.5rem;
 }
 
-.dossierBox {
-  background: rgba(8, 8, 8, 0.85);
-  border: 1px solid var(--gray-800);
-  border-left: 2px solid var(--red-crimson);
-  padding: var(--space-xl);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-}
-
-.dossierHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--silver-dark);
-  letter-spacing: 0.15em;
-  padding-bottom: var(--space-xs);
-  border-bottom: 1px solid var(--gray-900);
-  margin-bottom: var(--space-md);
-}
-
-.idCode {
-  color: var(--red-crimson);
-  font-weight: 700;
-}
-
-.identityTitle {
-  font-family: var(--font-mono);
-  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--white);
-  margin-bottom: var(--space-md);
-}
-
-.dossierText {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  color: var(--silver);
-  font-size: 13px;
-  line-height: 1.7;
-  margin-bottom: var(--space-lg);
-}
-
-.specsGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-sm);
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--gray-900);
-  padding: var(--space-md);
-}
-
-.specItem {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.specLabel {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  color: var(--silver-dark);
-  letter-spacing: 0.15em;
-}
-
-.specVal {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--white);
-  font-weight: 700;
-}
-
-.specValActive {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--red-crimson);
-  font-weight: 700;
-}
-
-.quoteBox {
-  background: rgba(15, 3, 5, 0.75);
-  border: 1px solid var(--red-crimson);
-  padding: var(--space-lg);
-  position: relative;
-}
-
-.quoteBox blockquote {
-  font-family: var(--font-editorial, 'Cormorant Garamond', serif);
+.quoteText {
+  font-family: var(--font-editorial, 'Cormorant Garamond', Georgia, serif);
   font-style: italic;
-  font-size: clamp(1.2rem, 1.8vw, 1.55rem);
-  color: var(--white-chrome, #e8e4e6);
-  line-height: 1.5;
-  margin-bottom: var(--space-sm);
+  font-size: clamp(1.8rem, 3.8vw, 3.4rem);
+  line-height: 1.35;
+  color: var(--white-chrome, #E8E4E6);
+  margin: 0;
+  max-width: 1100px;
   font-weight: 400;
   letter-spacing: 0.02em;
 }
 
-.quoteBox cite {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--red-crimson);
-  letter-spacing: 0.2em;
-  font-style: normal;
-}
-
-/* Timeline Section with Dynamic Red Laser Fill */
-.timelineSection {
-  background: rgba(8, 8, 8, 0.7);
-  border: 1px solid var(--gray-800);
-  padding: var(--space-xl);
-  backdrop-filter: blur(10px);
-}
-
-.timelineHeader {
-  font-family: var(--font-mono);
+.quoteAuthor {
+  font-family: var(--font-mono, monospace);
   font-size: 11px;
-  color: var(--red-crimson);
-  letter-spacing: 0.2em;
-  font-weight: 700;
-  margin-bottom: var(--space-lg);
-  padding-bottom: var(--space-xs);
-  border-bottom: 1px solid var(--gray-900);
+  color: var(--red-neon, #ff173d);
+  letter-spacing: 0.22em;
+  font-style: normal;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
-.timelineStream {
+/* ───────────────────────────────────────────────────────────── */
+/* 02 // NARRATIVE SPREAD: ARTWORK + ESSAY                       */
+/* ───────────────────────────────────────────────────────────── */
+.narrativeSection {
+  display: grid;
+  grid-template-columns: 0.95fr 1.15fr;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: center;
+  margin-bottom: clamp(5rem, 10vw, 8rem);
+}
+
+.artworkColumn {
+  position: relative;
+  width: 100%;
+}
+
+.artworkPosterFrame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: radial-gradient(circle at 50% 50%, rgba(53, 0, 9, 0.5) 0%, rgba(3, 3, 3, 0.95) 75%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.narrativeMaskImg {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 45px rgba(255, 23, 61, 0.35));
+}
+
+.posterGlow {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+.textColumn {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xl);
-  position: relative;
 }
 
-.timelineLaserTrack {
+.paradoxHeading {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--white-chrome, #E8E4E6);
+  margin: 0 0 1.5rem;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+
+.storyParagraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.storyParagraphs p {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  line-height: 1.8;
+  color: rgba(232, 228, 230, 0.82);
+  margin: 0;
+  font-weight: 400;
+}
+
+.specsRowList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.5rem;
+}
+
+.specLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+.specKey {
+  color: var(--gray-muted, #777177);
+  text-transform: uppercase;
+}
+
+.specVal {
+  color: var(--white-chrome, #E8E4E6);
+  font-weight: 600;
+}
+
+.specLink {
+  color: var(--red-neon, #ff173d);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.specLink:hover {
+  color: #fff;
+}
+
+.specValOnline {
+  color: var(--red-neon, #ff173d);
+  font-weight: 700;
+}
+
+/* ───────────────────────────────────────────────────────────── */
+/* 03 // VERTICAL CHRONICLE TIMELINE                            */
+/* ───────────────────────────────────────────────────────────── */
+.chronicleSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.chronicleHeading {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: var(--red-neon, #ff173d);
+  text-transform: uppercase;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.chronicleStream {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 6vw, 5rem);
+  padding-left: clamp(2rem, 5vw, 4rem);
+}
+
+.laserLineTrack {
   position: absolute;
   top: 10px;
   bottom: 10px;
-  left: 7px;
-  width: 2px;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 1px;
+  left: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.timelineLaserFill {
+.laserLineFill {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 0%;
-  background: linear-gradient(180deg, #ff1133, #dc143c 80%, #ffffff);
-  box-shadow: 0 0 10px rgba(255, 0, 34, 0.8), 0 0 20px rgba(220, 20, 60, 0.5);
-  border-radius: 1px;
+  background: linear-gradient(180deg, var(--red-neon, #ff173d), #fff);
+  box-shadow: 0 0 10px rgba(255, 23, 61, 0.8);
   transition: height 0.1s linear;
 }
 
-.timelineNode {
+.chronicleNode {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: baseline;
+}
+
+.nodeYearBlock {
   position: relative;
-  padding-left: 28px;
 }
 
-.nodeMarker {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-xs);
+.yearNumber {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(232, 228, 230, 0.35);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  transition: -webkit-text-stroke 0.3s ease;
 }
 
-.pulseDot {
-  position: absolute;
-  left: 2px;
-  top: 6px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--red-crimson);
-  box-shadow: 0 0 10px var(--red-crimson);
-  border: 2px solid #000;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.chronicleNode:hover .yearNumber {
+  -webkit-text-stroke-color: var(--red-neon, #ff173d);
 }
 
-.timelineNode:hover .pulseDot {
-  transform: scale(1.3);
-  box-shadow: 0 0 18px #ff0033;
-}
-
-.nodeYear {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: 0.1em;
-}
-
-.nodeCards {
+.nodeEventsFlow {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
+  gap: 1.5rem;
 }
 
-.eventCard {
-  background: rgba(14, 14, 16, 0.8);
-  border: 1px solid var(--gray-800);
-  padding: var(--space-md);
-  border-left: 2px solid var(--gray-800);
-  transition: all var(--duration-fast);
+.eventItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.eventCard:hover {
-  border-color: var(--red-crimson);
-  border-left-color: var(--red-crimson);
-  background: rgba(22, 5, 8, 0.85);
-  transform: translateX(4px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-}
-
-.eventType {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  color: var(--red-crimson);
+.eventBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  color: var(--red-neon, #ff173d);
   letter-spacing: 0.15em;
-  margin-bottom: 2px;
+  text-transform: uppercase;
 }
 
-.eventTitle {
-  font-family: var(--font-mono);
-  font-size: 13px;
+.eventHeading {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
   font-weight: 700;
-  color: var(--white);
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
+  color: var(--white-chrome, #E8E4E6);
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
-.eventDesc {
-  font-size: 11px;
-  color: var(--silver-dark);
-  line-height: 1.5;
+.eventSummary {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  line-height: 1.6;
+  color: var(--gray-muted, #777177);
+  margin: 0;
+  max-width: 650px;
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/* MOBILE RESPONSIVE ADAPTATION                                  */
-/* ───────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .aboutContainer {
-    padding: var(--space-xl) var(--space-md);
-  }
-
-  .contentGrid {
+  .narrativeSection {
     grid-template-columns: 1fr;
-    gap: var(--space-xl);
   }
 
-  .dossierBox,
-  .timelineSection {
-    padding: var(--space-md);
-  }
-
-  .identityTitle {
-    font-size: 1.3rem;
-  }
-
-  .dossierText {
-    font-size: 12px;
-  }
-
-  .specsGrid {
-    grid-template-columns: 1fr 1fr;
-    padding: 8px;
-    gap: 6px;
-  }
-
-  .timelineStream {
-    gap: var(--space-lg);
-  }
-}
-
-@media (max-width: 360px) {
-  .aboutContainer {
-    padding: var(--space-lg) var(--space-xs);
-  }
-
-  .specsGrid {
+  .chronicleNode {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }

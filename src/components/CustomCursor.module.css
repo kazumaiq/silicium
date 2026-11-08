@@ -1,172 +1,47 @@
-/* SILICIUM — Cybernetic Reticle Cursor Styling */
+/* SILICIUM — Editorial Minimalist Cursor Styles */
 
-.trailCanvas {
+.cursorDot {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red-neon, #ff173d);
   pointer-events: none;
-  z-index: 9998;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s ease, background-color 0.2s ease, width 0.2s ease, height 0.2s ease;
+  box-shadow: 0 0 8px rgba(255, 23, 61, 0.8);
 }
 
-.reticle {
+.cursorRing {
   position: fixed;
   top: 0;
   left: 0;
   width: 32px;
   height: 32px;
-  margin-left: -16px;
-  margin-top: -16px;
-  pointer-events: none;
-  z-index: 9999;
-  transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              height 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              margin 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.2s ease;
-  will-change: transform;
-}
-
-/* Corner Reticle Brackets */
-.cornerTL, .cornerTR, .cornerBL, .cornerBR {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-color: rgba(255, 255, 255, 0.6);
-  transition: all 0.2s ease;
-}
-
-.cornerTL {
-  top: 0;
-  left: 0;
-  border-top: 1.5px solid;
-  border-left: 1.5px solid;
-}
-
-.cornerTR {
-  top: 0;
-  right: 0;
-  border-top: 1.5px solid;
-  border-right: 1.5px solid;
-}
-
-.cornerBL {
-  bottom: 0;
-  left: 0;
-  border-bottom: 1.5px solid;
-  border-left: 1.5px solid;
-}
-
-.cornerBR {
-  bottom: 0;
-  right: 0;
-  border-bottom: 1.5px solid;
-  border-right: 1.5px solid;
-}
-
-/* Crosshair subtle axis ticks */
-.crosshairH {
-  position: absolute;
-  top: 50%;
-  left: 2px;
-  right: 2px;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-50%);
-}
-
-.crosshairV {
-  position: absolute;
-  left: 50%;
-  top: 2px;
-  bottom: 2px;
-  width: 1px;
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateX(-50%);
-}
-
-/* Laser Center Dot */
-.laserDot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 4px;
-  margin-left: -2px;
-  margin-top: -2px;
-  background: #ff0022;
-  box-shadow: 0 0 8px #ff0022, 0 0 16px rgba(220, 20, 60, 0.8);
   border-radius: 50%;
+  border: 1px solid rgba(232, 228, 230, 0.35);
   pointer-events: none;
-  z-index: 10000;
-  will-change: transform;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s ease,
+              background-color 0.25s ease;
 }
 
-/* Floating HUD */
-.reticleHud {
-  position: absolute;
-  top: 36px;
-  left: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  pointer-events: none;
-  white-space: nowrap;
+.cursorRingHover {
+  width: 52px;
+  height: 52px;
+  border-color: var(--red-neon, #ff173d);
+  background: rgba(255, 23, 61, 0.06);
 }
 
-.hudCoords {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.45);
-  background: rgba(0, 0, 0, 0.6);
-  padding: 1px 4px;
-  border-left: 1px solid var(--red-crimson);
-}
-
-.hudLockLabel {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  color: var(--red-crimson);
-  background: rgba(10, 0, 2, 0.85);
-  padding: 1px 5px;
-  border: 1px solid var(--red-crimson);
-  box-shadow: 0 0 10px rgba(255, 0, 34, 0.4);
-  animation: hudBlink 1.5s infinite;
-}
-
-@keyframes hudBlink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-/* Hover Lock State */
-.reticleLock {
-  width: 48px;
-  height: 48px;
-  margin-left: -24px;
-  margin-top: -24px;
-}
-
-.reticleLock .cornerTL,
-.reticleLock .cornerTR,
-.reticleLock .cornerBL,
-.reticleLock .cornerBR {
-  border-color: var(--red-crimson);
-  width: 9px;
-  height: 9px;
-  filter: drop-shadow(0 0 4px #ff0022);
-}
-
-.reticleLock .crosshairH,
-.reticleLock .crosshairV {
-  background: rgba(255, 0, 34, 0.4);
-}
-
-/* Strict Mobile / Touch Hide */
-@media (pointer: coarse), (max-width: 1024px) {
-  .trailCanvas,
-  .reticle,
-  .laserDot {
-    display: none !important;
-  }
+.cursorDotHover {
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  box-shadow: 0 0 12px #fff;
 }

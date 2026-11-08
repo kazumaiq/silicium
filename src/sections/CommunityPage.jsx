@@ -1,4 +1,4 @@
-// SILICIUM — Community Section (Occult Communion & Network Nodes)
+// SILICIUM — Network Nodes & Community (Martin Garrix Benchmark)
 import React, { useState } from 'react'
 import { ARTIST } from '../data/config'
 import { useStore } from '../data/store'
@@ -7,20 +7,12 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 import styles from './CommunityPage.module.css'
 
 export default function CommunityPage() {
-  const [email, setEmail] = useState('')
-  const [subscribed, setSubscribed] = useState(false)
   const [message, setMessage] = useState({ name: '', text: '' })
   const [sent, setSent] = useState(false)
   const language = useStore((s) => s.language)
 
   const telegramRef = useScrollReveal({ threshold: 0.1 })
   const dispatchRef = useScrollReveal({ threshold: 0.1 })
-
-  const handleSubscribe = (e) => {
-    e.preventDefault()
-    if (!email) return
-    setSubscribed(true)
-  }
 
   const handleSendMessage = (e) => {
     e.preventDefault()
@@ -30,169 +22,147 @@ export default function CommunityPage() {
 
   const t = {
     RU: {
-      code: '// 05 //',
-      tag: 'ТЕМНЫЙ УЗЕЛ СВЯЗИ',
+      category: 'УЗЛЫ СВЯЗИ',
       title: 'СООБЩЕСТВО',
-      subtitle: 'Прямое подключение к подпольной сети вещания SILICIUM. Эксклюзивные дропы, неизданные стемы и закрытые частоты.',
-      telegramVector: 'ОСНОВНОЙ ВЕКТОР ВЕЩАНИЯ',
+      subtitle: 'Прямое подключение к закрытой сети вещания SILICIUM. Эксклюзивные дропы и прямая связь.',
       telegramTitle: 'TELEGRAM КАНАЛ',
-      telegramDesc: 'Вступайте во внутренний круг. Эксклюзивные треки, сырые семплы, тяжелый 808-дисторшн и закрытые релизы.',
-      enterTelegram: 'ВОЙТИ В АРХИВ TELEGRAM',
-      vkTitle: 'VK СООБЩЕСТВО',
-      vkDesc: 'Официальная группа и карточка артиста в экосистеме VK.',
-      openVk: 'ОТКРЫТЬ VK',
-      dispatchTitle: 'ПЕРЕДАТЬ ЧАСТОТНЫЙ СИГНАЛ',
-      dispatchDesc: 'Прямая форма связи с архивом. Вопросы по коллаборациям, мастерингу и букингу.',
+      telegramDesc: 'Вступайте во внутренний круг. Эксклюзивные треки, сырые стемы, тяжёлый 808-дисторшн и закрытые релизы.',
+      enterTelegram: 'ВОЙТИ В КАНАЛ TELEGRAM ↗',
+      dispatchTitle: 'ПЕРЕДАТЬ СИГНАЛ',
+      dispatchDesc: 'Прямая форма связи с архивом. Вопросы по коллаборациям, букингу и мастерингу.',
       namePlaceholder: 'ВАШЕ ИМЯ // ПОЗЫВНОЙ',
       msgPlaceholder: 'ТЕКСТ СИГНАЛА...',
       transmitBtn: 'ОТПРАВИТЬ СИГНАЛ',
       signalSent: '✓ СИГНАЛ УСПЕШНО ПРИНЯТ В АРХИВ',
-      subscribeTitle: 'РАССЫЛКА НОВЫХ ЧАСТОТ',
-      emailPlaceholder: 'ВАШ EMAIL...',
-      subBtn: 'ПОДПИСАТЬСЯ',
-      subSuccess: '✓ ТЕРМИНАЛ АВТОРИЗОВАН',
     },
     EN: {
-      code: '// 05 //',
-      tag: 'DARK NETWORK NODE',
+      category: 'NETWORK NODES',
       title: 'COMMUNITY',
-      subtitle: 'Direct connection to the underground frequency network. Exclusive stem releases, raw snippets and classified drops.',
-      telegramVector: 'PRIMARY BROADCAST VECTOR',
+      subtitle: 'Direct connection to the underground frequency network. Exclusive stem releases & transmission.',
       telegramTitle: 'TELEGRAM CHANNEL',
-      telegramDesc: 'Join the inner circle. Exclusive raw stems, unreleased snippets, dark phonk drops, and esoteric transmissions.',
-      enterTelegram: 'ENTER TELEGRAM ARCHIVE',
-      vkTitle: 'VK COMMUNITY',
-      vkDesc: 'Official group and artist profile within the VK audio ecosystem.',
-      openVk: 'OPEN VK NODE',
-      dispatchTitle: 'TRANSMIT FREQUENCY SIGNAL',
-      dispatchDesc: 'Direct communication terminal. Collaborations, inquiries, stems and booking requests.',
+      telegramDesc: 'Join the inner circle. Exclusive raw stems, unreleased snippets, dark phonk drops, and direct transmissions.',
+      enterTelegram: 'ENTER TELEGRAM CHANNEL ↗',
+      dispatchTitle: 'TRANSMIT SIGNAL',
+      dispatchDesc: 'Direct communication terminal for collaborations, booking requests, and inquiries.',
       namePlaceholder: 'NAME // CALLSIGN',
       msgPlaceholder: 'TRANSMISSION TEXT...',
       transmitBtn: 'TRANSMIT SIGNAL',
       signalSent: '✓ SIGNAL LOGGED INTO ARCHIVE',
-      subscribeTitle: 'FREQUENCY DISPATCH SUBSCRIPTION',
-      emailPlaceholder: 'ENTER EMAIL ADDRESS...',
-      subBtn: 'AUTHORIZE',
-      subSuccess: '✓ TERMINAL SUBSCRIBED',
     },
   }[language] || {
-    code: '// 05 //',
-    tag: 'DARK NETWORK NODE',
+    category: 'NETWORK NODES',
     title: 'COMMUNITY',
-    subtitle: 'Direct connection to the underground frequency network.',
-    telegramVector: 'PRIMARY BROADCAST VECTOR',
+    subtitle: 'Direct connection to the SILICIUM frequency network.',
     telegramTitle: 'TELEGRAM CHANNEL',
-    telegramDesc: 'Join the inner circle. Exclusive raw stems, unreleased snippets, dark phonk drops.',
-    enterTelegram: 'ENTER TELEGRAM ARCHIVE',
-    vkTitle: 'VK COMMUNITY',
-    vkDesc: 'Official group and artist profile within the VK audio ecosystem.',
-    openVk: 'OPEN VK NODE',
-    dispatchTitle: 'TRANSMIT FREQUENCY SIGNAL',
+    telegramDesc: 'Join the inner circle.',
+    enterTelegram: 'ENTER TELEGRAM ↗',
+    dispatchTitle: 'TRANSMIT SIGNAL',
     dispatchDesc: 'Direct communication terminal.',
-    namePlaceholder: 'NAME // CALLSIGN',
-    msgPlaceholder: 'TRANSMISSION TEXT...',
-    transmitBtn: 'TRANSMIT SIGNAL',
+    namePlaceholder: 'NAME',
+    msgPlaceholder: 'MESSAGE...',
+    transmitBtn: 'TRANSMIT',
     signalSent: '✓ SIGNAL LOGGED',
-    subscribeTitle: 'FREQUENCY DISPATCH SUBSCRIPTION',
-    emailPlaceholder: 'ENTER EMAIL ADDRESS...',
-    subBtn: 'AUTHORIZE',
-    subSuccess: '✓ TERMINAL SUBSCRIBED',
   }
 
   return (
     <div className={styles.communityContainer}>
       <SectionHeader
-        code={t.code}
-        tag={t.tag}
+        category={t.category}
         title={t.title}
         subtitle={t.subtitle}
+        watermark="NETWORK"
       />
 
-      <div className={styles.grid}>
-        {/* Main Telegram Portal Card */}
-        <div ref={telegramRef} className={styles.telegramCard} data-reveal="left">
-          <div className={styles.telegramBadge}>{t.telegramVector}</div>
-          <h3 className={styles.telegramTitle}>{t.telegramTitle}</h3>
-          <p className={styles.telegramDesc}>{t.telegramDesc}</p>
+      <div className={styles.gridColumns}>
+        {/* Monolithic Telegram Portal */}
+        <div ref={telegramRef} className={styles.telegramColumn}>
+          <div className={styles.portalInner}>
+            <span className={styles.channelLabel}>PRIMARY BROADCAST VECTOR</span>
+            <h3 className={styles.portalTitle}>{t.telegramTitle}</h3>
+            <p className={styles.portalDesc}>{t.telegramDesc}</p>
 
-          <a
-            href={ARTIST.telegram}
-            target="_blank"
-            rel="noreferrer"
-            className={styles.telegramBtn}
-          >
-            <span>{t.enterTelegram}</span>
-            <span className={styles.btnArrow}>↗</span>
-          </a>
+            <a
+              href={ARTIST.telegram}
+              target="_blank"
+              rel="noreferrer"
+              className={styles.telegramActionBtn}
+            >
+              {t.enterTelegram}
+            </a>
 
-          <div className={styles.terminalOutput}>
-            <code>&gt; CONNECT_NODE: t.me/silliciumphonk</code>
-            <code>&gt; ENCRYPTION: ACTIVE</code>
-            <code>&gt; SIGNAL_INTEGRITY: 100%</code>
+            <div className={styles.streamingNodesRow}>
+              <a
+                href={ARTIST.soundcloud}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.nodeLink}
+              >
+                <span>SOUNDCLOUD</span>
+                <span className={styles.nodeArrow}>↗</span>
+              </a>
+              <a
+                href={ARTIST.spotify}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.nodeLink}
+              >
+                <span>SPOTIFY</span>
+                <span className={styles.nodeArrow}>↗</span>
+              </a>
+              <a
+                href={ARTIST.vkGroup}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.nodeLink}
+              >
+                <span>VK COMMUNITY</span>
+                <span className={styles.nodeArrow}>↗</span>
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Transmission Dispatch / Feedback Form */}
-        <div ref={dispatchRef} className={styles.dispatchCard} data-reveal="right">
-          <h3 className={styles.dispatchTitle}>{t.dispatchTitle}</h3>
-          <p className={styles.dispatchDesc}>{t.dispatchDesc}</p>
+        {/* Clean Transmission Dispatch Form */}
+        <div ref={dispatchRef} className={styles.formColumn}>
+          <div className={styles.formHeader}>
+            <h3 className={styles.dispatchHeading}>{t.dispatchTitle}</h3>
+            <p className={styles.dispatchSubtitle}>{t.dispatchDesc}</p>
+          </div>
 
           {sent ? (
-            <div className={styles.successBox}>
+            <div className={styles.sentBox}>
               <span>{t.signalSent}</span>
             </div>
           ) : (
-            <form onSubmit={handleSendMessage} className={styles.form}>
-              <input
-                type="text"
-                placeholder={t.namePlaceholder}
-                value={message.name}
-                onChange={(e) => setMessage({ ...message, name: e.target.value })}
-                className={styles.inputField}
-                required
-              />
-              <textarea
-                placeholder={t.msgPlaceholder}
-                value={message.text}
-                onChange={(e) => setMessage({ ...message, text: e.target.value })}
-                className={styles.textareaField}
-                rows={3}
-                required
-              />
-              <button type="submit" className={styles.submitBtn}>
-                {t.transmitBtn} →
+            <form onSubmit={handleSendMessage} className={styles.contactForm}>
+              <div className={styles.inputGroup}>
+                <input
+                  type="text"
+                  placeholder={t.namePlaceholder}
+                  value={message.name}
+                  onChange={(e) => setMessage({ ...message, name: e.target.value })}
+                  className={styles.cleanInput}
+                  required
+                />
+              </div>
+
+              <div className={styles.inputGroup}>
+                <textarea
+                  placeholder={t.msgPlaceholder}
+                  value={message.text}
+                  onChange={(e) => setMessage({ ...message, text: e.target.value })}
+                  className={styles.cleanTextarea}
+                  rows={4}
+                  required
+                />
+              </div>
+
+              <button type="submit" className={styles.sendButton}>
+                <span>{t.transmitBtn}</span>
+                <span className={styles.arrowIcon}>→</span>
               </button>
             </form>
           )}
-
-          {/* Secondary Hubs (VK & SoundCloud) */}
-          <div className={styles.secondaryHubs}>
-            <a
-              href={ARTIST.vkGroup}
-              target="_blank"
-              rel="noreferrer"
-              className={styles.subHubCard}
-            >
-              <div className={styles.subHubMeta}>
-                <span className={styles.subHubName}>{t.vkTitle}</span>
-                <span className={styles.subHubHandle}>@prod.sillicium</span>
-              </div>
-              <span className={styles.hubArrow}>↗</span>
-            </a>
-
-            <a
-              href={ARTIST.soundcloud}
-              target="_blank"
-              rel="noreferrer"
-              className={styles.subHubCard}
-            >
-              <div className={styles.subHubMeta}>
-                <span className={styles.subHubName}>SOUNDCLOUD</span>
-                <span className={styles.subHubHandle}>sillic1um</span>
-              </div>
-              <span className={styles.hubArrow}>↗</span>
-            </a>
-          </div>
         </div>
       </div>
     </div>

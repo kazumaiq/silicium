@@ -180,7 +180,7 @@
 
 @media (max-width: 600px) {
   .playerContainer {
-    bottom: 54px; /* Над мобильным доком */
+    bottom: 0;
   }
 }
 

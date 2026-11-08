@@ -1,4 +1,4 @@
-// SILICIUM — Editorial Discography (Martin Garrix Architecture + Occult Dark Aesthetic)
+// SILICIUM — Editorial Music Gallery (Martin Garrix Architecture Benchmark)
 import React, { useMemo } from 'react'
 import { useStore } from '../data/store'
 import { RELEASES } from '../data/config'
@@ -8,11 +8,9 @@ import styles from './DiscographyPage.module.css'
 
 export default function DiscographyPage() {
   const {
-    discographyView,
     discographyFilter,
     discographyYear,
     discographySearch,
-    setDiscographyView,
     setDiscographyFilter,
     setDiscographyYear,
     setDiscographySearch,
@@ -24,8 +22,7 @@ export default function DiscographyPage() {
   } = useStore()
 
   const heroRef = useScrollReveal({ threshold: 0.1 })
-  const controlRef = useScrollReveal({ threshold: 0.1 })
-  const gridRef = useScrollReveal({ threshold: 0.05, rootMargin: '0px 0px -20px 0px' })
+  const filterRef = useScrollReveal({ threshold: 0.1 })
 
   // Genesis Featured Release (MY WEED)
   const genesisRelease = RELEASES.find((r) => r.id === 'my-weed') || RELEASES[0]
@@ -57,350 +54,200 @@ export default function DiscographyPage() {
 
   const t = {
     RU: {
-      code: '// 02 //',
-      tag: 'КАТАЛОГ ЧАСТОТ',
+      category: 'КАТАЛОГ ЧАСТОТ',
       title: 'ДИСКОГРАФИЯ',
-      subtitle: 'Официальный архив релизов SILICIUM (2022 — 2026). Оккультный темный фонк, дисторшн 808 саб-баса и студийные мастера.',
-      featuredBadge: 'ИСТОК // GENESIS RELEASE',
+      subtitle: 'Официальный архив релизов SILICIUM (2022 — 2026). Оккультный темный фонк, 808 саб-бас и студийные мастера.',
+      featuredBadge: 'GENESIS RELEASE // ДЕКАБРЬ 2022',
       featuredArtist: '— SILICIUM // sillic1um',
       playGenesis: 'ЗАПУСТИТЬ ВОСПРОИЗВЕДЕНИЕ',
-      pauseGenesis: 'ПАУЗА ЧАСТОТЫ',
+      pauseGenesis: 'ПАУЗА',
       decryptStory: 'СПЕЦИФИКАЦИЯ ↗',
-      allReleasesHeader: 'АРХИВ РЕЛИЗОВ',
-      searchPlaceholder: 'ПОИСК ПО КАТАЛОГУ...',
-      all: 'ВСЕ',
-      single: 'СИНГЛЫ',
-      ep: 'EP',
-      album: 'АЛЬБОМЫ',
-      allCycles: 'ВСЕ ГОДЫ',
-      spec: 'СПЕЦИФИКАЦИЯ',
+      all: 'ВСЕ ГОДЫ',
+      searchPlaceholder: 'ПОИСК РЕЛИЗА...',
+      listenNow: 'СЛУШАТЬ',
     },
     EN: {
-      code: '// 02 //',
-      tag: 'FREQUENCY CATALOG',
+      category: 'FREQUENCY CATALOG',
       title: 'DISCOGRAPHY',
-      subtitle: 'Official physical & digital release archive of SILICIUM (2022 — 2026). Occult dark phonk, 808 sub distortion & master stems.',
+      subtitle: 'Official release archive of SILICIUM (2022 — 2026). Occult dark phonk, 808 sub-distortion & master stems.',
       featuredBadge: 'GENESIS RELEASE // DEC 2022',
       featuredArtist: '— SILICIUM // sillic1um',
       playGenesis: 'INITIATE PLAYBACK',
-      pauseGenesis: 'PAUSE FREQUENCY',
-      decryptStory: 'FULL SPECIFICATION ↗',
-      allReleasesHeader: 'ALL RELEASES',
-      searchPlaceholder: 'SEARCH CATALOG...',
-      all: 'ALL',
-      single: 'SINGLES',
-      ep: 'EP',
-      album: 'ALBUMS',
-      allCycles: 'ALL YEARS',
-      spec: 'SPECIFICATION',
+      pauseGenesis: 'PAUSE',
+      decryptStory: 'SPECIFICATION ↗',
+      all: 'ALL YEARS',
+      searchPlaceholder: 'SEARCH RELEASES...',
+      listenNow: 'PLAY',
     },
   }[language] || {
-    code: '// 02 //',
-    tag: 'FREQUENCY CATALOG',
+    category: 'FREQUENCY CATALOG',
     title: 'DISCOGRAPHY',
-    subtitle: 'Official release archive of SILICIUM (2022 — 2026).',
-    featuredBadge: 'GENESIS RELEASE',
-    featuredArtist: '— SILICIUM // sillic1um',
-    playGenesis: 'INITIATE PLAYBACK',
-    pauseGenesis: 'PAUSE FREQUENCY',
-    decryptStory: 'SPECIFICATION ↗',
-    allReleasesHeader: 'ALL RELEASES',
-    searchPlaceholder: 'SEARCH CATALOG...',
-    all: 'ALL',
-    single: 'SINGLES',
-    ep: 'EP',
-    album: 'ALBUMS',
-    allCycles: 'ALL YEARS',
-    spec: 'SPECIFICATION',
+    subtitle: 'Official release archive of SILICIUM.',
+    featuredBadge: 'GENESIS RELEASE // 2022',
+    featuredArtist: '— SILICIUM',
+    playGenesis: 'PLAY NOW',
+    pauseGenesis: 'PAUSE',
+    decryptStory: 'SPEC ↗',
+    all: 'ALL YEARS',
+    searchPlaceholder: 'SEARCH...',
+    listenNow: 'PLAY',
   }
 
   return (
     <div className={styles.discographyContainer}>
       <SectionHeader
-        code={t.code}
-        tag={t.tag}
+        category={t.category}
         title={t.title}
         subtitle={t.subtitle}
         watermark="CATALOG"
       />
 
       {/* ───────────────────────────────────────────────────────────── */}
-      {/* 1. EDITORIAL FEATURED HERO (MARTIN GARRIX STYLE)              */}
+      {/* 01 // FEATURED GENESIS HERO POSTER (MY WEED)                  */}
       {/* ───────────────────────────────────────────────────────────── */}
-      {genesisRelease && (
-        <section ref={heroRef} className={styles.featuredHeroSection}>
-          {/* Subtle Background Watermark Text */}
-          <div className={styles.heroWatermarkText} aria-hidden="true">
+      <section ref={heroRef} className={styles.genesisHeroSection}>
+        <div className={styles.genesisContent}>
+          <div className={styles.genesisBadgeRow}>
+            <span className={styles.genesisBadge}>{t.featuredBadge}</span>
+            <span className={styles.genesisDate}>{genesisRelease.releaseDate}</span>
+          </div>
+
+          <h3 className={styles.genesisTitle}>
             {genesisRelease.title}
-          </div>
+          </h3>
 
-          <div className={styles.featuredHeroGrid}>
-            {/* Left Column: Massive Editorial Typography & Story */}
-            <div className={styles.heroContentCol}>
-              <div className={styles.heroBadgeRow}>
-                <span className={styles.heroBadge}>{t.featuredBadge}</span>
-                <span className={styles.heroDate}>{genesisRelease.releaseDate}</span>
-              </div>
+          <p className={styles.genesisArtist}>
+            {t.featuredArtist}
+          </p>
 
-              <h1 className={styles.heroTitle}>{genesisRelease.title}</h1>
+          <p className={styles.genesisExcerpt}>
+            {genesisRelease.description}
+          </p>
 
-              <div className={styles.heroArtistLine}>{t.featuredArtist}</div>
-
-              <p className={styles.heroDescription}>
-                {genesisRelease.description ||
-                  'The foundational genesis frequency of SILICIUM (December 2022). Heavy blown-out 808 sub-harmonics, haunting choir pads, and slow occult dark phonk groove.'}
-              </p>
-
-              <div className={styles.heroActionsRow}>
-                <button
-                  className={`${styles.heroPlayBtn} ${isGenesisPlaying ? styles.heroPlayBtnActive : ''}`}
-                  onClick={() => playTrack(genesisRelease.tracks[0], genesisRelease)}
-                  aria-label={isGenesisPlaying ? t.pauseGenesis : t.playGenesis}
-                >
-                  <span className={styles.playIcon}>{isGenesisPlaying ? '▮▮' : '▶'}</span>
-                  <span className={styles.playLabel}>
-                    {isGenesisPlaying ? t.pauseGenesis : t.playGenesis}
-                  </span>
-                </button>
-
-                <button
-                  className={styles.heroSpecBtn}
-                  onClick={() => setSelectedReleaseModal(genesisRelease)}
-                  aria-label="Open Release Specification"
-                >
-                  {t.decryptStory}
-                </button>
-              </div>
-            </div>
-
-            {/* Right Column: High-Fashion Planar Artwork Presentation */}
-            <div
-              className={styles.heroArtworkCol}
-              onClick={() => setSelectedReleaseModal(genesisRelease)}
-            >
-              <div className={styles.artworkFrame}>
-                <div className={styles.artworkAmbientGlow} />
-                <img
-                  src={genesisRelease.cover || '/covers/my-weed.jpg'}
-                  alt={genesisRelease.title}
-                  className={styles.heroArtworkImg}
-                />
-                <div className={styles.artworkCornerTL} />
-                <div className={styles.artworkCornerBR} />
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ───────────────────────────────────────────────────────────── */}
-      {/* 2. EDITORIAL FILTER & YEAR SELECTOR BAR                       */}
-      {/* ───────────────────────────────────────────────────────────── */}
-      <div ref={controlRef} className={styles.controlBarSection}>
-        <div className={styles.filterBarHeaderRow}>
-          <h3 className={styles.archiveSectionHeading}>{t.allReleasesHeader}</h3>
-
-          <div className={styles.yearFilterTabs}>
+          <div className={styles.genesisActionRow}>
             <button
-              onClick={() => setDiscographyYear('all')}
-              className={`${styles.yearTabBtn} ${discographyYear === 'all' ? styles.yearTabActive : ''}`}
+              onClick={() => playTrack(genesisRelease.tracks[0], genesisRelease)}
+              className={styles.genesisPlayBtn}
             >
-              {t.all}
+              <span className={styles.genesisPlayIcon}>
+                {isGenesisPlaying ? '▮▮' : '▶'}
+              </span>
+              <span>
+                {isGenesisPlaying ? t.pauseGenesis : t.playGenesis}
+              </span>
             </button>
-            {availableYears.map((yr) => (
-              <button
-                key={yr}
-                onClick={() => setDiscographyYear(yr.toString())}
-                className={`${styles.yearTabBtn} ${discographyYear === yr.toString() ? styles.yearTabActive : ''}`}
-              >
-                {yr}
-              </button>
-            ))}
+
+            <button
+              onClick={() => setSelectedReleaseModal(genesisRelease)}
+              className={styles.genesisSpecBtn}
+            >
+              {t.decryptStory}
+            </button>
           </div>
         </div>
 
-        {/* Secondary Filter: Search & Type */}
-        <div className={styles.subFilterRow}>
-          <div className={styles.searchBox}>
-            <span className={styles.searchIcon}>⌕</span>
-            <input
-              type="text"
-              placeholder={t.searchPlaceholder}
-              value={discographySearch}
-              onChange={(e) => setDiscographySearch(e.target.value)}
-              className={styles.searchInput}
-            />
-            {discographySearch && (
-              <button
-                onClick={() => setDiscographySearch('')}
-                className={styles.clearSearchBtn}
-                aria-label="Clear search"
-              >
-                ✕
-              </button>
-            )}
-          </div>
+        <div
+          className={styles.genesisArtworkWrapper}
+          onClick={() => playTrack(genesisRelease.tracks[0], genesisRelease)}
+        >
+          <img
+            src={genesisRelease.cover}
+            alt={genesisRelease.title}
+            className={styles.genesisCoverImg}
+          />
+          <div className={styles.genesisArtworkGlow} />
+        </div>
+      </section>
 
-          <div className={styles.typeButtonGroup}>
-            {[
-              { id: 'all', label: t.all },
-              { id: 'single', label: t.single },
-              { id: 'ep', label: t.ep },
-              { id: 'album', label: t.album },
-            ].map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setDiscographyFilter(item.id)}
-                className={`${styles.typeBtn} ${discographyFilter === item.id ? styles.typeBtnActive : ''}`}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
+      {/* ───────────────────────────────────────────────────────────── */}
+      {/* 02 // EDITORIAL YEAR FILTER TABS & SEARCH                      */}
+      {/* ───────────────────────────────────────────────────────────── */}
+      <div ref={filterRef} className={styles.filterBar}>
+        <div className={styles.yearTabs}>
+          <button
+            onClick={() => setDiscographyYear('all')}
+            className={`${styles.yearTab} ${discographyYear === 'all' ? styles.yearTabActive : ''}`}
+          >
+            {t.all}
+          </button>
+          {availableYears.map((yr) => (
+            <button
+              key={yr}
+              onClick={() => setDiscographyYear(yr.toString())}
+              className={`${styles.yearTab} ${discographyYear === yr.toString() ? styles.yearTabActive : ''}`}
+            >
+              {yr}
+            </button>
+          ))}
+        </div>
 
-          {/* View Mode Toggle */}
-          <div className={styles.viewToggle}>
-            <button
-              onClick={() => setDiscographyView('grid')}
-              className={`${styles.viewBtn} ${discographyView === 'grid' ? styles.activeView : ''}`}
-              title="Grid View"
-              aria-label="Grid View"
-            >
-              ⊞
-            </button>
-            <button
-              onClick={() => setDiscographyView('list')}
-              className={`${styles.viewBtn} ${discographyView === 'list' ? styles.activeView : ''}`}
-              title="List View"
-              aria-label="List View"
-            >
-              ☰
-            </button>
-          </div>
+        <div className={styles.searchBoxWrapper}>
+          <input
+            type="text"
+            value={discographySearch}
+            onChange={(e) => setDiscographySearch(e.target.value)}
+            placeholder={t.searchPlaceholder}
+            className={styles.searchInput}
+          />
         </div>
       </div>
 
       {/* ───────────────────────────────────────────────────────────── */}
-      {/* 3. RELEASE CATALOG (EDITORIAL GRID OR LIST)                   */}
+      {/* 03 // ASYMMETRIC EDITORIAL GALLERY SPREADS                    */}
       {/* ───────────────────────────────────────────────────────────── */}
-      {discographyView === 'grid' ? (
-        <div ref={gridRef} className={styles.releaseGrid} data-reveal="fade">
-          {filteredReleases.map((rel) => {
-            const isSelected = currentTrack?.id === rel.tracks?.[0]?.id
-            const isPlayingThis = isPlaying && isSelected
+      <div className={styles.editorialGallery}>
+        {filteredReleases.map((rel, index) => {
+          const isThisPlaying = isPlaying && currentTrack?.id === rel.tracks?.[0]?.id
 
-            return (
-              <article
-                key={rel.id}
-                className={`${styles.gridCard} ${isPlayingThis ? styles.gridCardActive : ''}`}
-                onClick={() => setSelectedReleaseModal(rel)}
-              >
-                <div className={styles.cardCoverBox}>
-                  <img
-                    src={rel.cover || '/images/demon-mask-blended.png'}
-                    alt={rel.title}
-                    className={styles.cardCover}
-                    loading="lazy"
-                  />
-                  
-                  {/* Subtle Gothic Frame Clips */}
-                  <div className={styles.cardCornerClipTL} />
-                  <div className={styles.cardCornerClipBR} />
+          // Editorial rhythm: alternate large feature, pairs, and trio cards
+          const isLeadFeature = index === 0 && discographyYear === 'all' && !discographySearch
+          const rhythmClass = isLeadFeature
+            ? styles.spreadLead
+            : (index % 5 === 0)
+            ? styles.spreadWide
+            : (index % 5 === 1 || index % 5 === 2)
+            ? styles.spreadDuo
+            : styles.spreadStandard
 
-                  <div className={styles.cardHoverOverlay}>
-                    <button
-                      className={styles.overlayPlayBtn}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        if (rel.tracks && rel.tracks[0]) {
-                          playTrack(rel.tracks[0], rel)
-                        }
-                      }}
-                      aria-label={isPlayingThis ? 'Pause' : 'Play'}
-                    >
-                      {isPlayingThis ? '▮▮' : '▶'}
-                    </button>
-                    <span className={styles.inspectHint}>{t.spec} ↗</span>
-                  </div>
-                </div>
+          return (
+            <article
+              key={rel.id}
+              className={`${styles.releaseArticle} ${rhythmClass}`}
+              onClick={() => setSelectedReleaseModal(rel)}
+            >
+              <div className={styles.imageFrame}>
+                <img
+                  src={rel.cover}
+                  alt={rel.title}
+                  className={styles.releaseImage}
+                  loading="lazy"
+                />
 
-                <div className={styles.cardMeta}>
-                  <div className={styles.cardTopRow}>
-                    <span className={styles.cardYear}>{rel.year}</span>
-                    <span className={styles.cardType}>{rel.type?.toUpperCase()}</span>
-                  </div>
-
-                  <h3 className={styles.cardTitle}>{rel.title}</h3>
-
-                  <div className={styles.cardBottomRow}>
-                    <span className={styles.cardGenre}>{rel.genre || 'DARK PHONK'}</span>
-                    {rel.tracks?.[0]?.duration && (
-                      <span className={styles.cardDuration}>
-                        {rel.tracks[0].duration}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </article>
-            )
-          })}
-        </div>
-      ) : (
-        /* List View */
-        <div ref={gridRef} className={styles.releaseList} data-reveal="fade">
-          {filteredReleases.map((rel, idx) => {
-            const isSelected = currentTrack?.id === rel.tracks?.[0]?.id
-            const isPlayingThis = isPlaying && isSelected
-            const indexFormatted = String(idx + 1).padStart(2, '0')
-
-            return (
-              <div
-                key={rel.id}
-                className={`${styles.listRow} ${isPlayingThis ? styles.listRowActive : ''}`}
-                onClick={() => setSelectedReleaseModal(rel)}
-              >
-                <span className={styles.listNum}>{indexFormatted}</span>
-
+                {/* Instant Play Action Overlay */}
                 <button
-                  className={styles.listPlayBtn}
                   onClick={(e) => {
                     e.stopPropagation()
-                    if (rel.tracks && rel.tracks[0]) {
-                      playTrack(rel.tracks[0], rel)
-                    }
+                    playTrack(rel.tracks[0], rel)
                   }}
-                  aria-label={isPlayingThis ? 'Pause' : 'Play'}
+                  className={`${styles.quickPlayBtn} ${isThisPlaying ? styles.quickPlayActive : ''}`}
+                  aria-label={isThisPlaying ? 'Pause' : 'Play'}
                 >
-                  {isPlayingThis ? '▮▮' : '▶'}
-                </button>
-
-                <div className={styles.listThumb}>
-                  <img src={rel.cover} alt={rel.title} loading="lazy" />
-                </div>
-
-                <div className={styles.listInfo}>
-                  <div className={styles.listTitle}>{rel.title}</div>
-                  <div className={styles.listMeta}>
-                    {rel.genre} // {rel.year}
-                  </div>
-                </div>
-
-                <div className={styles.listType}>{rel.type?.toUpperCase()}</div>
-
-                <button
-                  className={styles.listSpecBtn}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setSelectedReleaseModal(rel)
-                  }}
-                >
-                  {t.spec} ↗
+                  {isThisPlaying ? '▮▮' : '▶'}
                 </button>
               </div>
-            )
-          })}
-        </div>
-      )}
+
+              <div className={styles.articleMeta}>
+                <div className={styles.metaTop}>
+                  <span className={styles.metaYear}>{rel.year}</span>
+                  <span className={styles.metaType}>{rel.type}</span>
+                </div>
+                <h4 className={styles.metaTitle}>{rel.title}</h4>
+                <p className={styles.metaGenre}>{rel.genre}</p>
+              </div>
+            </article>
+          )
+        })}
+      </div>
     </div>
   )
 }

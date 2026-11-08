@@ -1,240 +1,235 @@
+/* SILICIUM — Network Nodes Styles (Martin Garrix Benchmark) */
+
 .communityContainer {
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
-  padding: var(--space-3xl) var(--space-xl);
-  position: relative;
+  padding: 0 clamp(1.25rem, 4vw, 3.5rem);
+  box-sizing: border-box;
 }
 
-.grid {
+.gridColumns {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: var(--space-2xl);
-  align-items: start;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: stretch;
 }
 
-/* Telegram Card */
-.telegramCard {
-  background: rgba(8, 8, 8, 0.85);
-  border: 1px solid var(--gray-800);
-  border-top: 2px solid var(--red-crimson);
-  padding: var(--space-xl);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(139, 0, 0, 0.2);
+/* Monolithic Telegram Portal */
+.telegramColumn {
+  position: relative;
+  background: radial-gradient(circle at 0% 0%, rgba(53, 0, 9, 0.45) 0%, rgba(8, 6, 7, 0.85) 100%);
+  padding: clamp(2.5rem, 5vw, 4rem);
   display: flex;
   flex-direction: column;
-}
-
-.telegramBadge {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  color: var(--red-crimson);
-  letter-spacing: 0.2em;
-  font-weight: 700;
-  margin-bottom: var(--space-xs);
-}
-
-.telegramTitle {
-  font-family: var(--font-mono);
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--white);
-  margin-bottom: var(--space-sm);
-}
-
-.telegramDesc {
-  font-size: 13px;
-  color: var(--silver);
-  line-height: 1.6;
-  margin-bottom: var(--space-xl);
-}
-
-.telegramBtn {
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-  background: var(--red-blood);
-  border: 1px solid var(--red-crimson);
-  color: var(--white);
-  padding: 14px 20px;
-  font-family: var(--font-mono);
-  font-size: 12px;
+  border-left: 2px solid var(--red-neon, #ff173d);
+}
+
+.portalInner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.channelLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  color: var(--red-neon, #ff173d);
+  letter-spacing: 0.22em;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.portalTitle {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--white-chrome, #E8E4E6);
+  margin: 0 0 1rem;
+  text-transform: uppercase;
+  line-height: 1.05;
+}
+
+.portalDesc {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  line-height: 1.7;
+  color: rgba(232, 228, 230, 0.8);
+  margin: 0 0 2.5rem;
+}
+
+.telegramActionBtn {
+  background: var(--red-neon, #ff173d);
+  color: #fff;
+  padding: 16px 32px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-decoration: none;
-  transition: all var(--duration-fast);
-  box-shadow: 0 0 15px rgba(220, 20, 60, 0.4);
-  margin-bottom: var(--space-xl);
-}
-
-.telegramBtn:hover {
-  background: var(--red-crimson);
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(220, 20, 60, 0.7);
-}
-
-.btnArrow {
-  font-size: 16px;
-}
-
-.terminalOutput {
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid var(--gray-900);
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.terminalOutput code {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--silver-dark);
-  letter-spacing: 0.1em;
-}
-
-/* Dispatch Card */
-.dispatchCard {
-  background: rgba(8, 8, 8, 0.85);
-  border: 1px solid var(--gray-800);
-  padding: var(--space-xl);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.dispatchTitle {
-  font-family: var(--font-mono);
-  font-size: clamp(1.2rem, 2vw, 1.6rem);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--white);
-  margin-bottom: var(--space-xs);
-}
-
-.dispatchDesc {
-  font-size: 12px;
-  color: var(--silver-dark);
-  line-height: 1.5;
-  margin-bottom: var(--space-lg);
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-xl);
-}
-
-.inputField, .textareaField {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid var(--gray-800);
-  color: var(--white);
-  padding: 10px 14px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  outline: none;
-  transition: border-color var(--duration-fast);
-}
-
-.inputField:focus, .textareaField:focus {
-  border-color: var(--red-crimson);
-  box-shadow: 0 0 10px rgba(220, 20, 60, 0.2);
-}
-
-.submitBtn {
-  background: rgba(220, 20, 60, 0.15);
-  border: 1px solid var(--red-crimson);
-  color: var(--white);
-  padding: 10px 16px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  cursor: pointer;
-  transition: all var(--duration-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 25px rgba(255, 23, 61, 0.4);
   align-self: flex-start;
 }
 
-.submitBtn:hover {
-  background: var(--red-crimson);
+.telegramActionBtn:hover {
+  background: #ff3355;
+  box-shadow: 0 0 35px rgba(255, 23, 61, 0.65);
+  transform: translateY(-2px);
 }
 
-.successBox {
-  background: rgba(25, 5, 8, 0.9);
-  border: 1px solid var(--red-crimson);
-  color: var(--white);
-  padding: var(--space-md);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  margin-bottom: var(--space-xl);
-}
-
-.secondaryHubs {
+.streamingNodesRow {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  border-top: 1px solid var(--gray-900);
-  padding-top: var(--space-md);
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.5rem;
+  margin-top: auto;
 }
 
-.subHubCard {
+.nodeLink {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 14px;
-  background: rgba(12, 12, 12, 0.7);
-  border: 1px solid var(--gray-900);
+  color: var(--gray-muted, #777177);
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.15em;
   text-decoration: none;
-  transition: all var(--duration-fast);
+  transition: color 0.2s ease;
+  padding: 4px 0;
 }
 
-.subHubCard:hover {
-  border-color: var(--red-crimson);
-  background: rgba(20, 4, 6, 0.8);
+.nodeLink:hover {
+  color: var(--white-chrome, #E8E4E6);
 }
 
-.subHubMeta {
+.nodeArrow {
+  color: var(--red-neon, #ff173d);
+}
+
+/* Clean Transmission Dispatch Form */
+.formColumn {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  justify-content: center;
+  padding: clamp(1rem, 3vw, 2.5rem) 0;
 }
 
-.subHubName {
-  font-family: var(--font-mono);
+.formHeader {
+  margin-bottom: 2rem;
+}
+
+.dispatchHeading {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(2rem, 3.8vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--white-chrome, #E8E4E6);
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+}
+
+.dispatchSubtitle {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--gray-muted, #777177);
+  margin: 0;
+}
+
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.inputGroup {
+  position: relative;
+  width: 100%;
+}
+
+.cleanInput,
+.cleanTextarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--white-chrome, #E8E4E6);
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  padding: 12px 0;
+  outline: none;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.cleanInput:focus,
+.cleanTextarea:focus {
+  border-color: var(--red-neon, #ff173d);
+}
+
+.cleanInput::placeholder,
+.cleanTextarea::placeholder {
+  color: var(--gray-muted, #777177);
+  font-size: 11px;
+}
+
+.cleanTextarea {
+  resize: vertical;
+}
+
+.sendButton {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--white-chrome, #E8E4E6);
+  padding: 14px 28px;
+  font-family: var(--font-mono, monospace);
   font-size: 11px;
   font-weight: 700;
-  color: var(--white);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  align-self: flex-start;
 }
 
-.subHubHandle {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  color: var(--silver-dark);
+.sendButton:hover {
+  border-color: var(--red-neon, #ff173d);
+  background: rgba(255, 23, 61, 0.12);
+  color: #fff;
+  transform: translateY(-2px);
 }
 
-.hubArrow {
-  font-size: 13px;
-  color: var(--silver-dark);
+.arrowIcon {
+  color: var(--red-neon, #ff173d);
+  font-size: 14px;
 }
 
-@media (max-width: 600px) {
-  .communityContainer {
-    padding: var(--space-xl) var(--space-md);
-  }
+.sentBox {
+  background: rgba(255, 23, 61, 0.15);
+  border: 1px solid var(--red-neon, #ff173d);
+  color: #fff;
+  padding: 1.5rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
 
-  .grid {
+@media (max-width: 900px) {
+  .gridColumns {
     grid-template-columns: 1fr;
-    gap: var(--space-lg);
-  }
-
-  .telegramCard,
-  .dispatchCard,
-  .subscribeBox {
-    padding: var(--space-md);
+    gap: 3rem;
   }
 }

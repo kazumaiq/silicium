@@ -1,123 +1,89 @@
+/* SILICIUM — Streaming Platforms Styles (Martin Garrix Benchmark) */
+
 .platformsContainer {
   max-width: 1400px;
   width: 100%;
   margin: 0 auto;
-  padding: var(--space-3xl) var(--space-xl) var(--space-4xl);
-  position: relative;
+  padding: 0 clamp(1.25rem, 4vw, 3.5rem);
+  box-sizing: border-box;
 }
 
 .platformsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-md);
-  margin-bottom: var(--space-2xl);
+  gap: clamp(1rem, 2.5vw, 2rem);
 }
 
 .platformCard {
-  background: rgba(8, 8, 8, 0.8);
-  border: 1px solid var(--gray-800);
-  border-left: 2px solid var(--red-crimson);
-  padding: var(--space-lg);
+  background: rgba(10, 8, 9, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: clamp(1.5rem, 3vw, 2.2rem);
   display: flex;
-  align-items: center;
-  gap: var(--space-md);
+  flex-direction: column;
   text-decoration: none;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: all var(--duration-fast);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
 }
 
 .platformCard:hover {
-  border-color: var(--red-crimson);
-  background: rgba(25, 5, 8, 0.85);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7), 0 0 15px rgba(220, 20, 60, 0.3);
+  border-color: var(--red-neon, #ff173d);
+  background: rgba(25, 3, 7, 0.9);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 23, 61, 0.25);
 }
 
-.iconCircle {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid var(--gray-800);
+.cardHeader {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--red-crimson);
-  flex-shrink: 0;
-  transition: all var(--duration-fast);
+  margin-bottom: 1.5rem;
 }
 
-.platformCard:hover .iconCircle {
-  background: var(--red-blood);
-  color: var(--white);
-  border-color: var(--red-crimson);
-}
-
-.cardInfo {
-  flex: 1;
-  min-width: 0;
-}
-
-.platformName {
-  font-family: var(--font-mono);
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--white);
-  letter-spacing: 0.1em;
-  margin-bottom: 2px;
-}
-
-.channelCode {
-  font-family: var(--font-mono);
+.platformBadge {
+  font-family: var(--font-mono, monospace);
   font-size: 9px;
-  color: var(--silver-dark);
-  letter-spacing: 0.15em;
+  color: var(--red-neon, #ff173d);
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.arrowBox {
-  color: var(--silver-dark);
-  font-size: 16px;
-  transition: transform var(--duration-fast);
+.arrowIcon {
+  color: var(--gray-muted, #777177);
+  font-size: 14px;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.platformCard:hover .arrowBox {
-  color: var(--red-crimson);
+.platformCard:hover .arrowIcon {
+  color: var(--red-neon, #ff173d);
   transform: translate(2px, -2px);
 }
 
-.notesBox {
-  background: rgba(12, 12, 12, 0.7);
-  border: 1px solid var(--gray-900);
-  padding: var(--space-md) var(--space-lg);
-  font-size: 11px;
-  color: var(--silver-dark);
-  line-height: 1.6;
-}
-
-.notesHeader {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: var(--red-crimson);
-  letter-spacing: 0.2em;
+.platformName {
+  font-family: var(--font-body, 'Space Grotesk', sans-serif);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
   font-weight: 700;
-  margin-bottom: 4px;
+  color: var(--white-chrome, #E8E4E6);
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+  transition: color 0.2s ease;
 }
 
-@media (max-width: 600px) {
-  .platformsContainer {
-    padding: var(--space-xl) var(--space-md) var(--space-3xl);
-  }
+.platformCard:hover .platformName {
+  color: #fff;
+}
 
+.streamLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  color: var(--gray-muted, #777177);
+  letter-spacing: 0.15em;
+}
+
+@media (max-width: 640px) {
   .platformsGrid {
     grid-template-columns: 1fr;
-    gap: var(--space-sm);
-  }
-
-  .platformCard {
-    padding: var(--space-md);
   }
 }

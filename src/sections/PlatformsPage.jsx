@@ -1,4 +1,4 @@
-// SILICIUM — Music Platforms Matrix Section
+// SILICIUM — Music Platforms Hub (Martin Garrix Benchmark)
 import React from 'react'
 import { PLATFORMS } from '../data/config'
 import { useStore } from '../data/store'
@@ -9,56 +9,40 @@ import styles from './PlatformsPage.module.css'
 export default function PlatformsPage() {
   const language = useStore((s) => s.language)
   const gridRef = useScrollReveal({ threshold: 0.1 })
-  const notesRef = useScrollReveal({ threshold: 0.15 })
-
-  const platformIcons = {
-    spotify: '♫',
-    appleMusic: '',
-    youtube: '▶',
-    vkMusic: 'VK',
-    yandexMusic: 'Я',
-    soundcloud: '◆',
-  }
 
   const t = {
     RU: {
-      code: '// 06 //',
-      tag: 'РАСПРОСТРАНЕНИЕ ЗВУКА',
+      category: 'РАСПРОСТРАНЕНИЕ ЗВУКА',
       title: 'ПЛАТФОРМЫ',
-      subtitle: 'Официальные цифровые каналы и стриминговые узлы артиста SILICIUM в глобальных сетях.',
-      stream: 'СТРИМИНГ //',
-      noticeTitle: 'ПАРАМЕТРЫ СТРИМИНГА',
-      noticeText: 'Все релизы закодированы в формате высокого разрешения (Lossless FLAC Master). Прямой доступ к официальным аудиопотокам.',
+      subtitle: 'Официальные цифровые каналы и стриминговые узлы артиста SILICIUM в глобальных аудиосетях.',
+      stream: 'STREAM //',
+      verified: 'VERIFIED NODE',
     },
     EN: {
-      code: '// 06 //',
-      tag: 'SONIC DISTRIBUTION',
+      category: 'SONIC DISTRIBUTION',
       title: 'PLATFORMS',
       subtitle: 'Official digital streaming hubs and distribution vectors across global audio networks.',
       stream: 'STREAM //',
-      noticeTitle: 'STREAMING PARAMETERS',
-      noticeText: 'All frequencies feature high-resolution master audio encoding (Lossless FLAC Master stems). Direct connection to verified nodes.',
+      verified: 'VERIFIED NODE',
     },
   }[language] || {
-    code: '// 06 //',
-    tag: 'SONIC DISTRIBUTION',
+    category: 'SONIC DISTRIBUTION',
     title: 'PLATFORMS',
     subtitle: 'Official digital channels and streaming hubs across global networks.',
     stream: 'STREAM //',
-    noticeTitle: 'STREAMING PARAMETERS',
-    noticeText: 'All frequencies feature high-resolution master stems.',
+    verified: 'VERIFIED',
   }
 
   return (
     <div className={styles.platformsContainer}>
       <SectionHeader
-        code={t.code}
-        tag={t.tag}
+        category={t.category}
         title={t.title}
         subtitle={t.subtitle}
+        watermark="STREAM"
       />
 
-      <div ref={gridRef} className={styles.platformsGrid} data-reveal="fade">
+      <div ref={gridRef} className={styles.platformsGrid}>
         {Object.entries(PLATFORMS).map(([key, item]) => (
           <a
             key={key}
@@ -68,29 +52,15 @@ export default function PlatformsPage() {
             className={styles.platformCard}
             aria-label={`Open official ${item.name}`}
           >
-            <div className={styles.iconCircle}>
-              <span>{platformIcons[key] || '◆'}</span>
+            <div className={styles.cardHeader}>
+              <span className={styles.platformBadge}>{t.verified}</span>
+              <span className={styles.arrowIcon}>↗</span>
             </div>
 
-            <div className={styles.cardInfo}>
-              <h3 className={styles.platformName}>{item.name}</h3>
-              <span className={styles.channelCode}>
-                {t.stream} {key.toUpperCase()}
-              </span>
-            </div>
-
-            <div className={styles.arrowBox}>
-              <span>↗</span>
-            </div>
+            <h3 className={styles.platformName}>{item.name}</h3>
+            <span className={styles.streamLabel}>{t.stream} {key.toUpperCase()}</span>
           </a>
         ))}
-      </div>
-
-      <div ref={notesRef} className={styles.notesBox} data-reveal="scale">
-        <div className={styles.notesHeader}>
-          <span>{t.noticeTitle}</span>
-        </div>
-        <p>{t.noticeText}</p>
       </div>
     </div>
   )

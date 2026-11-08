@@ -1,9 +1,9 @@
-// SILICIUM — Editorial Section Header (Martin Garrix Scale + Occult Tech Identity)
+// SILICIUM — Pure Editorial Section Header (Martin Garrix Level Minimalist Architecture)
 import React from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import styles from './SectionHeader.module.css'
 
-export default function SectionHeader({ code, title, subtitle, tag, watermark }) {
+export default function SectionHeader({ title, subtitle, category, watermark }) {
   const headerRef = useScrollReveal({ threshold: 0.2 })
   const titleRef = useScrollReveal({ threshold: 0.15 })
   const subtitleRef = useScrollReveal({ threshold: 0.1 })
@@ -11,24 +11,21 @@ export default function SectionHeader({ code, title, subtitle, tag, watermark })
   const displayWatermark = watermark || title
 
   return (
-    <div className={styles.sectionHeaderArea}>
-      {/* Editorial Giant Watermark Background Typography */}
+    <div ref={headerRef} className={styles.sectionHeaderArea}>
+      {/* Editorial Giant Watermark Typography */}
       {displayWatermark && (
         <div className={styles.watermarkText} aria-hidden="true">
           {displayWatermark}
         </div>
       )}
 
-      <div ref={headerRef} className={styles.topCluster}>
-        <span className={styles.codeBadge}>
-          <span className={styles.codePulseDot} />
-          {code}
-        </span>
-        {tag && <span className={styles.tagBadge}>{tag}</span>}
-        <div className={styles.laserLine} />
-      </div>
+      {category && (
+        <div className={styles.categoryLine}>
+          <span className={styles.categoryText}>{category}</span>
+        </div>
+      )}
 
-      <h2 ref={titleRef} className={styles.titleText} data-reveal="scale">
+      <h2 ref={titleRef} className={styles.titleText}>
         {title}
       </h2>
 

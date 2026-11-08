@@ -1,4 +1,4 @@
-// SILICIUM — About Section (Origin & Evolution Dossier with Laser Timeline)
+// SILICIUM — Editorial Narrative & Chronicle (Martin Garrix Benchmark)
 import React, { useRef, useEffect } from 'react'
 import { ARTIST, TIMELINE } from '../data/config'
 import { useStore } from '../data/store'
@@ -9,20 +9,18 @@ import styles from './AboutPage.module.css'
 export default function AboutPage() {
   const language = useStore((s) => s.language)
 
-  const dossierRef = useScrollReveal({ threshold: 0.1 })
-  const timelineRef = useScrollReveal({ threshold: 0.08 })
   const quoteRef = useScrollReveal({ threshold: 0.15 })
+  const narrativeRef = useScrollReveal({ threshold: 0.1 })
+  const timelineRef = useScrollReveal({ threshold: 0.08 })
 
   const timelineStreamRef = useRef(null)
   const laserFillRef = useRef(null)
 
-  // Dynamic laser line fill proportional to scroll progress through the timeline
   useEffect(() => {
     const handleScroll = () => {
       if (!timelineStreamRef.current || !laserFillRef.current) return
       const rect = timelineStreamRef.current.getBoundingClientRect()
       const windowH = window.innerHeight
-      // Progress from when top enters viewport (0%) to when bottom leaves (100%)
       const progress = Math.min(1, Math.max(0, (windowH * 0.75 - rect.top) / rect.height))
       laserFillRef.current.style.height = `${progress * 100}%`
     }
@@ -34,164 +32,160 @@ export default function AboutPage() {
 
   const t = {
     RU: {
-      code: '// 04 //',
-      tag: 'ХРОНИКА СУЩНОСТИ',
+      category: 'ХРОНИКА СУЩНОСТИ',
       title: 'О ПРОЕКТЕ',
-      subtitle: 'Цифровое досье и параметры хронологической траектории проекта SILICIUM.',
-      classified: 'ЗАСЕКРЕЧЕННАЯ ТРАНСЛЯЦИЯ',
-      subFreq: 'ПОДЧАСТОТА: #SIL-2022',
-      paradoxTitle: 'ПАРАДОКС SILICIUM',
-      designation: 'ОБОЗНАЧЕНИЕ:',
-      aliasLabel: 'АРТИСТ // HANDLE:',
-      scNode: 'SOUNDCLOUD:',
-      activeEra: 'ЭПОХА АКТИВНОСТИ:',
-      genesisBroadcast: 'ПЕРВАЯ ТРАНСЛЯЦИЯ:',
-      status: 'СТАТУС:',
-      online: 'ОФИЦИАЛЬНЫЙ ПОРТАЛ // В СЕТИ',
-      trajectoryTitle: 'ХРОНОЛОГИЧЕСКАЯ ТРАЕКТОРИЯ',
+      subtitle: 'Художественное повествование и хронологическая траектория проекта SILICIUM.',
       manifesto: '"Звук — это не просто колебания в пустоте. Это архитектура забытых измерений, деконструирующая реальность через 808-дисторшн."',
+      paradoxTitle: 'ПАРАДОКС SILICIUM',
+      bio1: 'SILICIUM (известен в сети как sillic1um) — оккультный аудиовизуальный проект на стыке сырого мемфисского фонка, космической блэк-метал атмосферы и холодных бруталистских звуковых ландшафтов.',
+      bio2: 'Возникнув в декабре 2022 года с фундаментом в виде генезис-трека "MY WEED", проект последовательно деконструирует андеграундный саб-бас через аналоговый перегруз, священную геометрию и тёмный космический символизм.',
+      designation: 'АРТИСТ // HANDLE:',
+      activeEra: 'ЭПОХА АКТИВНОСТИ:',
+      genesisBroadcast: 'ИСТОК:',
+      scNode: 'ОФИЦИАЛЬНЫЙ КАНАЛ:',
+      status: 'СТАТУС:',
+      online: 'ВЕЩАНИЕ АКТИВНО // ОФИЦИАЛЬНЫЙ ПОРТАЛ',
+      chronicleTitle: 'ХРОНОЛОГИЧЕСКАЯ ТРАЕКТОРИЯ',
     },
     EN: {
-      code: '// 04 //',
-      tag: 'ENTITY CHRONICLE',
+      category: 'ENTITY CHRONICLE',
       title: 'ABOUT',
-      subtitle: 'Digital dossier and timeline parameters of the SILICIUM project.',
-      classified: 'CLASSIFIED TRANSMISSION',
-      subFreq: 'SUB-FREQ: #SIL-2022',
-      paradoxTitle: 'THE SILICIUM PARADOX',
-      designation: 'DESIGNATION:',
-      aliasLabel: 'ARTIST // HANDLE:',
-      scNode: 'SOUNDCLOUD:',
-      activeEra: 'ACTIVE ERA:',
-      genesisBroadcast: 'GENESIS BROADCAST:',
-      status: 'STATUS:',
-      online: 'OFFICIAL PORTAL // ONLINE',
-      trajectoryTitle: 'CHRONOLOGICAL TRAJECTORY',
+      subtitle: 'Artistic narrative and chronological trajectory of the SILICIUM universe.',
       manifesto: '"Sound is not merely vibration in the void; it is the architecture of forgotten dimensions, deconstructing reality through 808 distortion."',
+      paradoxTitle: 'THE SILICIUM PARADOX',
+      bio1: 'SILICIUM (known online as sillic1um) is an occult audiovisual entity operating at the convergence of raw Memphis phonk aesthetics, cosmic black metal atmosphere, and cold brutalist soundscapes.',
+      bio2: 'Emerging in December 2022 with the foundational genesis frequency "MY WEED", the project continues to deconstruct underground bass music through analog distortion, sacred geometry, and dark cosmic symbolism.',
+      designation: 'ARTIST // HANDLE:',
+      activeEra: 'ACTIVE ERA:',
+      genesisBroadcast: 'GENESIS TRACK:',
+      scNode: 'OFFICIAL CHANNEL:',
+      status: 'STATUS:',
+      online: 'BROADCAST ACTIVE // VERIFIED PORTAL',
+      chronicleTitle: 'CHRONOLOGICAL TRAJECTORY',
     },
   }[language] || {
-    code: '// 04 //',
-    tag: 'ENTITY CHRONICLE',
+    category: 'ENTITY CHRONICLE',
     title: 'ABOUT',
-    subtitle: 'Digital dossier and timeline parameters of the SILICIUM project.',
-    classified: 'CLASSIFIED TRANSMISSION',
-    subFreq: 'SUB-FREQ: #SIL-2022',
+    subtitle: 'Artistic narrative of the SILICIUM universe.',
+    manifesto: '"Sound is not merely vibration in the void."',
     paradoxTitle: 'THE SILICIUM PARADOX',
-    designation: 'DESIGNATION:',
-    activeEra: 'ACTIVE ERA:',
-    genesisBroadcast: 'GENESIS BROADCAST:',
+    bio1: 'SILICIUM is an occult audiovisual entity.',
+    bio2: 'Emerging in 2022 with genesis track "MY WEED".',
+    designation: 'ARTIST:',
+    activeEra: 'ERA:',
+    genesisBroadcast: 'GENESIS:',
+    scNode: 'CHANNEL:',
     status: 'STATUS:',
-    online: 'ONLINE // BROADCASTING',
-    trajectoryTitle: 'CHRONOLOGICAL TRAJECTORY',
-    manifesto: '"Sound is not merely vibration in the void; it is the architecture of forgotten dimensions."',
+    online: 'ONLINE',
+    chronicleTitle: 'CHRONOLOGY',
   }
 
   return (
     <div className={styles.aboutContainer}>
       <SectionHeader
-        code={t.code}
-        tag={t.tag}
+        category={t.category}
         title={t.title}
         subtitle={t.subtitle}
+        watermark="ORIGIN"
       />
 
-      <div className={styles.contentGrid}>
-        {/* Entity Dossier / Bio */}
-        <section className={styles.dossierSection}>
-          <div ref={dossierRef} className={styles.dossierBox}>
-            <div className={styles.dossierHeader}>
-              <span>{t.classified}</span>
-              <span className={styles.idCode}>{t.subFreq}</span>
-            </div>
-
-            <h3 className={styles.identityTitle}>{t.paradoxTitle}</h3>
-
-            <div className={styles.dossierText}>
-              <p>
-                {ARTIST.bio ||
-                  'SILICIUM is an occult audiovisual entity operating at the convergence of raw Memphis phonk aesthetics, cosmic black metal atmosphere, and cold brutalist soundscapes.'}
-              </p>
-              <p>
-                {ARTIST.description ||
-                  'Emerging in 2022 with the foundational genesis frequency "MY WEED", the project continues to deconstruct underground bass music through analog distortion, sacred geometry, and dark cosmic symbolism.'}
-              </p>
-            </div>
-
-            <div className={styles.specsGrid}>
-              <div className={styles.specItem}>
-                <span className={styles.specLabel}>{t.designation}</span>
-                <span className={styles.specVal}>{ARTIST.name}</span>
-              </div>
-              <div className={styles.specItem}>
-                <span className={styles.specLabel}>{t.aliasLabel}</span>
-                <span className={styles.specVal}>{ARTIST.handle}</span>
-              </div>
-              <div className={styles.specItem}>
-                <span className={styles.specLabel}>{t.scNode}</span>
-                <a
-                  href={ARTIST.soundcloud}
-                  target="_blank"
-                  rel="noopener noreferrer me"
-                  className={styles.specValLink}
-                  style={{ color: 'var(--red-crimson, #ff0033)', textDecoration: 'none' }}
-                >
-                  soundcloud.com/sillic1um ↗
-                </a>
-              </div>
-              <div className={styles.specItem}>
-                <span className={styles.specLabel}>{t.activeEra}</span>
-                <span className={styles.specVal}>{ARTIST.years}</span>
-              </div>
-              <div className={styles.specItem}>
-                <span className={styles.specLabel}>{t.genesisBroadcast}</span>
-                <span className={styles.specVal}>{ARTIST.firstTrack}</span>
-              </div>
-              <div className={styles.specItem}>
-                <span className={styles.specLabel}>{t.status}</span>
-                <span className={styles.specValActive}>{t.online}</span>
-              </div>
-            </div>
-          </div>
-
-          <div ref={quoteRef} className={styles.quoteBox} data-reveal="scale">
-            <blockquote>{t.manifesto}</blockquote>
-            <cite>// SILICIUM ARCHIVE MANIFESTO</cite>
-          </div>
-        </section>
-
-        {/* Timeline Trajectory with Living Laser Beam Fill */}
-        <section ref={timelineRef} className={styles.timelineSection} data-reveal="left">
-          <div className={styles.timelineHeader}>
-            <span>{t.trajectoryTitle}</span>
-          </div>
-
-          <div ref={timelineStreamRef} className={styles.timelineStream}>
-            {/* The animated dynamic red laser fill */}
-            <div className={styles.timelineLaserTrack}>
-              <div ref={laserFillRef} className={styles.timelineLaserFill} />
-            </div>
-
-            {TIMELINE.map((node, i) => (
-              <div key={i} className={styles.timelineNode}>
-                <div className={styles.nodeMarker}>
-                  <div className={styles.pulseDot} />
-                  <span className={styles.nodeYear}>{node.year}</span>
-                </div>
-
-                <div className={styles.nodeCards}>
-                  {node.events.map((ev, eIdx) => (
-                    <div key={eIdx} className={styles.eventCard}>
-                      <span className={styles.eventType}>{ev.type.toUpperCase()}</span>
-                      <h4 className={styles.eventTitle}>{ev.title}</h4>
-                      <p className={styles.eventDesc}>{ev.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+      {/* ───────────────────────────────────────────────────────────── */}
+      {/* 01 // EDITORIAL PULL QUOTE SPREAD (MAGAZINE STYLE)           */}
+      {/* ───────────────────────────────────────────────────────────── */}
+      <div ref={quoteRef} className={styles.quoteSpread}>
+        <blockquote className={styles.quoteText}>
+          {t.manifesto}
+        </blockquote>
+        <cite className={styles.quoteAuthor}>
+          — SILICIUM // sillic1um
+        </cite>
       </div>
+
+      {/* ───────────────────────────────────────────────────────────── */}
+      {/* 02 // NARRATIVE SPREAD: ARTWORK + ESSAY                       */}
+      {/* ───────────────────────────────────────────────────────────── */}
+      <section ref={narrativeRef} className={styles.narrativeSection}>
+        <div className={styles.artworkColumn}>
+          <div className={styles.artworkPosterFrame}>
+            <img
+              src="/images/demon-mask-seamless.png"
+              alt="SILICIUM Occult Entity"
+              className={styles.narrativeMaskImg}
+            />
+            <div className={styles.posterGlow} />
+          </div>
+        </div>
+
+        <div className={styles.textColumn}>
+          <h3 className={styles.paradoxHeading}>{t.paradoxTitle}</h3>
+          
+          <div className={styles.storyParagraphs}>
+            <p>{t.bio1}</p>
+            <p>{t.bio2}</p>
+          </div>
+
+          <div className={styles.specsRowList}>
+            <div className={styles.specLine}>
+              <span className={styles.specKey}>{t.designation}</span>
+              <span className={styles.specVal}>SILICIUM // sillic1um</span>
+            </div>
+            <div className={styles.specLine}>
+              <span className={styles.specKey}>{t.activeEra}</span>
+              <span className={styles.specVal}>2022 — 2026</span>
+            </div>
+            <div className={styles.specLine}>
+              <span className={styles.specKey}>{t.genesisBroadcast}</span>
+              <span className={styles.specVal}>MY WEED (2022-12-14)</span>
+            </div>
+            <div className={styles.specLine}>
+              <span className={styles.specKey}>{t.scNode}</span>
+              <a
+                href={ARTIST.soundcloud}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.specLink}
+              >
+                soundcloud.com/sillic1um ↗
+              </a>
+            </div>
+            <div className={styles.specLine}>
+              <span className={styles.specKey}>{t.status}</span>
+              <span className={styles.specValOnline}>{t.online}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────────────────────────────────────────────────────── */}
+      {/* 03 // VERTICAL CHRONICLE TIMELINE (ORGANIC EDITORIAL FLOW)    */}
+      {/* ───────────────────────────────────────────────────────────── */}
+      <section ref={timelineRef} className={styles.chronicleSection}>
+        <h3 className={styles.chronicleHeading}>{t.chronicleTitle}</h3>
+
+        <div ref={timelineStreamRef} className={styles.chronicleStream}>
+          <div className={styles.laserLineTrack}>
+            <div ref={laserFillRef} className={styles.laserLineFill} />
+          </div>
+
+          {TIMELINE.map((node, i) => (
+            <div key={i} className={styles.chronicleNode}>
+              <div className={styles.nodeYearBlock}>
+                <span className={styles.yearNumber}>{node.year}</span>
+              </div>
+
+              <div className={styles.nodeEventsFlow}>
+                {node.events.map((ev, eIdx) => (
+                  <div key={eIdx} className={styles.eventItem}>
+                    <span className={styles.eventBadge}>{ev.type}</span>
+                    <h4 className={styles.eventHeading}>{ev.title}</h4>
+                    <p className={styles.eventSummary}>{ev.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

@@ -1,6 +1,6 @@
-// SILICIUM — Modern Smooth-Scroll Header with Section Highlighting & Mobile Overlay
+// SILICIUM — Editorial Minimalist Header (Martin Garrix Style)
 import React, { useState, useEffect, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useStore } from '../data/store'
 import { NAV_ITEMS } from '../data/config'
 import gsap from 'gsap'
@@ -18,50 +18,44 @@ export default function Header() {
     setLanguage,
   } = useStore()
 
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== 'undefined' ? window.innerWidth <= 1050 : false
-  )
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1050)
-    }
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
-  const headerRef = useRef(null)
+  const [scrolled, setScrolled] = useState(false)
   const menuRef = useRef(null)
   const navItemsRef = useRef([])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   const navLabels = {
     RU: {
-      home: '01 // ГЛАВНАЯ',
-      discography: '02 // РЕЛИЗЫ',
-      archive: '03 // 3D АРХИВ',
-      about: '04 // О ПРОЕКТЕ',
-      community: '05 // СООБЩЕСТВО',
-      platforms: '06 // ПЛАТФОРМЫ',
+      home: 'ГЛАВНАЯ',
+      discography: 'РЕЛИЗЫ',
+      archive: '3D VAULT',
+      about: 'О ПРОЕКТЕ',
+      community: 'СООБЩЕСТВО',
+      platforms: 'ПЛАТФОРМЫ',
     },
     EN: {
-      home: '01 // HOME',
-      discography: '02 // DISCOGRAPHY',
-      archive: '03 // 3D ARCHIVE',
-      about: '04 // ABOUT',
-      community: '05 // COMMUNITY',
-      platforms: '06 // PLATFORMS',
+      home: 'HOME',
+      discography: 'RELEASES',
+      archive: '3D VAULT',
+      about: 'ABOUT',
+      community: 'COMMUNITY',
+      platforms: 'PLATFORMS',
     },
   }
 
   const currentNav = navLabels[language] || navLabels.RU
 
-  // Плавный скролл к секции
   const scrollToSection = (id) => {
     setMenuOpen(false)
     setCurrentSection(id)
 
-    // Если находимся на другой странице (например /discography/:id)
     if (location.pathname !== '/') {
       window.location.href = `/#${id}`
       return
@@ -76,31 +70,35 @@ export default function Header() {
     }
   }
 
-  // Анимация мобильного меню
+  // GSAP animation for mobile/desktop full-screen menu
   useEffect(() => {
     if (!menuRef.current) return
     if (menuOpen) {
       document.body.style.overflow = 'hidden'
       gsap.to(menuRef.current, {
-        clipPath: 'inset(0% 0% 0% 0%)',
-        duration: 0.45,
-        ease: 'power3.inOut',
+        opacity: 1,
+        visibility: 'visible',
+        duration: 0.4,
+        ease: 'power3.out',
       })
       navItemsRef.current.forEach((item, i) => {
         if (item) {
           gsap.fromTo(
             item,
-            { x: -30, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.35, delay: 0.12 + i * 0.05, ease: 'power3.out' }
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, delay: 0.1 + i * 0.05, ease: 'power3.out' }
           )
         }
       })
     } else {
       document.body.style.overflow = ''
       gsap.to(menuRef.current, {
-        clipPath: 'inset(0% 0% 100% 0%)',
+        opacity: 0,
         duration: 0.3,
-        ease: 'power3.inOut',
+        ease: 'power3.in',
+        onComplete: () => {
+          if (menuRef.current) menuRef.current.style.visibility = 'hidden'
+        },
       })
     }
     return () => {
@@ -110,49 +108,40 @@ export default function Header() {
 
   return (
     <>
-      <header ref={headerRef} className={styles.header}>
-        {/* Left: Brand Logo & Live Status Indicator */}
-        <div className={styles.leftGroup}>
-          <button
-            onClick={() => scrollToSection('home')}
-            className={styles.logoBtn}
-            aria-label="SILICIUM (sillic1um) — Официальный сайт"
-          >
-            <img 
-              src="/images/logo-silver-new.png"
-              alt="SILICIUM (sillic1um) — Официальный сайт"
-              className={styles.logoImg}
-            />
-          </button>
-          <div className={styles.liveIndicator}>
-            <span className={styles.livePulseDot} />
-            <span className={styles.liveText}>ARCHIVE // LIVE</span>
-          </div>
-        </div>
+      <header className={`${styles.header} ${scrolled ? styles.headerScrolled : ''}`}>
+        {/* Left: Brand Logo */}
+        <button
+          onClick={() => scrollToSection('home')}
+          className={styles.logoBtn}
+          aria-label="SILICIUM (sillic1um) — Home"
+        >
+          <img
+            src="/images/logo-silver-transparent.png"
+            alt="SILICIUM"
+            className={styles.logoImg}
+          />
+        </button>
 
-        {/* Center: Desktop 6-Tab Navigation with Red Active Accent */}
-        {!isMobile && (
-          <nav className={styles.centerNav}>
-            {NAV_ITEMS.map((item) => {
-              const isActive = currentSection === item.id
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`${styles.navBtn} ${isActive ? styles.navActive : ''}`}
-                  aria-current={isActive ? 'true' : undefined}
-                >
-                  <span className={styles.navLabel}>
-                    {currentNav[item.id] || item.label}
-                  </span>
-                  {isActive && <span className={styles.activePill} />}
-                </button>
-              )
-            })}
-          </nav>
-        )}
+        {/* Center: Desktop Minimalist Nav */}
+        <nav className={styles.desktopNav}>
+          {NAV_ITEMS.map((item) => {
+            const isActive = currentSection === item.id
+            return (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className={`${styles.navBtn} ${isActive ? styles.navActive : ''}`}
+              >
+                <span className={styles.navLabel}>
+                  {currentNav[item.id] || item.label}
+                </span>
+                {isActive && <span className={styles.navActiveDot} />}
+              </button>
+            )
+          })}
+        </nav>
 
-        {/* Right: Language switch + Hamburger Toggle */}
+        {/* Right: Language switch + Minimalist Menu Toggle */}
         <div className={styles.rightCluster}>
           <div className={styles.langSwitch}>
             <button
@@ -171,38 +160,44 @@ export default function Header() {
           </div>
 
           <button
-            className={`${styles.menuBtn} ${menuOpen ? styles.menuBtnActive : ''}`}
+            className={`${styles.menuToggle} ${menuOpen ? styles.menuToggleActive : ''}`}
             onClick={toggleMenu}
-            aria-label="Toggle navigation menu"
+            aria-label="Toggle menu"
           >
-            <span className={styles.menuLine} />
-            <span className={styles.menuLine} />
+            <span className={styles.menuBarTop} />
+            <span className={styles.menuBarBottom} />
           </button>
         </div>
       </header>
 
-      {/* Fullscreen Mobile / Drawer Overlay Menu */}
-      <div ref={menuRef} className={styles.mobileMenuOverlay} style={{ clipPath: 'inset(0% 0% 100% 0%)' }}>
-        <div className={styles.menuInner}>
-          <div className={styles.menuTopMeta}>
-            <span className={styles.menuTitle}>// DIGITAL ARCHIVE ARCHITECTURE //</span>
-            <span className={styles.menuStatus}>FREQUENCY: CONNECTED</span>
-          </div>
+      {/* Fullscreen Editorial Drawer Menu */}
+      <div
+        ref={menuRef}
+        className={styles.fullscreenMenu}
+        style={{ opacity: 0, visibility: 'hidden' }}
+      >
+        <div className={styles.menuWatermark} aria-hidden="true">
+          SILICIUM
+        </div>
 
-          <ul className={styles.mobileNavList}>
+        <div className={styles.menuInner}>
+          <ul className={styles.menuList}>
             {NAV_ITEMS.map((item, i) => {
               const isActive = currentSection === item.id
               return (
-                <li key={item.id} ref={(el) => (navItemsRef.current[i] = el)}>
+                <li
+                  key={item.id}
+                  ref={(el) => (navItemsRef.current[i] = el)}
+                  className={styles.menuItem}
+                >
                   <button
                     onClick={() => scrollToSection(item.id)}
-                    className={`${styles.mobileNavItem} ${isActive ? styles.mobileNavItemActive : ''}`}
+                    className={`${styles.menuLink} ${isActive ? styles.menuLinkActive : ''}`}
                   >
-                    <span className={styles.mobileNum}>0{i + 1}</span>
-                    <span className={styles.mobileLabel}>
+                    <span className={styles.menuIndex}>0{i + 1}</span>
+                    <span className={styles.menuTitle}>
                       {currentNav[item.id] || item.label}
                     </span>
-                    <span className={styles.mobileArrow}>→</span>
                   </button>
                 </li>
               )
@@ -210,23 +205,20 @@ export default function Header() {
           </ul>
 
           <div className={styles.menuFooter}>
-            <div className={styles.menuLangGroup}>
-              <span className={styles.menuLangLabel}>LANGUAGE:</span>
-              <button
-                onClick={() => setLanguage('RU')}
-                className={`${styles.menuLangBtn} ${language === 'RU' ? styles.menuLangBtnActive : ''}`}
-              >
-                RUSSIAN
-              </button>
-              <button
-                onClick={() => setLanguage('EN')}
-                className={`${styles.menuLangBtn} ${language === 'EN' ? styles.menuLangBtnActive : ''}`}
-              >
-                ENGLISH
-              </button>
+            <div className={styles.menuArtistMeta}>
+              <span className={styles.artistName}>SILICIUM // sillic1um</span>
+              <span className={styles.artistEra}>2022 — 2026 ARCHIVE</span>
             </div>
-            <div className={styles.menuCoord}>
-              <span>SILICIUM AUDIO RESIDUALS // 2022 — 2026</span>
+            <div className={styles.menuSocials}>
+              <a href="https://soundcloud.com/sillic1um" target="_blank" rel="noreferrer">
+                SOUNDCLOUD ↗
+              </a>
+              <a href="https://open.spotify.com/artist/5P7IaTkm7DkO2WdGPFbuWI" target="_blank" rel="noreferrer">
+                SPOTIFY ↗
+              </a>
+              <a href="https://t.me/silliciumphonk" target="_blank" rel="noreferrer">
+                TELEGRAM ↗
+              </a>
             </div>
           </div>
         </div>
